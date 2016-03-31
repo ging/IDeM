@@ -60,5 +60,6 @@ group :development do
   gem 'pry-rails'
 
   gem 'capistrano', '= 2.14.2'
-end
 
+  gem 'thin'
+end
