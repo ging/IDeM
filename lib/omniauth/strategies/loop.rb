@@ -11,7 +11,23 @@ module OmniAuth
         :token_url => 'https://registration.frontiersin.org/oauth2/token'
       }
 
-      uid { user_data['id'] }
+      # option :access_token_options, {
+      #   :header_format => 'Basic %s',
+      #   :param_name => 'authorization_code'
+      # }
+
+      uid {
+        user_data['id'] 
+      }
+
+      def authorize_params
+        super.tap do |params|
+          params[:scope] ||= "openid"
+          params[:response_type] ||= "code"
+          params[:op] ||= "login"
+          params
+        end
+      end
 
       info do
         {
@@ -29,6 +45,14 @@ module OmniAuth
       def user_data
         access_token.options[:mode] = :query
         user_data ||= access_token.get('/me').parsed
+      end
+
+      def request_phase
+        super
+      end
+
+      def callback_phase
+        super
       end
 
     end
