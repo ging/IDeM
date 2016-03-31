@@ -1,2 +1,6 @@
 development:
   domain: "localhost:3000"
+  # LOOP credentials. Register your app at https://developers-registration.frontiersin.org
+  # loop:
+  #   oauth2_client_id: ""
+  #   oauth2_client_key: ""

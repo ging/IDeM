@@ -1,0 +1,17 @@
+#header ul {
+
+}
+
+#header ul {
+
+}
+
+#header ul li {
+	display: inline-block;
+	margin-left: 20px;
+	padding: 5px;
+}
+
+#header a {
+	text-decoration: none;
+}

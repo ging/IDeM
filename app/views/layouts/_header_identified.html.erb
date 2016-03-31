@@ -1,0 +1,7 @@
+<header id="header">
+	<ul>
+		<li><a href="<%=home_path%>">Home</a></li>
+		<li>Logueado como <%=current_user.name%></li>
+		<li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
+	</ul>
+</header>

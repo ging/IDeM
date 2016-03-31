@@ -6,9 +6,9 @@ module OmniAuth
       option :name, "Loop"
 
       option :client_options, {
-        :site => 'loop',
-        :authorize_url => 'loop',
-        :token_url => 'loop'
+        :site => 'https://loop.frontiersin.org',
+        :authorize_url => 'https://registration.frontiersin.org/oauth2/auth',
+        :token_url => 'https://registration.frontiersin.org/oauth2/token'
       }
 
       uid { user_data['id'] }
