@@ -1,0 +1,235 @@
+<% availableModels ||= available_models %>
+<% editingToolbar = (@presentation.draft or controller.action_name == "edit") %>
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", function(){
+
+    var embedEvents = false;
+    var shareEvents = false;
+
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+      // e.target // activated tab
+      // e.relatedTarget // previous tab
+      var loadedTab = $(e.target).attr("tabTitle");
+      switch (loadedTab){
+        case "embed":
+          if(!embedEvents){
+            embedEvents = true;
+            $('button#btn_copy_embed').zclip({
+              path:'/assets/ZeroClipboard.swf',
+              copy:function(){
+                return $('#textarea_for_iframe').text();
+              }
+            });
+            $("#textarea_for_iframe").mouseup(function(e){
+              // fixes safari/chrome problem
+              e.preventDefault();
+            }).focus(function(e){
+              mytxt = $(this).text();
+              $(this).select();
+            }).click(function(e){
+              mytxt = $(this).text();
+              $(this).select();
+            });
+          }
+          break;
+        case "share":
+          if(!shareEvents){
+            shareEvents = true;
+            $('button#btn_copy_share').zclip({
+              path:'/assets/ZeroClipboard.swf',
+              copy:function(){
+                return $('#input_with_shorturl').val();
+              },
+              afterCopy: function(){}
+            });
+            $("#input_with_shorturl").mouseup(function(e){
+              // fixes safari/chrome problem
+              e.preventDefault();
+            }).focus(function(e){
+              mytxt = $(this).text();
+              $(this).select();
+            }).click(function(e){
+              mytxt = $(this).text();
+              $(this).select();
+            });
+          }
+          break;
+        default:
+          break;
+      }
+    });
+
+
+    $('.delete').popover({
+      html : true,
+      <% if editingToolbar %>
+        placement: "left",
+      <% end %>
+      content: function() {
+        return $('.contentdelete').html();
+      },
+      container: ".actions_layout_show"
+    });
+
+    $('.delete').on('shown.bs.popover', function(){
+      <% if editingToolbar %>
+        //Prevent double confirmation before exit
+        $("a.btn[data-method='delete']").on("click",function(){
+          if((typeof VISH != "undefined")&&(typeof VISH.IframeAPI != "undefined")&&(typeof VISH.IframeAPI.allowExitWithoutConfirmation == "function")&&(VEconnected===true)){
+            VISH.IframeAPI.allowExitWithoutConfirmation();
+          }
+        });
+      <% end %>
+    });
+
+    $('[data-toggle="tooltip"], .with_tooltip').tooltip({ placement: 'bottom',container:'body'});
+  });
+</script>
+
+
+<!--BTN ACTIONS-->
+<div class="btn-group actions_layout_show">
+
+  <!-- Edit -->
+  <% if user_signed_in? and !editingToolbar and (can? :update, @presentation) %>
+    <button class="btn btn-default" data-toggle="tooltip" title="<%=t('presentation.actions.edit')%>" onclick="location.href='<%=edit_presentation_path(@presentation)%>'">
+      <i class="fa fa-edit"></i>
+    </button>
+  <%end%>
+
+  
+  <!--Remove-->
+  <% if user_signed_in? and can?(:destroy, @presentation) %>
+    <button class="with_tooltip delete btn btn-default" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
+      <i class="fa fa-trash-o"></i>
+    </button>
+  <%end%>
+
+  <div class="contentdelete" style="display: none">
+    <p class="delete_p"><i class="fa fa-trash-o"></i>  <%=t('presentation.confirm_delete')%></p>
+    <div class="actions">
+      <a class="btn btn-default btn_cancel closepopover"><%=t('cancel')%></a>
+      <%= link_to t('presentation.actions.delete'),  @presentation, :method => :delete, :class => 'btn btn-primary' %>
+    </div>
+  </div>
+  
+</div>
+
+<% unless editingToolbar %>
+  <!--TABS-->
+  <ul class="nav nav-tabs tooltab">
+    <li class="active">
+      <a href="#tab0" tabTitle='description' data-toggle="tab">
+        <i class="fa fa-align-left"></i>
+        <span class="  hidden-xs">
+          <%=t('presentation.description')%>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#tab2" tabTitle='embed' data-toggle="tab">
+        <i class="fa fa-code"></i>
+        <span class="  hidden-xs">
+          <%=t('presentation.actions.embed') %>
+        </span>
+      </a>
+    </li>
+    <li>
+      <a href="#tab3" tabTitle='share' data-toggle="tab">
+        <i class="fa fa-share"></i>
+        <span class=" hidden-xs">
+          <%=t('presentation.actions.share')%>
+        </span>
+      </a>
+    </li>
+    <% if can?(:download_source, @presentation) %>
+      <li>
+        <a href="#tab4" tabTitle='download' data-toggle="tab">
+          <i class="fa fa-download"></i>
+          <span class="hidden-xs">
+            <%=t('document.actions.download')%>
+          </span>
+        </a>
+      </li>
+    <%end%>    
+    <%= render partial: 'help/help_show_presentation' %>
+  </ul>
+
+
+  <h1><%= @presentation.title %></h1>
+
+  <div class="tab-content presentation-social">
+
+    <!-- tab1 / description -->
+    <div class="tab-pane active" id="tab0">
+        <%= render :partial => 'presentations/presentation-info' %>
+    </div>
+
+    <!-- tab2 / embed -->
+    <div class="tab-pane contentembed" id="tab2">
+      <div class="form-group">
+        <div class="input-group">
+          <textarea class="form-control" readonly="true" id="textarea_for_iframe" type="text">&lt;iframe id='presentation_iframe' src='//<%= request.env["HTTP_HOST"] + presentation_path(@presentation, :format => :full)%>' width='910' height='680' style='border:0' iframeborder='0' frameborder='0' iframeElement.frameBorder = 0; webkitallowfullscreen mozallowfullscreen allowfullscreen &gt;&lt;/iframe&gt</textarea>
+          <div class="input-group-addon"  >
+            <div data-toggle="tooltip" data-placement="right" title="<%=t('copy_to_clip')%>">
+              <button class="btn" id="btn_copy_embed"  >
+               <i class="fa fa-copy "></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- tab3 / share -->
+    <div class="tab-pane contentShare" id="tab3">
+      <div class="form-group">
+        <div class="input-group">
+
+          <input class="form-control" readonly="true" id="input_with_shorturl" type="text" value="<%=shortURL%>"/>
+          <div class="input-group-addon">
+            <div data-toggle="tooltip" data-placement="right" title="<%=t('copy_to_clip')%>">
+              <button class="btn" id="btn_copy_share" href="#" >
+                <i class="fa fa-copy "></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="social_toolbar_presentation">
+        <div class="social_toolbar_presentation">
+          <div class="social">
+            <%= render :partial=>'shareon/email', :locals=>{:url=>shortURL, :title => @presentation.title, :name => (user_signed_in? ? current_user.name : '')} %>
+          </div>
+          <div class="social">
+            <%= render :partial=>'shareon/twitter', :locals=>{:url=>shortURL, :counturl=>(request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + presentation_path(@presentation) )} %>
+          </div>
+          <div class="social">
+            <%= render :partial=>'shareon/facebook', :locals=>{:url=>shortURL} %>
+          </div>
+          <div class="social">
+            <%= render :partial=>'shareon/gplus', :locals=>{:url=>shortURL} %>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <% if can?(:download_source, @presentation) %>
+      <!-- tab4 / scorm -->
+      <div class="tab-pane contentscorm" id="tab4">
+        <div class="contentscormc1">
+          <a class="btn btn-secundary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "12")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm12')%></a>
+          <a class="btn btn-secundary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "2004")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm2004')%></a>
+        </div>
+        <div class="contentscormc2">
+          <p><%=t("presentation.download_scorm")%></p>
+        </div>
+      </div>
+    <% end %>
+   
+  </div>
+
+<%end%>

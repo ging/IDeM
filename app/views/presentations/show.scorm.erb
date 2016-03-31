@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="stylesheets/libs/joyride-1.0.5.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/libs/jquery.fancybox-1.3.4.css"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/libs/jquery-ui-1.9.2.custom.css">
+    <link rel="stylesheet" type="text/css" href="stylesheets/all/vishViewer.css">
+	<script type="text/javascript" src="javascripts/vishViewer.min.js"></script>
+</head>
+
+<body onload="start()" style="display: none" class="loaded" id="presentation_iframe">
+
+	<%= render :partial => 'presentations/vish_viewer_scorm.full' %>
+
+	<% unless presentation
+		#Get presentation from database if exists and its published
+		presId = Integer(json["vishMetadata"]["id"]) rescue nil
+		draft = (json["vishMetadata"]["draft"]==="true") rescue true
+		unless presId.blank? or draft
+			presentation = Excursion.find_by_id(presId)
+			if presentation.nil? or presentation.draft
+				presentation = nil
+			end
+		end
+	end %>
+
+	<script>
+		options = {};
+
+		var configuration = {};
+
+		configuration["mode"] = "vish";
+
+		configuration["ImagesPath"] = "images/";
+		configuration["StylesheetsPath"] = "stylesheets/";
+
+		// Recommendations API
+		configuration["recommendationsAPI"] = {
+			rootURL: "<%=IDeM::Application.config.full_domain%>" + "/presentations/last_slide.json"
+		};
+		
+		//Tracking System
+		<%if IDeM::Application.config.trackingSystem %>
+			configuration["TrackingSystemAPIKEY"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIKEY'] %>";
+			configuration["TrackingSystemAPIURL"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIURL'] %>";
+		<%end%>
+
+		//LOEP configuration
+		<%unless IDeM::Application.config.APP_CONFIG['loep'].nil? or presentation.nil?%>
+			<%loepConfig = IDeM::Application.config.APP_CONFIG['loep']%>
+			<%tokenURL = (IDeM::Application.config.full_domain + '/loep/session_token.json') %>
+			configuration["loepSettings"] = {
+				tokenURL: '<%=tokenURL%>',
+				domain: '<%=loepConfig["domain"]%>',
+				app: '<%=loepConfig["app_name"]%>',
+				loId: '<%=presentation.activity_object.getGlobalId()%>',
+				evmethod: "wbltses"
+			};
+		<%end%>
+
+		options["configuration"] = configuration;
+
+
+		options["developping"] = false;
+		
+		options["scorm"] = true;
+
+		<% if presentation %>
+			options["watermarkURL"] = "<%=presentation_url(presentation)%>";
+		<% else %>
+			options["watermarkURL"] = "<%=IDeM::Application.config.full_domain%>";
+		<% end %>
+
+		var presentation = <%= raw json.to_json %>;
+
+		function start(){
+			VISH.Viewer.init(options,presentation);
+		}
+	</script>
+
+</body>
+</html>

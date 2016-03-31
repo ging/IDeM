@@ -1,0 +1,142 @@
+<%= render :partial => 'presentations/vish_viewer.full' %>
+
+<script>
+	options = {};
+	var configuration = {};
+
+	configuration["mode"] = "vish";
+
+	configuration["ImagesPath"] = "/assets/";
+	configuration["StylesheetsPath"] = "/assets/";
+
+	// Recommendations API
+	configuration["recommendationsAPI"] = {
+		rootURL: "<%=IDeM::Application.config.full_domain%>" + "/presentations/last_slide.json"
+	};
+
+	//Quiz Sessions API (Audience Response System)
+	configuration["ARS_API"] = {
+		rootURL: '<%=QuizSession.root_url%>'
+	};
+
+	//WAPP TOKEN API
+	configuration["WAPP_TOKEN_API"] = {
+		rootURL: "<%=IDeM::Application.config.full_domain%>" + "/apis/wapp_token"
+	};
+
+	//Tracking System
+	<%if IDeM::Application.config.trackingSystem %>
+		configuration["TrackingSystemAPIKEY"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIKEY'] %>";
+		configuration["TrackingSystemAPIURL"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIURL'] %>";
+		<% unless params["trseid"].blank? %>
+			options["TrackingSystemRelatedEntryId"] = "<%= params['trseid'] %>";
+		<% end %>
+	<%end%>
+
+	//LOEP configuration
+	<%unless IDeM::Application.config.APP_CONFIG['loep'].nil? or @presentation.nil? or @presentation.activity_object.nil?%>
+		<%loepConfig = IDeM::Application.config.APP_CONFIG['loep']%>
+		<%tokenURL = (IDeM::Application.config.full_domain + '/loep/session_token.json') %>
+		configuration["loepSettings"] = {
+			tokenURL: '<%=tokenURL%>',
+			domain: '<%=loepConfig["domain"]%>',
+			app: '<%=loepConfig["app_name"]%>',
+			loId: '<%=@presentation.activity_object.getGlobalId()%>',
+			evmethod: "wbltses"
+		};
+	<%end%>
+
+	options["configuration"] = configuration;
+	options["developping"] = false;
+
+	//User data
+	<% if user_signed_in? %>
+		options["user"] = {
+			name: "<%= current_user.name %>",
+			id: "<%= current_user.id %>",
+			token: "<%= form_authenticity_token %>"
+		};
+	<% end %>
+
+	options["lang"] = "<%= I18n.locale.to_s%>";
+
+	//Watermark
+	<% if @presentation %>
+		options["watermarkURL"] = "<%=presentation_path(@presentation)%>";
+	<% end %>
+
+	//FullScreen
+	<% if @presentation %>
+		options["fullScreenFallback"] = {
+			enterFullscreenURL: "<%=presentation_path(@presentation, :format => :full)%>"
+		};
+		<% if @orgUrl %>
+			options["fullScreenFallback"].exitFullscreenURL = "<%=@orgUrl%>";
+		<% end %>
+	<% end %>
+
+	//comeBackUrl for Mobile Devices
+	<% if @orgUrl %>
+	  options["comeBackUrl"] = "<%=@orgUrl%>";
+	<% else %>
+	  <% if request && request.referrer %>
+		options["comeBackUrl"] = "<%=request.referrer%>";
+	  <% end %>
+	<% end %>
+
+	<% unless params["oreferrer"].blank? %>
+		options["referrer"] = "<%=params['oreferrer']%>";
+	<% end %>
+
+	<% if @quiz_session %>
+		options["quizSessionId"] = "<%= @quiz_session.id %>";
+	<% end %>
+	
+	//Extra options from parent
+	try {
+		if(typeof window.parent.options != "undefined"){
+			options["readHashFromParent"] = window.parent.options["readHashFromParent"];
+		}
+	} catch(err){}
+
+
+	options.addons = [];
+
+	var addon = new Object();
+	addon.target = "Both";
+	addon.id = "IframeMessenger";
+	addon.url = "";
+	addon.config = {enable: true};
+	options.addons.push(addon);
+
+
+	function start(){
+		var isPreview = false;
+		try {
+			isPreview = window.parent.VISH && 
+						window.parent.VISH.Editor && 
+						(typeof window.parent.VISH.Editor.Preview.getPreview == "function") && 
+						(typeof window.parent.VISH.Editor.Preview.getPreview() != 'undefined') &&
+						(window.parent.VISH.Editor.Preview.getPreview() != null);
+		} catch(exception) {
+			isPreview = false;
+		}
+		
+		var mypresentation;
+
+		if(isPreview){
+			options["preview"] = true;
+			mypresentation =  window.parent.VISH.Editor.Preview.getPreview();
+		} else {
+			<% if @presentation %>
+				mypresentation = <%= raw @presentation.json %>;
+		  	<% elsif @quiz_session %>
+				mypresentation = <%= raw @quiz_session.quizJSON %>;
+			<% else %>
+				mypresentation = null;
+			<% end %>
+		}
+			
+		VISH.Viewer.init(options , mypresentation);
+	}
+</script>
