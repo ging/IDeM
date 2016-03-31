@@ -1,0 +1,40 @@
+ <% presentations = subject_presentations(profile_or_current_user, {:scope => scope, :limit => 0, :page=> page, :sort_by=> params[:sort_by]||sort_by||"popularity"}) 
+ %>
+  
+  <% presentations.each do |presentation| %>
+    <%= render :partial => 'presentations/presentation', :locals => { :presentation => presentation } %>
+  <% end %> 
+
+<script>
+	$(document).ready(function(){		
+		<%- if controller_name == 'presentations' && page != 0%>
+			$('#presentations_tab_ready ul').pageless({ 
+                          totalPages: <%=presentations.num_pages%>,
+                          url: window.location.href,
+                          currentPage: <%=presentations.current_page%>,
+                          loader: '.loader_pagination',
+                          end: function(){
+                            $('.loader_pagination').hide();
+                          }
+      		});
+		<%elsif controller_name == "users" %>
+			update_pageless_state("presentations", <%=presentations.num_pages%>, <%=presentations.current_page%>);
+
+			re_apply_pageless("presentations");
+		<%end%>
+		
+		$("footer#footer").addClass("fixed-bottom");
+    $("#wrap").removeClass("wrap-when-fixed-bottom"); 
+	});
+	
+	function add_presentations_backstrech(){		
+      if(typeof backstrech_items != "undefined"){
+        <% presentations.each do |presentation| %>    	  
+              backstrech_items.presentations["#presentation-<%=presentation.id%>"] = "<%=presentation_raw_thumbail(presentation)%>";
+        <% end %> 
+  		}
+	}
+
+	add_presentations_backstrech();
+</script>
+

@@ -18,7 +18,8 @@ module IDeM
     #Accesible here: IDeM::Application::config.APP_CONFIG
     config.APP_CONFIG = YAML.load_file("config/application_config.yml")[Rails.env]
     config.domain = (config.APP_CONFIG["domain"] || "localhost:3000")
-
+    config.full_domain = "http://" + config.domain
+    
     # I18n (http://guides.rubyonrails.org/i18n.html)
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
@@ -29,6 +30,31 @@ module IDeM
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
+
+    #Load ViSH Editor plugin
+    config.before_configuration do
+      $:.unshift File.expand_path("#{__FILE__}/../../lib/plugins/vish_editor/lib")
+      require 'vish_editor'
+    end
+
+    #Tags settings
+    if config.APP_CONFIG['tagsSettings'].blank?
+      config.tagsSettings = {}
+    else
+      config.tagsSettings = config.APP_CONFIG['tagsSettings']
+    end
+
+    if config.tagsSettings["maxLength"].blank?
+      config.tagsSettings["maxLength"] = 20
+    end
+
+    if config.tagsSettings["maxTags"].blank?
+      config.tagsSettings["maxTags"] = 8
+    end
+
+    if config.tagsSettings["triggerKeys"].blank?
+      config.tagsSettings["triggerKeys"] = ['enter', 'comma', 'tab', 'space']
+    end
 
     #Require core extensions
     Dir[File.join(Rails.root, "lib", "core_ext", "*.rb")].each {|l| require l }

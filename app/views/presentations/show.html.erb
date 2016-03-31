@@ -1,0 +1,63 @@
+<%content_for :title do %><%= @presentation.title %> - <%= !@presentation.author.nil? ? @presentation.author.name : "" %><% end %>
+<%content_for :description do %><%= t("site.meta_desc.presentation")+@presentation.title + ". " + (@presentation.description ? @presentation.description : "")  %><% end %>
+<%content_for :keywords do %><%= @presentation.tag_list %><% end %>
+<% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + presentation_path(@presentation) %>
+<%content_for :og_image do %><%= Embed.checkUrlProtocol(@presentation.thumbnail_url,request.protocol) || request.protocol + request.env['HTTP_HOST'] + "/assets/logos/original/presentation-vish.png" %><% end %>
+<%content_for :canonical do%><%=polymorphic_url(@presentation, :locale => params[:locale])%><%end%>
+<%content_for :alternate_urls do%><%=raw alternate_urls(polymorphic_url(@presentation), @presentation)%><%end%>
+
+<% @contribution = (params["contribution"]=="true" and !@presentation.contribution.nil?) %>
+
+<%=javascript_include_tag "RegaddiChart" %>
+<%=javascript_include_tag "loep" %>
+<%=javascript_include_tag "VISH.IframeAPI" %>
+
+<script type="text/javascript">
+  var triggerEvaluation = function(){
+    $("#learning-evaluation-button-id").trigger("click");
+  };
+
+  //VE extra vars
+  var options = {};
+  options["readHashFromParent"] = true;
+</script>
+
+<%if @contribution%>
+  <%= render :partial => 'application/breadcrumb_path', :locals  => { :path => @presentation.contribution.parents_path } %>
+<%end%>
+
+<section id="show_items " class="layout_show">
+
+  <!--recomended-->
+  <%= render :partial => 'recommender/sidebar', :locals  => { :resources => @resource_suggestions } %>
+
+  <div class="doc-show">
+    <div class="box-show">
+      <div class="viewerContainer">
+        <div class="viewerElement"></div>
+        <%= render :partial => 'presentation_show', :locals  => { :presentation => @presentation } %>
+      </div>
+    </div>
+
+    <!--owner-profile-->
+    <div class="description-activity">
+      <div class="box_description">
+        <!--tool-->
+        <div class="presentation_tool">
+          <%= render :partial => 'presentations/presentation-tool-tab', :locals => { :shortURL => shortURL} %>
+        </div>
+      </div>
+
+     
+      <!--activity-->
+      <div class="activity-box">
+        <%= render :partial => 'presentations/evaluate-activity'%>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+<%if @contribution%>
+  <%= render :partial => 'contributions/contributable_activity', :locals => { :contribution => @presentation.contribution } %>
+<%end%>
