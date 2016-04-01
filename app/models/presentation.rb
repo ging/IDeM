@@ -9,6 +9,7 @@ class Presentation < ActiveRecord::Base
   validates_attachment_size :attachment, :less_than => 8.megabytes
 
   belongs_to :user
+  has_one :license
 
   validates_presence_of :json
   before_validation :fill_license
@@ -24,7 +25,19 @@ class Presentation < ActiveRecord::Base
     json
   end
 
-  
+  def author
+    user
+  end
+
+  def owner
+    user
+  end
+
+  #KIKE XXX quitar
+  def tag_list
+    []
+  end
+
   ####################
   ## SCORM Management
   ####################
@@ -646,7 +659,7 @@ class Presentation < ActiveRecord::Base
           myxml.string(license + "For additional information or questions regarding copyright, distribution and reproduction, visit " + IDeM::Application.config.full_domain + "/terms_of_use .", :language=> metadataLanguage)
         end
       end
-            
+
     end
 
     myxml
@@ -858,7 +871,7 @@ class Presentation < ActiveRecord::Base
 
   def fill_license
     #Set public license when publishing a presentation
-    if ((self.scope_was!=0 or self.new_record?) and (self.scope==0))
+    if self.new_record?
       if self.license.nil? or self.license.private?
         license_metadata = JSON(self.json)["license"] rescue nil
         if license_metadata.is_a? Hash and license_metadata["key"].is_a? String

@@ -14,37 +14,10 @@
 		rootURL: "<%=IDeM::Application.config.full_domain%>" + "/presentations/last_slide.json"
 	};
 
-	//Quiz Sessions API (Audience Response System)
-	configuration["ARS_API"] = {
-		rootURL: '<%=QuizSession.root_url%>'
-	};
-
 	//WAPP TOKEN API
 	configuration["WAPP_TOKEN_API"] = {
 		rootURL: "<%=IDeM::Application.config.full_domain%>" + "/apis/wapp_token"
 	};
-
-	//Tracking System
-	<%if IDeM::Application.config.trackingSystem %>
-		configuration["TrackingSystemAPIKEY"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIKEY'] %>";
-		configuration["TrackingSystemAPIURL"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIURL'] %>";
-		<% unless params["trseid"].blank? %>
-			options["TrackingSystemRelatedEntryId"] = "<%= params['trseid'] %>";
-		<% end %>
-	<%end%>
-
-	//LOEP configuration
-	<%unless IDeM::Application.config.APP_CONFIG['loep'].nil? or @presentation.nil? or @presentation.activity_object.nil?%>
-		<%loepConfig = IDeM::Application.config.APP_CONFIG['loep']%>
-		<%tokenURL = (IDeM::Application.config.full_domain + '/loep/session_token.json') %>
-		configuration["loepSettings"] = {
-			tokenURL: '<%=tokenURL%>',
-			domain: '<%=loepConfig["domain"]%>',
-			app: '<%=loepConfig["app_name"]%>',
-			loId: '<%=@presentation.activity_object.getGlobalId()%>',
-			evmethod: "wbltses"
-		};
-	<%end%>
 
 	options["configuration"] = configuration;
 	options["developping"] = false;
@@ -87,10 +60,6 @@
 	<% unless params["oreferrer"].blank? %>
 		options["referrer"] = "<%=params['oreferrer']%>";
 	<% end %>
-
-	<% if @quiz_session %>
-		options["quizSessionId"] = "<%= @quiz_session.id %>";
-	<% end %>
 	
 	//Extra options from parent
 	try {
@@ -129,9 +98,7 @@
 			mypresentation =  window.parent.VISH.Editor.Preview.getPreview();
 		} else {
 			<% if @presentation %>
-				mypresentation = <%= raw @presentation.json %>;
-		  	<% elsif @quiz_session %>
-				mypresentation = <%= raw @quiz_session.quizJSON %>;
+				mypresentation = <%= raw @presentation.json %>;		  	
 			<% else %>
 				mypresentation = null;
 			<% end %>

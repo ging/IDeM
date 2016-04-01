@@ -12,10 +12,10 @@
 	configuration["rootPath"] = "<%= IDeM::Application.config.full_domain %>";
 
 	configuration["Upload"] = true;
-	configuration["uploadImagePath"] = "<%= documents_path :format=> "json"%>";
-	configuration["uploadObjectPath"] = "<%= documents_path :format=> "json"%>";
+	configuration["uploadImagePath"] = "#XXX KIKE FIX";
+	configuration["uploadObjectPath"] = "#XXX KIKE FIX";
 	configuration["uploadPresentationPath"] = "<%= presentation_path @presentation, :format=> "json" %>";
-	configuration["uploadPDF2PPath"] = "<%= pdfexes_path :format=> "json"%>";
+	configuration["uploadPDF2PPath"] = "#XXX KIKE FIX";
 
 	// Sources enabled
 	configuration["ViSH"] = true;
@@ -35,10 +35,6 @@
 	<% unless IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
 		configuration["Europeana"] = true;
 		configuration["EuropeanaAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
-	<% end %>
-
-	<% if available_services.include? "Catalogue" %>
-		configuration["catalog"] = <%= raw IDeM::Application.config.catalogue["categories"].map{|c| c.capitalize}.to_json %>;
 	<% end %>
 
 	configuration["presentationSettings"] = true;

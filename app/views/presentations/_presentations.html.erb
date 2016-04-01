@@ -1,4 +1,4 @@
- <% presentations = subject_presentations(profile_or_current_user, {:scope => scope, :limit => 0, :page=> page, :sort_by=> params[:sort_by]||sort_by||"popularity"}) 
+ <% presentations = subject_presentations(profile_or_current_user, {:limit => 0, :page=> page, :sort_by=> params[:sort_by]||sort_by||"popularity"}) 
  %>
   
   <% presentations.each do |presentation| %>

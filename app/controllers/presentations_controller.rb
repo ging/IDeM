@@ -4,7 +4,6 @@ class PresentationsController < ApplicationController
 
   before_filter :authenticate_user!, :only => [ :new, :create, :edit, :update, :uploadTmpJSON, :upload_attachment ]
   before_filter :profile_subject!, :only => :index
-  before_filter :fill_create_params, :only => [ :new, :create]
   #skip_before_filter :store_location, :if => :format_full?
 
   # Enable CORS
@@ -80,15 +79,15 @@ class PresentationsController < ApplicationController
   end
 
   def create
-    params[:presentation].permit!
-    @presentation = Presentation.new(params[:presentation])
+    params[:excursion].permit!
+    @presentation = Presentation.new(params[:excursion])
 
     if(params[:draft] and params[:draft] == "true")
       @presentation.draft = true
     else
       @presentation.draft = false
     end
-
+    @presentation.user = current_user
     @presentation.save!
 
     published = (@presentation.draft===false)
@@ -104,8 +103,8 @@ class PresentationsController < ApplicationController
   end
 
   def update
-    if params[:presentation]
-      params[:presentation].permit!
+    if params[:excursion]
+      params[:excursion].permit!
     end
 
     @presentation = Presentation.find(params[:id])
@@ -114,31 +113,22 @@ class PresentationsController < ApplicationController
     if(params[:draft])
       if(params[:draft] == "true")
         @presentation.draft = true
-        @presentation.scope = 1
       elsif (params[:draft] == "false")
         @presentation.draft = false
-        @presentation.scope = 0
       end
     end
 
-    isAdmin = current_user.admin?
-
-    begin
-      Presentation.record_timestamps=false if isAdmin
-      @presentation.update_attributes!(params[:presentation])
-    ensure
-      Presentation.record_timestamps=true if isAdmin
-    end
+    @presentation.update_attributes!(params[:excursion])
    
     published = (wasDraft===true and @presentation.draft===false)
     if published
       @presentation.afterPublish
     end
 
-    render :json => { :url => (@presentation.draft ? user_path(current_user) : presentation_path(resource)),
+    render :json => { :url => (@presentation.draft ? user_path(current_user) : presentation_path(@presentation)),
                       :uploadPath => presentation_path(@presentation, :format=> "json"),
                       :editPath => edit_presentation_path(@presentation),
-                      :exitPath => (@presentation.draft ? user_path(current_user) : presentation_path(resource)),
+                      :exitPath => (@presentation.draft ? user_path(current_user) : presentation_path(@presentation)),
                       :id => @presentation.id
                     }
   end
@@ -222,7 +212,7 @@ class PresentationsController < ApplicationController
       if index<10
         tnumber = "0" + tnumber
       end
-      thumbnail["src"] = IDeM::Application.config.full_domain + "/assets/logos/original/presentation-"+tnumber+".png"
+      thumbnail["src"] = IDeM::Application.config.full_domain + "/assets/logos/original/excursion-"+tnumber+".png"
       thumbnails["pictures"].push(thumbnail)
     end
 
@@ -387,14 +377,6 @@ class PresentationsController < ApplicationController
 
   def allowed_params
     [:json, :thumbnail_url, :draft]
-  end
-
-  #XXX KIKE quitar
-  def fill_create_params
-    params["presentation"] ||= {}
-    params["presentation"]["owner_id"] = current_user.id
-    params["presentation"]["author_id"] = current_user.id
-    params["presentation"]["user_author_id"] = current_user.id
   end
 
   def rename_attachment(name,id)

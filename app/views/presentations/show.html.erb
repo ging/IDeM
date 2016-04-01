@@ -8,28 +8,15 @@
 
 <% @contribution = (params["contribution"]=="true" and !@presentation.contribution.nil?) %>
 
-<%=javascript_include_tag "RegaddiChart" %>
-<%=javascript_include_tag "loep" %>
 <%=javascript_include_tag "VISH.IframeAPI" %>
 
-<script type="text/javascript">
-  var triggerEvaluation = function(){
-    $("#learning-evaluation-button-id").trigger("click");
-  };
-
+<script type="text/javascript"> 
   //VE extra vars
   var options = {};
   options["readHashFromParent"] = true;
 </script>
 
-<%if @contribution%>
-  <%= render :partial => 'application/breadcrumb_path', :locals  => { :path => @presentation.contribution.parents_path } %>
-<%end%>
-
 <section id="show_items " class="layout_show">
-
-  <!--recomended-->
-  <%= render :partial => 'recommender/sidebar', :locals  => { :resources => @resource_suggestions } %>
 
   <div class="doc-show">
     <div class="box-show">
@@ -44,20 +31,11 @@
       <div class="box_description">
         <!--tool-->
         <div class="presentation_tool">
-          <%= render :partial => 'presentations/presentation-tool-tab', :locals => { :shortURL => shortURL} %>
+          <%= render :partial => 'presentations/presentation_tool_tab', :locals => { :shortURL => shortURL} %>
         </div>
-      </div>
+      </div>     
 
-     
-      <!--activity-->
-      <div class="activity-box">
-        <%= render :partial => 'presentations/evaluate-activity'%>
-      </div>
     </div>
   </div>
   
 </section>
-
-<%if @contribution%>
-  <%= render :partial => 'contributions/contributable_activity', :locals => { :contribution => @presentation.contribution } %>
-<%end%>

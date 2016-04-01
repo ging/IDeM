@@ -1,4 +1,3 @@
-<% availableModels ||= available_models %>
 <% editingToolbar = (@presentation.draft or controller.action_name == "edit") %>
 
 <script>
@@ -93,7 +92,7 @@
 <div class="btn-group actions_layout_show">
 
   <!-- Edit -->
-  <% if user_signed_in? and !editingToolbar and (can? :update, @presentation) %>
+  <% if user_signed_in? and !editingToolbar #KIKE XXX FIX and (can? :update, @presentation) %>
     <button class="btn btn-default" data-toggle="tooltip" title="<%=t('presentation.actions.edit')%>" onclick="location.href='<%=edit_presentation_path(@presentation)%>'">
       <i class="fa fa-edit"></i>
     </button>
@@ -101,7 +100,7 @@
 
   
   <!--Remove-->
-  <% if user_signed_in? and can?(:destroy, @presentation) %>
+  <% if user_signed_in? #KIKE XXX FIX and can?(:destroy, @presentation) %>
     <button class="with_tooltip delete btn btn-default" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
       <i class="fa fa-trash-o"></i>
     </button>
@@ -144,7 +143,7 @@
         </span>
       </a>
     </li>
-    <% if can?(:download_source, @presentation) %>
+    <% if true #KIKE XXX FIX can?(:download_source, @presentation) %>
       <li>
         <a href="#tab4" tabTitle='download' data-toggle="tab">
           <i class="fa fa-download"></i>
@@ -154,7 +153,6 @@
         </a>
       </li>
     <%end%>    
-    <%= render partial: 'help/help_show_presentation' %>
   </ul>
 
 
@@ -164,7 +162,7 @@
 
     <!-- tab1 / description -->
     <div class="tab-pane active" id="tab0">
-        <%= render :partial => 'presentations/presentation-info' %>
+         #KIKE XXX FIX render :partial => 'presentations/presentation-info' 
     </div>
 
     <!-- tab2 / embed -->
@@ -217,7 +215,7 @@
       </div>
     </div>
 
-    <% if can?(:download_source, @presentation) %>
+    <% if #KIKE XXX FIX can?(:download_source, @presentation) %>
       <!-- tab4 / scorm -->
       <div class="tab-pane contentscorm" id="tab4">
         <div class="contentscormc1">

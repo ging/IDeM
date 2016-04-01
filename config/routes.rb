@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   match '/account', to: 'users#show', via: [:get]
  
   match '/change_locale', to: 'locales#change_locale', via: [:get]
+  #Thumbnails
+  match '/thumbnails' => 'presentations#presentation_thumbnails', via: [:get]
 
   #Wildcard route (This rule should be placed the last)
   match "*not_found", :to => 'application#page_not_found', via: [:get]
