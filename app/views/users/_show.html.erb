@@ -1,4 +1,16 @@
 <p> User profile </p>
+
+
+<%if @user==current_user%>
+Acciones si soy el usuario del perfil:
 <ul>
-	<li><%= link_to('Crear presentación', new_presentation_path()) %></li>		
+	<li><%= link_to('Crear presentación', new_presentation_path()) %></li>
+</ul>
+<%end%>
+
+Presentaciones:
+<ul>
+	<% @user.presentations.each do |presentation| %>
+ 	  <%= render :partial => 'presentations/presentation', :locals => { :presentation => presentation } %>
+	<% end %>
 </ul>

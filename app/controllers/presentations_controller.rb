@@ -22,6 +22,7 @@ class PresentationsController < ApplicationController
     @presentation = Presentation.find(params[:id])
     respond_to do |format|
       format.html {
+        @presentation.increment!(:visit_count)
         if @presentation.draft 
           if (can? :edit, @presentation)
             redirect_to edit_presentation_path(@presentation)
@@ -38,7 +39,7 @@ class PresentationsController < ApplicationController
         render :layout => 'veditor'
       }
       format.fs {
-        @presentation.activity_object.increment!(:visit_count) if @presentation.public_scope?
+        @presentation.increment!(:visit_count)
         @orgUrl = params[:orgUrl]
         @title = @presentation.title
         render "show.full", :layout => 'veditor'
