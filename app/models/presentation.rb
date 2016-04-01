@@ -8,11 +8,9 @@ class Presentation < ActiveRecord::Base
                     :path => ':rails_root/documents/attachments/:id_partition/:filename.:extension'
   validates_attachment_size :attachment, :less_than => 8.megabytes
 
-  belongs_to :user
-  has_one :license
+  belongs_to :publication
 
   validates_presence_of :json
-  before_validation :fill_license
   after_save :parse_for_meta
   after_destroy :remove_scorms
 
@@ -26,14 +24,13 @@ class Presentation < ActiveRecord::Base
   end
 
   def author
-    user
+    self.publication.users.first
   end
 
   def owner
-    user
+    self.publication.users.first
   end
 
-  #KIKE XXX quitar
   def tag_list
     []
   end
@@ -786,10 +783,9 @@ class Presentation < ActiveRecord::Base
 
   ####################
   ## Other Methods
-  #################### 
+  ####################
 
-  def afterPublish       
-
+  def afterPublish
     #Try to infer the language of the presentation if it is not spcifiyed
     if (self.language.nil? or !self.language.is_a? String or self.language=="independent")
       self.inferLanguage
@@ -851,41 +847,15 @@ class Presentation < ActiveRecord::Base
         :favourites => like_count,
         :number_of_slides => slide_count
       }
-      
-      unless self.score_tracking.nil?
-        rjson[:recommender_data] = self.score_tracking
-        rsEngineCode = TrackingSystemEntry.getRSCode(JSON(rjson[:recommender_data])["rec"])
-        rjson[:url] = controller.presentation_url(:id => self.id, :rec => rsEngineCode) unless rsEngineCode.nil?
-      end
-
       rjson
   end
 
   def get_attachment_name
-    name = "presentation_" + self.id.to_s + "_attachment" + File.extname(self.attachment_file_name)
-    name
+    "presentation_" + self.id.to_s + "_attachment" + File.extname(self.attachment_file_name)
   end
 
 
   private
-
-  def fill_license
-    #Set public license when publishing a presentation
-    if self.new_record?
-      if self.license.nil? or self.license.private?
-        license_metadata = JSON(self.json)["license"] rescue nil
-        if license_metadata.is_a? Hash and license_metadata["key"].is_a? String
-          license = License.find_by_key(license_metadata["key"])
-          unless license.nil?
-            self.license_id = license.id
-          end
-        end
-        if self.license.nil? or self.license.private?
-          self.license_id = License.default.id
-        end
-      end
-    end
-  end
 
   def parse_for_meta
     parsed_json = JSON(json)

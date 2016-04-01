@@ -12,7 +12,7 @@ module OmniAuth
       }
 
       option :authorize_params, {
-        :scope => "openid profile_read",
+        :scope => "openid profile_read publications_read publications_management",
         :op => "login"
       }
       option :authorize_options, [:scope]
@@ -48,6 +48,8 @@ module OmniAuth
 
       def user_data
         @user_data ||= access_token.get('me?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @user_data["publications"] ||= access_token.get('me/publications?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @user_data
       end
 
 

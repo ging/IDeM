@@ -6,7 +6,8 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => IDeM::Application::config.omniauth_providers
 
-  has_many :presentations
+  has_and_belongs_to_many :publications
+  has_many :presentations, :through => :publications
 
   before_validation :fillPasswordFlag
   before_validation :fillLanguages
