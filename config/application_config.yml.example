@@ -4,3 +4,6 @@ development:
   # loop:
   #   oauth2_client_id: ""
   #   oauth2_client_key: ""
+  #   oauth2_primary_subscription_key: ""
+  #   oauth2_secondary_subscription_key: ""
+    

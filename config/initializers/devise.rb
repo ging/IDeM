@@ -236,7 +236,7 @@ Devise.setup do |config|
 
   IDeM::Application::config.omniauth_providers = []
 
-  unless IDeM::Application::config.APP_CONFIG["loop"].blank? or IDeM::Application::config.APP_CONFIG["loop"]["oauth2_client_id"].blank?
+  unless IDeM::Application::config.APP_CONFIG["loop"].blank? or IDeM::Application::config.APP_CONFIG["loop"]["oauth2_client_id"].blank? or IDeM::Application::config.APP_CONFIG["loop"]["oauth2_client_key"].blank? or IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"].blank?
     require 'omniauth/strategies/loop'
     IDeM::Application::config.omniauth_providers << :loop
     config.omniauth :loop, IDeM::Application::config.APP_CONFIG["loop"]["oauth2_client_id"], IDeM::Application::config.APP_CONFIG["loop"]["oauth2_client_key"], :strategy_class => OmniAuth::Strategies::Loop

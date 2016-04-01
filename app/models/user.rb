@@ -41,10 +41,10 @@ class User < ActiveRecord::Base
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       #Create user with data from the provide
+      user.name = auth.info.name
       user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
       user.password = Devise.friendly_token[0,20]
-      user.name = auth.info.name
-      user.language = I18n.locale.to_s
+      user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
       user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
     end
   end
