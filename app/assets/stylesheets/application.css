@@ -13,7 +13,9 @@
  *= require bootstrap
  *= require bootstrap-theme
  *= require jquery.ui.all
- *= require_tree .
+ *= require header
+ *= require devise
+ *= require select2
+ *= require sass_call
  *= require_self
  */
-
