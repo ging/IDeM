@@ -27,21 +27,24 @@ module OmniAuth
       }
 
       info do
-        fullName = user_data["firstName"]
-        fullName += (" " + user_data["lastName"]) unless user_data["lastName"].blank?
-        info = {
-          'name' => fullName,
-          "loop_profile_url" => user_data["profileUrl"],
-          "loop_id" => user_data["id"],
-          "country" => user_data["country"]
-        }
+        info = {}
 
-        case info["country"]
-        when "Spain"
-          info["language"] = "es"
-        else
-          info["language"] = I18n.locale.to_s
+        info["name"] = user_data["firstName"]
+        info["name"] += (" " + user_data["lastName"]) unless user_data["lastName"].blank?
+
+        info["loop_id"] = user_data["id"]
+        info["loop_profile_url"] = user_data["profileUrl"]
+
+        unless user_data["country"].blank?
+          case user_data["country"].downcase
+          when "spain"
+            info["language"] = "es"
+          else
+            info["language"] = I18n.locale.to_s
+          end
         end
+
+        info["publications"] = user_data["publications"] unless user_data["publications"].nil?
 
         info
       end

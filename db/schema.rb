@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401114031) do
+ActiveRecord::Schema.define(version: 20160404071952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -50,6 +50,7 @@ ActiveRecord::Schema.define(version: 20160401114031) do
     t.string   "isbn"
     t.string   "volume"
     t.string   "issue"
+    t.text     "loop_data"
     t.text     "loop_url"
     t.integer  "loop_id"
     t.datetime "created_at",       null: false
@@ -100,6 +101,8 @@ ActiveRecord::Schema.define(version: 20160401114031) do
     t.string   "provider"
     t.string   "uid"
     t.boolean  "ug_password_flag",       default: true
+    t.text     "loop_data"
+    t.text     "loop_profile_url"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

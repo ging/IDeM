@@ -11,29 +11,25 @@ class User < ActiveRecord::Base
 
   before_validation :fillPasswordFlag
   before_validation :fillLanguages
+  before_save :parse_for_meta
 
   validates :name, :presence => true
   validates :ui_language, :presence => true
   validates :language, :presence => true
   validates_inclusion_of :ug_password_flag, :in => [true, false]
   validate :checkLanguages
+  # validates :loop_data, :presence => true
+  # validates :loop_profile_url, :presence => true
 
 
   #################
-  # Getters
+  # Methods
   #################
 
-  def something
+  def loop_id
+    self.uid if self.provider == "loop"
   end
 
-
-  #################
-  # User methods
-  #################
-
-  def something?(param)
-    true
-  end
 
   #################
   # Class methods
@@ -47,11 +43,27 @@ class User < ActiveRecord::Base
       user.password = Devise.friendly_token[0,20]
       user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
       user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
+      user.loop_data = auth.info.to_hash.to_json
     end
   end
 
 
   private
+
+  def parse_for_meta
+    return if self.loop_data.blank?
+    info = JSON.parse(self.loop_data)
+    self.loop_profile_url = info["loop_profile_url"]
+
+    unless info["publications"].blank? or info["publications"]["value"].blank?
+      info["publications"]["value"].each do |pInfo|
+        p = Publication.new
+        p.loop_data = pInfo.to_hash.to_json
+        p.users = [self]
+        p.save
+      end
+    end
+  end
 
   def fillPasswordFlag
     if self.new_record?
