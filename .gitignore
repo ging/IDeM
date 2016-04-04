@@ -27,3 +27,8 @@ config/application_config.yml
 dumps/*
 config/deploy/*
 !config/deploy/example.yml
+
+# scorm zip files
+public/scorm/12/excursions/*
+public/scorm/2004/excursions/*
+public/scorm/packages/*
