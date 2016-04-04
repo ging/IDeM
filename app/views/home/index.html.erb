@@ -1,1 +1,23 @@
-<p>Welcome to IDeM</p>
+<div class="row">
+    <div class="col-md-6">
+	  <p>CREATE PRESENTATIONS AND WEBINARS ATTACHED TO YOUR PUBLICATIONS</p>
+	</div>
+	<div class="col-md-6">
+	  <p>With IDeM bla bla Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	  <p><a class="btn btn-default" href="#" role="button">Learn more »</a></p>
+	</div>
+</div>
+
+<h2>FEATURED PRESENTATIONS</h2>
+<div class="row">
+	<% @presentations.each do |presentation| %>
+    	<%= render 'presentations/presentation_preview', :presentation => presentation %>
+  	<% end %>
+</div>
+
+<h2>UNCOMING WEBINARS</h2>
+<div class="row">
+	<% @webinars.each do |webinar| %>
+    	<%= render 'webinars/webinar_preview', :webinar => webinar %>
+  	<% end %>
+</div>

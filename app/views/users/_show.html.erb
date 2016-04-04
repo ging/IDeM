@@ -1,25 +1,29 @@
 <% isProfileOwner = (user_signed_in? and current_user==@user) %>
 
-<p> User profile </p>
+<p> <%=@user.name%> </p>
 
-<% if isProfileOwner %>
-Acciones si soy el usuario del perfil:
-<ul>
-  <li><%= link_to('Crear presentación', new_presentation_path()) %></li>
-</ul>
-<% end %>
 
-Publicaciones:
-<ul>
-  <% @user.publications.each do |publication| %>
-    <%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %>
-  <% end %>
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#presentations">Presentations</a></li>
+    <li><a data-toggle="tab" href="#webinars">Webinars</a></li>
+    <li><a data-toggle="tab" href="#interviews">Interviews</a></li>
+    <% if isProfileOwner %>
+	<li><%= link_to('Crear presentación', new_presentation_path()) %></li>
+	<% end %>
 </ul>
 
-Presentaciones:
-<ul>
-  <% @user.presentations.each do |presentation| %>
-    <%= render 'presentations/presentation', :presentation => presentation, :showActions => isProfileOwner %>
-  <% end %>
-</ul>
+<div class="tab-content">
+    <div id="presentations" class="tab-pane in active">
+        <% @user.presentations.each do |presentation| %>
+	    	<%= render 'presentations/presentation_preview', :presentation => presentation %>
+	  	<% end %>
+    </div>
+    <div id="webinars" class="tab-pane">
+    	
+    </div>
+    <div id="interviews" class="tab-pane">
 
+    </div>
+</div>
+
+                             		
