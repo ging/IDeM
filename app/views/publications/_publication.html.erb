@@ -1,0 +1,4 @@
+<%= publication.title %>
+<% if showActions %>
+  <%= link_to('Crear presentación', new_presentation_path({:publication => publication.id})) %>
+<% end %>

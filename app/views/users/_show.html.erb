@@ -1,16 +1,25 @@
+<% isProfileOwner = (user_signed_in? and current_user==@user) %>
+
 <p> User profile </p>
 
-
-<%if @user==current_user%>
+<% if isProfileOwner %>
 Acciones si soy el usuario del perfil:
 <ul>
-	<li><%= link_to('Crear presentación', new_presentation_path()) %></li>
+  <li><%= link_to('Crear presentación', new_presentation_path()) %></li>
 </ul>
-<%end%>
+<% end %>
+
+Publicaciones:
+<ul>
+  <% @user.publications.each do |publication| %>
+    <%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %>
+  <% end %>
+</ul>
 
 Presentaciones:
 <ul>
-	<% @user.presentations.each do |presentation| %>
- 	  <%= render :partial => 'presentations/presentation', :locals => { :presentation => presentation } %>
-	<% end %>
+  <% @user.presentations.each do |presentation| %>
+    <%= render 'presentations/presentation', :presentation => presentation, :showActions => isProfileOwner %>
+  <% end %>
 </ul>
+

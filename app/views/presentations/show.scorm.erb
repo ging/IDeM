@@ -38,25 +38,6 @@
 		configuration["recommendationsAPI"] = {
 			rootURL: "<%=IDeM::Application.config.full_domain%>" + "/presentations/last_slide.json"
 		};
-		
-		//Tracking System
-		<%if IDeM::Application.config.trackingSystem %>
-			configuration["TrackingSystemAPIKEY"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIKEY'] %>";
-			configuration["TrackingSystemAPIURL"] = "<%= IDeM::Application.config.APP_CONFIG['trackingSystemAPIURL'] %>";
-		<%end%>
-
-		//LOEP configuration
-		<%unless IDeM::Application.config.APP_CONFIG['loep'].nil? or presentation.nil?%>
-			<%loepConfig = IDeM::Application.config.APP_CONFIG['loep']%>
-			<%tokenURL = (IDeM::Application.config.full_domain + '/loep/session_token.json') %>
-			configuration["loepSettings"] = {
-				tokenURL: '<%=tokenURL%>',
-				domain: '<%=loepConfig["domain"]%>',
-				app: '<%=loepConfig["app_name"]%>',
-				loId: '<%=presentation.activity_object.getGlobalId()%>',
-				evmethod: "wbltses"
-			};
-		<%end%>
 
 		options["configuration"] = configuration;
 

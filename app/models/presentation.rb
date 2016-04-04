@@ -843,9 +843,7 @@ class Presentation < ActiveRecord::Base
         :author => author.name,
         :description => description,
         :image => thumbnail_url ? thumbnail_url : IDeM::Application.config.full_domain + "/assets/logos/original/presentation-00.png",
-        :views => visit_count,
-        :favourites => like_count,
-        :number_of_slides => slide_count
+        :views => visit_count
       }
       rjson
   end

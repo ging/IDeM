@@ -4,7 +4,6 @@ class PresentationsController < ApplicationController
 
   before_filter :authenticate_user!, :only => [ :new, :create, :edit, :update, :uploadTmpJSON, :upload_attachment ]
   before_filter :profile_subject!, :only => :index
-  #skip_before_filter :store_location, :if => :format_full?
 
   # Enable CORS
   before_filter :cors_preflight_check, :only => [:presentation_thumbnails, :last_slide, :iframe_api]
@@ -18,17 +17,17 @@ class PresentationsController < ApplicationController
     redirect_to home_path
   end
 
-  def show 
+  def show
     @presentation = Presentation.find(params[:id])
     respond_to do |format|
       format.html {
         @presentation.increment!(:visit_count)
         if @presentation.draft 
-          if (can? :edit, @presentation)
+          # if (can? :edit, @presentation)
             redirect_to edit_presentation_path(@presentation)
-          else
-            redirect_to "/"
-          end
+          # else
+          #   redirect_to "/"
+          # end
         else
           render
         end
@@ -53,20 +52,20 @@ class PresentationsController < ApplicationController
         render :layout => 'veditor.full'
       }
       format.scorm {
-        if (can? :download_source, @presentation)
+        # if (can? :download_source, @presentation)
           scormVersion = (params["version"].present? and ["12","2004"].include?(params["version"])) ? params["version"] : "2004"
           @presentation.to_scorm(self,scormVersion)
-          @presentation.increment_download_count
           send_file @presentation.scormFilePath(scormVersion), :type => 'application/zip', :disposition => 'attachment', :filename => ("scorm" + scormVersion + "-#{@presentation.id}.zip")
-        else
-          render :nothing => true, :status => 500
-        end
+        # else
+        #   render :nothing => true, :status => 500
+        # end
       }      
     end
   end
 
   def new
     @presentation = Presentation.new
+    session[:current_publication_id] = params["publication"] unless params["publication"].blank?
     respond_to do |format|
       format.full { render :layout => 'veditor', :locals => {:default_tag=> params[:default_tag]}}
     end
@@ -88,7 +87,7 @@ class PresentationsController < ApplicationController
     else
       @presentation.draft = false
     end
-    @presentation.user = current_user
+    @presentation.publication_id = session[:current_publication_id]
     @presentation.save!
 
     published = (@presentation.draft===false)
@@ -214,6 +213,7 @@ class PresentationsController < ApplicationController
         tnumber = "0" + tnumber
       end
       thumbnail["src"] = IDeM::Application.config.full_domain + "/assets/logos/original/excursion-"+tnumber+".png"
+      thumbnail["src"] = Embed.checkUrlProtocol(thumbnail["src"],request.protocol)
       thumbnails["pictures"].push(thumbnail)
     end
 
@@ -268,7 +268,9 @@ class PresentationsController < ApplicationController
     options = {:user => current_user, :lo => current_presentation, :n => (params[:quantity] || 6).to_i, :models => [Presentation]}
     options[:keywords] = params[:q].split(",") if params[:q]
 
-    presentations = RecommenderSystem.resource_suggestions(options)
+    # presentations = RecommenderSystem.resource_suggestions(options)
+    # TODO. RecommenderSystem
+    presentations =  Presentation.limit(options[:n]).order(IDeM::Application::config.agnostic_random).where("draft='false'")
 
     respond_to do |format|
       format.json {

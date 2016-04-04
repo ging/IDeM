@@ -1,6 +1,6 @@
 <li class="box-item presentation-item">
 
-  <%generated_id= "presentation-" + presentation.id.to_s%>
+  <% generated_id= "presentation-" + presentation.id.to_s %>
   
   <%= link_to(presentation_url(presentation)) do %>
     <!-- image/icon -->
@@ -32,13 +32,9 @@
       <span class="by"><%=t('by')%></span>
       <%= link_to presentation.author.name, presentation.author %>
     </div>
-    <!--More info (Likes and Views) -->
+    <!-- Views -->
     <hr>
     <div class="info-bottom">
-      <!--like -->
-      <div class="like">         
-            <div class="count">0</div>
-      </div>
       <!--views -->
       <div class="views">
         <%=presentation.visit_count.to_s%>

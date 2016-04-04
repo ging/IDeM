@@ -64,6 +64,16 @@ module IDeM
     config.twitter = (!config.APP_CONFIG['twitter'].nil? and config.APP_CONFIG['twitter']["enable"]===true)
     config.gplus = (!config.APP_CONFIG['gplus'].nil? and config.APP_CONFIG['gplus']["enable"]===true)
 
+    config.after_initialize do
+      #Agnostic random
+      if ActiveRecord::Base.connection.adapter_name == "PostgreSQL"
+        config.agnostic_random = "RANDOM()"
+      else
+        #MySQL
+        config.agnostic_random = "RAND()"
+      end
+    end
+
     #Require core extensions
     Dir[File.join(Rails.root, "lib", "core_ext", "*.rb")].each {|l| require l }
   end
