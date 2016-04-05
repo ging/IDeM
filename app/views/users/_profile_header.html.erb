@@ -1,8 +1,18 @@
 <% active ||= "publications" %>
 
+<hr>
 
+<div id="user">
+	<%= image_tag('logos/small/user.png', :alt => @user.name) %>
+	<div id="info">
+		<p id="name"><%=@user.name%></p>
+		<p id="title">Researcher</p>
+		<p id="organization">UPM</p>
+		<p id="degree"><i class="fa fa-graduation-cap"></i>Masters</p>
+		<p id="location"><i class="fa fa-map-marker"></i>Spain</p>
+	</div>
+</div>
 
-<p> <%=@user.name%> </p>
 
 <ul class="nav nav-tabs">
 	<% ["publications","presentations","webinars"].each do |resource| %>
