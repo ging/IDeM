@@ -3,6 +3,9 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: { sessions: "users/sessions", registrations: "users/registrations", :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  match '/users/:id/publications' => 'users#show_publications', via: [:get]
+  match '/users/:id/presentations' => 'users#show_presentations', via: [:get]
+  match '/users/:id/webinars' => 'users#show_webinars', via: [:get]
   resources :users
   
   match '/account', to: 'users#show', via: [:get]

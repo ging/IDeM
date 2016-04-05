@@ -36,15 +36,33 @@ class User < ActiveRecord::Base
   #################
 
   def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      #Create user with data from the provide
+    user = User.where(provider: auth.provider, uid: auth.uid).first
+
+    if user.nil?
+      #Create
+      user = User.new
       user.name = auth.info.name
       user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
       user.password = Devise.friendly_token[0,20]
       user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
       user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
-      user.loop_data = auth.info.to_hash.to_json
     end
+
+    #Update or create LOOP data
+    user.loop_data = auth.info.to_hash.to_json
+    user.save!
+
+    # user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
+    #   #Create user with data from the provide
+    #   user.name = auth.info.name
+    #   user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
+    #   user.password = Devise.friendly_token[0,20]
+    #   user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
+    #   user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
+    #   user.loop_data = auth.info.to_hash.to_json
+    # end
+    
+    user
   end
 
 

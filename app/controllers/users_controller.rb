@@ -1,9 +1,18 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate_user!
+  before_filter :find_user, :only => [:show, :show_publications, :show_presentations, :show_webinars]
 
-  def show    
-    @user = User.find_by_id(params[:id])
+  def show
+  end
+
+  def show_publications
+  end
+
+  def show_presentations
+  end
+
+  def show_webinars
   end
 
   def edit
@@ -28,6 +37,13 @@ class UsersController < ApplicationController
       flash[:alert] = I18n.t("profile.edit.messages.fail", :reason => @user.errors.full_messages.to_sentence)
       render :edit
     end
+  end
+
+
+  private
+
+  def find_user
+    @user = User.find_by_id(params[:id])
   end
 
 end
