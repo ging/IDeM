@@ -16,13 +16,21 @@
   options["readHashFromParent"] = true;
 </script>
 
+<hr>
+
 <section id="show_items " class="layout_show">
 
   <div class="doc-show">
-    <div class="box-show">
-      <div class="viewerContainer">
+    <h3><%= @presentation.title %></h3>
+    <h5><%= @presentation.publication.title %></h5>
+    <h6><%= @presentation.publication.authors_name %></h6>
+    <div class="box-show row">
+      <div class="viewerContainer col-md-8">
         <div class="viewerElement"></div>
         <%= render :partial => 'presentation_show', :locals  => { :presentation => @presentation } %>
+      </div>
+      <div class="viewerContainer col-md-4">
+        <%= render :partial => 'presentation_related_tab', :locals  => { :presentation => @presentation } %>
       </div>
     </div>
 

@@ -87,82 +87,46 @@
   });
 </script>
 
-
-<!--BTN ACTIONS-->
-<div class="btn-group actions_layout_show">
-
-  <!-- Edit -->
-  <% if user_signed_in? and !editingToolbar #KIKE XXX FIX and (can? :update, @presentation) %>
-    <button class="btn btn-default" data-toggle="tooltip" title="<%=t('presentation.actions.edit')%>" onclick="location.href='<%=edit_presentation_path(@presentation)%>'">
-      <i class="fa fa-edit"></i>
-    </button>
-  <%end%>
-
-  
-  <!--Remove-->
-  <% if user_signed_in? #KIKE XXX FIX and can?(:destroy, @presentation) %>
-    <button class="with_tooltip delete btn btn-default" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
-      <i class="fa fa-trash-o"></i>
-    </button>
-  <%end%>
-
-  <div class="contentdelete" style="display: none">
-    <p class="delete_p"><i class="fa fa-trash-o"></i>  <%=t('presentation.confirm_delete')%></p>
-    <div class="actions">
-      <a class="btn btn-default btn_cancel closepopover"><%=t('cancel')%></a>
-      <%= link_to t('presentation.actions.delete'),  @presentation, :method => :delete, :class => 'btn btn-primary' %>
-    </div>
-  </div>
-  
-</div>
-
 <% unless editingToolbar %>
   <!--TABS-->
   <ul class="nav nav-tabs tooltab">
     <li class="active">
       <a href="#tab0" tabTitle='description' data-toggle="tab">
-        <i class="fa fa-align-left"></i>
         <span class="  hidden-xs">
-          <%=t('presentation.description')%>
+          Description
         </span>
       </a>
     </li>
     <li>
       <a href="#tab2" tabTitle='embed' data-toggle="tab">
-        <i class="fa fa-code"></i>
         <span class="  hidden-xs">
-          <%=t('presentation.actions.embed') %>
+          Insert
         </span>
       </a>
     </li>
     <li>
       <a href="#tab3" tabTitle='share' data-toggle="tab">
-        <i class="fa fa-share"></i>
         <span class=" hidden-xs">
-          <%=t('presentation.actions.share')%>
+          Share
         </span>
       </a>
     </li>
     <% if true #KIKE XXX FIX can?(:download_source, @presentation) %>
       <li>
         <a href="#tab4" tabTitle='download' data-toggle="tab">
-          <i class="fa fa-download"></i>
           <span class="hidden-xs">
-            <%=t('document.actions.download')%>
+            Download
           </span>
         </a>
       </li>
     <%end%>    
   </ul>
 
-
-  <h1><%= @presentation.title %></h1>
-
   <div class="tab-content presentation-social">
 
     <!-- tab1 / description -->
     <div class="tab-pane active" id="tab0">
-      TODO
+      Test presentation
     </div>
 
     <!-- tab2 / embed -->
