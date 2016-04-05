@@ -1,5 +1,6 @@
 <div id="idem-logo"><%= link_to(image_tag('idem_logo.svg', :alt => 'idem'), '/', :class => "logo"); %></div>
-<div class="button-primary" id="register"><a href="https://registration.frontiersin.org/people/register-user" target="_blank">Register</a></div>
+
 	<% User.omniauth_providers.each do |provider| %>
 <div class="button-secondary" id="login"><%= link_to 'Log in', user_omniauth_authorize_path(provider.to_sym) %></div>
 	<% end %>
+<div class="button-primary" id="register"><a href="https://registration.frontiersin.org/people/register-user" target="_blank">Register</a></div>
