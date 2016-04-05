@@ -3,4 +3,4 @@
 	<%= image_tag('logos/small/user.png', :alt => current_user.name) %>
 	<%= link_to(current_user.name, user_path(current_user)) %>
 </div>
-<div class="header-tools" id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></div>
+<div class="button-secondary" id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></div>
