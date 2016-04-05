@@ -5,6 +5,7 @@ class Publication < ActiveRecord::Base
   has_many :presentations
 
   before_validation :parse_for_meta
+  before_destroy :destroy_resources
 
   validates :title, :presence => true
   validates :loop_url, :presence => true, :uniqueness => true
@@ -58,6 +59,17 @@ class Publication < ActiveRecord::Base
       users = (self.users + users).uniq
       self.users = users if self.users != users
     end
+  end
+
+  def destroy_resources
+    #Presentations
+    self.presentations.each do |presentation|
+      presentation.destroy
+    end
+    # #Webinars
+    # self.webinars.each do |webinar|
+    #   webinar.destroy
+    # end
   end
 
 end

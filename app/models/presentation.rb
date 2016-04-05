@@ -10,8 +10,17 @@ class Presentation < ActiveRecord::Base
 
   belongs_to :publication
 
+  has_many :users, :through => :publication
+
   validates_presence_of :json
-  after_save :parse_for_meta
+  validate :original_author_validation
+  def original_author_validation
+    return errors[:base] << "Presentation without original author" if self.original_author.blank? or User.find_by_name(self.original_author).nil?
+    true
+  end
+
+  before_save :parse_for_metadata
+  after_save :parse_for_metadata_id
   after_destroy :remove_scorms
 
 
@@ -24,7 +33,7 @@ class Presentation < ActiveRecord::Base
   end
 
   def author
-    self.publication.users.first
+    User.find_by_name(self.original_author)
   end
 
   def owner
@@ -855,22 +864,30 @@ class Presentation < ActiveRecord::Base
 
   private
 
-  def parse_for_meta
-    parsed_json = JSON(json)
+  def parse_for_metadata
+    parsed_json = JSON(self.json) rescue nil
+    return if parsed_json.blank?
 
-    title = parsed_json["title"] ? parsed_json["title"] : "Untitled"
-    description = parsed_json["description"]
-    tag_list = parsed_json["tags"]
-    language = parsed_json["language"]
+    self.title = parsed_json["title"] ? parsed_json["title"] : "Untitled"
+    self.description = parsed_json["description"]
+    # self.tag_list = parsed_json["tags"]
+    self.language = parsed_json["language"]
 
     unless parsed_json["age_range"].blank?
       begin
         ageRange = parsed_json["age_range"]
-        age_min = ageRange.split("-")[0].delete(' ')
-        age_max = ageRange.split("-")[1].delete(' ')
+        self.age_min = ageRange.split("-")[0].delete(' ')
+        self.age_max = ageRange.split("-")[1].delete(' ')
       rescue
       end
     end
+
+    self.thumbnail_url = (parsed_json["avatar"] ? parsed_json["avatar"] : IDeM::Application.config.full_domain + "/assets/logos/original/presentation-00.png")
+  end
+
+  def parse_for_metadata_id
+    parsed_json = JSON(self.json) rescue nil
+    return if parsed_json.blank?
 
     unless parsed_json["vishMetadata"]
       parsed_json["vishMetadata"] = {}
@@ -881,10 +898,10 @@ class Presentation < ActiveRecord::Base
       parsed_json["vishMetadata"]["released"] = "true"
     end
     
+    author = self.author
     parsed_json["author"] = {name: author.name, vishMetadata:{ id: author.id }}
 
     self.update_column :json, parsed_json.to_json
-    self.update_column :thumbnail_url, parsed_json["avatar"] ? parsed_json["avatar"] : IDeM::Application.config.full_domain + "/assets/logos/original/presentation-00.png"
   end
   
 end

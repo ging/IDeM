@@ -15,16 +15,19 @@ Rails.application.routes.draw do
   match '/thumbnails' => 'presentations#presentation_thumbnails', via: [:get]
 
   match 'presentations/last_slide' => 'presentations#last_slide', :via => :get
-  match 'excursions/preview' => 'excursions#preview', :via => :get
-  match 'excursions/:id/metadata' => 'excursions#metadata', :via => :get
-  match 'excursions/:id/scormMetadata' => 'excursions#scormMetadata', :via => :get
-  match '/excursions/:id/upload_attachment' => 'excursions#upload_attachment', :via => :post
-  match '/excursions/:id/attachment' => 'excursions#show_attachment', :via => :get
-  match '/excursions/:id.mashme' => 'excursions#show', :defaults => { :format => "gateway", :gateway => 'mashme' }, :via => :get
-  match '/excursions/:id.embed' => 'excursions#show', :defaults => { :format => "full" }, :via => :get
+  match 'excursions/preview' => 'presentations#preview', :via => :get
+  match 'excursions/:id/metadata' => 'presentations#metadata', :via => :get
+  match 'excursions/:id/scormMetadata' => 'presentations#scormMetadata', :via => :get
+  match '/excursions/:id/upload_attachment' => 'presentations#upload_attachment', :via => :post
+  match '/excursions/:id/attachment' => 'presentations#show_attachment', :via => :get
+  match '/excursions/:id.mashme' => 'presentations#show', :defaults => { :format => "gateway", :gateway => 'mashme' }, :via => :get
+  match '/excursions/:id.embed' => 'presentations#show', :defaults => { :format => "full" }, :via => :get
 
   resources :presentations
 
+  #PDF to Presentation
+  # resources :pdfexes, :except => [:index], controller: 'pdfps'
+  resources :pdfps, :except => [:index]
 
   #Download JSON
   match '/excursions/tmpJson' => 'excursions#uploadTmpJSON', :via => :post

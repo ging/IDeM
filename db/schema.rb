@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404071952) do
+ActiveRecord::Schema.define(version: 20160405094714) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "pdfps", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "pcount"
+    t.boolean  "permanent",           default: false
+    t.string   "attach_file_name"
+    t.string   "attach_content_type"
+    t.integer  "attach_file_size"
+    t.datetime "attach_updated_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "presentations", force: :cascade do |t|
     t.integer  "publication_id"

@@ -11,11 +11,9 @@
 
 	configuration["rootPath"] = "<%= IDeM::Application.config.full_domain %>";
 
-	configuration["Upload"] = true;
-	configuration["uploadImagePath"] = "#XXX KIKE FIX";
-	configuration["uploadObjectPath"] = "#XXX KIKE FIX";
+	configuration["Upload"] = false;
 	configuration["uploadPresentationPath"] = "<%= presentations_path :format=> 'json'%>";
-	configuration["uploadPDF2PPath"] = "#XXX KIKE FIX";
+	configuration["uploadPDF2PPath"] = "<%= pdfps_path :format=> "json"%>";
 
 	// Sources enabled
 	configuration["ViSH"] = true;

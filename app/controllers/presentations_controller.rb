@@ -88,6 +88,7 @@ class PresentationsController < ApplicationController
       @presentation.draft = false
     end
     @presentation.publication_id = session[:current_publication_id]
+    @presentation.original_author = current_user.name
     @presentation.save!
 
     published = (@presentation.draft===false)

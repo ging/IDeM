@@ -11,15 +11,17 @@ class User < ActiveRecord::Base
 
   before_validation :fillPasswordFlag
   before_validation :fillLanguages
-  before_save :parse_for_meta
+  before_validation :parse_for_meta
+  before_save :parse_for_publications
+  before_destroy :destroy_resources
 
   validates :name, :presence => true
   validates :ui_language, :presence => true
   validates :language, :presence => true
   validates_inclusion_of :ug_password_flag, :in => [true, false]
   validate :checkLanguages
-  # validates :loop_data, :presence => true
-  # validates :loop_profile_url, :presence => true
+  validates :loop_data, :presence => true
+  validates :loop_profile_url, :presence => true
 
 
   #################
@@ -72,6 +74,11 @@ class User < ActiveRecord::Base
     return if self.loop_data.blank?
     info = JSON.parse(self.loop_data)
     self.loop_profile_url = info["loop_profile_url"]
+  end
+
+  def parse_for_publications
+    return if self.loop_data.blank?
+    info = JSON.parse(self.loop_data)
 
     unless info["publications"].blank? or info["publications"]["value"].blank?
       info["publications"]["value"].each do |pInfo|
@@ -79,6 +86,15 @@ class User < ActiveRecord::Base
         p.loop_data = pInfo.to_hash.to_json
         p.users = [self]
         p.save
+      end
+    end
+  end
+
+  def destroy_resources
+    #Publications
+    self.publications.each do |publication|
+      if publication.users === [self]
+        publication.destroy
       end
     end
   end
