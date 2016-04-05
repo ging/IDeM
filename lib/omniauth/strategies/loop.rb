@@ -45,6 +45,8 @@ module OmniAuth
         end
 
         info["publications"] = user_data["publications"] unless user_data["publications"].nil?
+        info["followings"] = user_data["followings"] unless user_data["followings"].nil?
+        info["followers"] = user_data["followers"] unless user_data["followers"].nil?
 
         info
       end
@@ -52,6 +54,8 @@ module OmniAuth
       def user_data
         @user_data ||= access_token.get('me?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
         @user_data["publications"] ||= access_token.get('me/publications?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @user_data["followings"] ||= access_token.get('me/following?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @user_data["followers"] ||= access_token.get('me/followers?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
         @user_data
       end
 

@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
   before_validation :fillLanguages
   before_validation :parse_for_meta
   before_save :parse_for_publications
+  before_save :parse_for_contacts
   before_destroy :destroy_resources
 
   validates :name, :presence => true
@@ -21,6 +22,8 @@ class User < ActiveRecord::Base
   validates_inclusion_of :ug_password_flag, :in => [true, false]
   validate :checkLanguages
   validates :loop_data, :presence => true
+  validates :uid, :presence => true
+  validates_inclusion_of :provider, :in => ["loop"]
   validates :loop_profile_url, :presence => true
 
 
@@ -32,6 +35,14 @@ class User < ActiveRecord::Base
     self.uid if self.provider == "loop"
   end
 
+  def followers
+    Contact.where(receiver_id: self.id).map{|c| User.find_by_id(c.sender_id)}.compact
+  end
+
+  def followings
+    Contact.where(sender_id: self.id).map{|c| User.find_by_id(c.receiver_id)}.compact
+  end
+
 
   #################
   # Class methods
@@ -39,10 +50,11 @@ class User < ActiveRecord::Base
 
   def self.from_omniauth(auth)
     user = User.where(provider: auth.provider, uid: auth.uid).first
-
     if user.nil?
       #Create
       user = User.new
+      user.provider = auth.provider
+      user.uid = auth.uid
       user.name = auth.info.name
       user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
       user.password = Devise.friendly_token[0,20]
@@ -86,6 +98,39 @@ class User < ActiveRecord::Base
         p.loop_data = pInfo.to_hash.to_json
         p.users = [self]
         p.save
+      end
+    end
+  end
+
+  def parse_for_contacts
+    return if self.loop_data.blank?
+    info = JSON.parse(self.loop_data)
+    
+    #Followings
+    unless info["followings"].blank? or info["followings"]["value"].blank?
+      info["followings"]["value"].each do |cInfo|
+        userLoopId = cInfo["id"]
+        user = User.where("provider='loop' and uid in (?)", [userLoopId].map{|id| id.to_s}).first
+        next if user.nil?
+        # The user exists in IDeM.
+
+        #Check if the contact is already created. # If not, create it.
+        contact = Contact.where(sender_id: self.id, receiver_id: user.id).first_or_create do |contact|
+        end
+      end
+    end
+
+    #Followers
+    unless info["followers"].blank? or info["followers"]["value"].blank?
+      info["followers"]["value"].each do |cInfo|
+        userLoopId = cInfo["id"]
+        user = User.where("provider='loop' and uid in (?)", [userLoopId].map{|id| id.to_s}).first
+        next if user.nil?
+        # The user exists in IDeM.
+
+        #Check if the contact is already created. # If not, create it.
+        contact = Contact.where(sender_id: user.id, receiver_id: self.id).first_or_create do |contact|
+        end
       end
     end
   end
