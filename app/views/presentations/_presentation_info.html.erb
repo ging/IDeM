@@ -71,16 +71,10 @@
         <% end %>
 
         <!--author/owner-->
-        <% unless @presentation.original_author_name.nil? %>
+        <% unless @presentation.author.nil? %>
           <tr>
             <td><span><%= !@presentation.linked? ? t('document.info.author') : t('document.info.linked_by') %></span></td>
-            <td>
-              <% if @presentation.original_author.nil? %>
-                <%= link_to(@presentation.author.name, @presentation.author.subject) %>
-              <% else %>
-                <%= @presentation.original_author_name %>
-              <% end %>
-            </td>
+            <td><%= link_to(@presentation.author.name, @presentation.author.subject) %></td>
           </tr>
         <% end %>
 

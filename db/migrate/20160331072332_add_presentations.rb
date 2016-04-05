@@ -2,6 +2,7 @@ class AddPresentations < ActiveRecord::Migration
   def change
     create_table(:presentations) do |t|
       t.integer  "publication_id"
+      t.integer  "author_id"
       t.string   "title"
       t.text     "json"
       t.boolean  "draft", :default => false
@@ -12,7 +13,6 @@ class AddPresentations < ActiveRecord::Migration
       t.integer  "age_min", :default => 0
       t.integer  "age_max", :default => 0
       t.integer  "license_id"
-      t.text     "original_author"
       t.datetime "scorm2004_timestamp"
       t.datetime "scorm12_timestamp"
       t.string   "attachment_file_name"

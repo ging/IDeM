@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160405113228) do
+ActiveRecord::Schema.define(version: 20160405124152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 20160405113228) do
     t.integer  "sender_id"
     t.integer  "receiver_id"
     t.string   "contact_type"
-    t.boolean  "reflective"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -39,6 +38,7 @@ ActiveRecord::Schema.define(version: 20160405113228) do
 
   create_table "presentations", force: :cascade do |t|
     t.integer  "publication_id"
+    t.integer  "author_id"
     t.string   "title"
     t.text     "json"
     t.boolean  "draft",                   default: false
@@ -49,7 +49,6 @@ ActiveRecord::Schema.define(version: 20160405113228) do
     t.integer  "age_min",                 default: 0
     t.integer  "age_max",                 default: 0
     t.integer  "license_id"
-    t.text     "original_author"
     t.datetime "scorm2004_timestamp"
     t.datetime "scorm12_timestamp"
     t.string   "attachment_file_name"
@@ -130,5 +129,15 @@ ActiveRecord::Schema.define(version: 20160405113228) do
   add_index "users", ["provider"], name: "index_users_on_provider", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["uid"], name: "index_users_on_uid", using: :btree
+
+  create_table "webinars", force: :cascade do |t|
+    t.integer  "publication_id"
+    t.integer  "author_id"
+    t.text     "room_id"
+    t.text     "title"
+    t.datetime "start_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

@@ -1,8 +1,8 @@
 class HomeController < ApplicationController
 
   def index
-  	@presentations = Presentation.all
-  	@webinars = Presentation.all
+    @presentations = Presentation.all
+    @webinars = Webinar.all
   end
 
 end

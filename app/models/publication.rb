@@ -3,6 +3,7 @@ class Publication < ActiveRecord::Base
 
   has_and_belongs_to_many :users
   has_many :presentations
+  has_many :webinars
 
   before_validation :parse_for_meta
   before_destroy :destroy_resources

@@ -3,7 +3,6 @@ class PresentationsController < ApplicationController
   require 'fileutils'
 
   before_filter :authenticate_user!, :only => [ :new, :create, :edit, :update, :uploadTmpJSON, :upload_attachment ]
-  before_filter :profile_subject!, :only => :index
 
   # Enable CORS
   before_filter :cors_preflight_check, :only => [:presentation_thumbnails, :last_slide, :iframe_api]
@@ -88,7 +87,7 @@ class PresentationsController < ApplicationController
       @presentation.draft = false
     end
     @presentation.publication_id = session[:current_publication_id]
-    @presentation.original_author = current_user.name
+    @presentation.author_id = current_user.id
     @presentation.save!
 
     published = (@presentation.draft===false)
@@ -96,7 +95,7 @@ class PresentationsController < ApplicationController
       @presentation.afterPublish
     end
 
-    render :json => { :url => (@presentation.draft ? user_path(current_user) : presentation_path(resource)),
+    render :json => { :url => (@presentation.draft ? user_path(current_user) : presentation_path(@presentation)),
                       :uploadPath => presentation_path(@presentation, :format=> "json"),
                       :editPath => edit_presentation_path(@presentation),
                       :id => @presentation.id
