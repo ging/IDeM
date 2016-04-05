@@ -1,4 +1,7 @@
 <%= publication.title %>
 <% if showActions %>
-  <%= link_to('Crear presentación', new_presentation_path({:publication => publication.id})) %>
+  <ul>
+    <li><%= link_to('Crear presentación', new_presentation_path({:publication => publication.id})) %></li>
+    <li><%= link_to('Crear webinar', new_webinar_path({:publication => publication.id})) %></li>
+  </ul>
 <% end %>

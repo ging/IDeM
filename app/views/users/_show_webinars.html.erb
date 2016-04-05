@@ -1,10 +1,7 @@
 <div id="presentations" class="tab-pane in active">
     <ul>
-      <% @user.presentations.each do |webinar| %>
+      <% @user.webinars.each do |webinar| %>
         <li><%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner %></li>
       <% end %>
     </ul>
 </div>
-<% if isProfileOwner %>
-  <li><%= link_to('Crear webinar', "#TODO") %></li>
-<% end %>

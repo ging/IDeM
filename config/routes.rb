@@ -25,6 +25,8 @@ Rails.application.routes.draw do
 
   resources :presentations
 
+  resources :webinars
+
   #PDF to Presentation
   # resources :pdfexes, :except => [:index], controller: 'pdfps'
   resources :pdfps, :except => [:index]
