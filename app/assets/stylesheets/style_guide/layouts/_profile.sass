@@ -33,7 +33,7 @@ hr
 
 .nav
   height: 46px
-  background-color: #E8E8E8
+  background-color: $gray-lighter-extra
   padding-left: 80px
   a
     color: grey
@@ -43,26 +43,19 @@ hr
       background-color: transparent
       border: none
       border-bottom: 4px solid $idem-red
+      font-weight: bold
   li
     a:hover
       border-bottom: 4px solid #CCC
+  #publications_tab.active
+    a
+      color: $idem-orange
+      border-bottom: 4px solid $idem-orange
+
+  #webinars_tab.active
+    a
+      color: $idem-yellow
+      border-bottom: 4px solid $idem-yellow
 
 .profile_tab_wrapper
-  padding: 40px 80px
-
-#publications
-
-  hr
-    height: 1px
-    margin-left: -120px
-    margin-right: -80px
-    border: none
-    background-color: #E8E8E8
-    margin-top: 20px
-    margin-bottom: 20px
-
-  .publication_actions
-    text-align: right
-    .button-secondary
-      width: 200px
-      margin-bottom: 8px
+  padding: 25px 80px

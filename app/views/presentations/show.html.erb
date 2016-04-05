@@ -22,8 +22,7 @@
 
   <div class="doc-show">
     <h3><%= @presentation.title %></h3>
-    <h5><%= @presentation.publication.title %></h5>
-    <h6><%= @presentation.publication.authors_name %></h6>
+    <h5 class="publication-title"><%= link_to(@presentation.publication.title, @presentation.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
       <div class="viewerContainer col-md-8">
         <div class="viewerElement"></div>

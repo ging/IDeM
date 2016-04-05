@@ -7,7 +7,7 @@
 
   <!-- Edit -->
   <% if user_signed_in? and !editingToolbar #KIKE XXX FIX and (can? :update, @presentation) %>
-    <button class="button-primary" data-toggle="tooltip" title="<%=t('presentation.actions.edit')%>" onclick="location.href='<%=edit_presentation_path(@presentation)%>'">
+    <button class="button-primary-red" data-toggle="tooltip" title="<%=t('presentation.actions.edit')%>" onclick="location.href='<%=edit_presentation_path(@presentation)%>'">
       Edit presentation
     </button>
   <%end%>
@@ -15,7 +15,7 @@
   
   <!--Remove-->
   <% if user_signed_in? #KIKE XXX FIX and can?(:destroy, @presentation) %>
-    <button class="with_tooltip delete button-primary" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
+    <button class="with_tooltip delete button-primary-red" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
       Delete presentation
     </button>
   <%end%>
@@ -23,7 +23,7 @@
   <div class="contentdelete" style="display: none">
     <p class="delete_p"><i class="fa fa-trash-o"></i>  <%=t('presentation.confirm_delete')%></p>
     <div class="actions">
-      <a class="btn button-primary btn_cancel closepopover"><%=t('cancel')%></a>
+      <a class="btn button-primary-red btn_cancel closepopover"><%=t('cancel')%></a>
       <%= link_to t('presentation.actions.delete'),  @presentation, :method => :delete, :class => 'btn btn-primary' %>
     </div>
   </div>
