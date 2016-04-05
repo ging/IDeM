@@ -1,7 +1,9 @@
 <header id="header">
 	<ul>
 		<li><a href="<%=home_path%>">Home</a></li>
-		<li><a href="<%=new_user_registration_path%>">Register</a></li>
-		<li><a href="<%=new_user_session_path%>">Log In</a></li>
+		<li><a href="https://registration.frontiersin.org/people/register-user" target="_blank">Register</a></li>
+		<% User.omniauth_providers.each do |provider| %>
+    		<li><%= link_to t('devise.links.sign_in_with_provider', provider: provider.to_s.titleize), user_omniauth_authorize_path(provider.to_sym) %></li>
+  		<% end %>
 	</ul>
 </header>

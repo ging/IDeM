@@ -1,0 +1,8 @@
+<% active ||= "publications" %>
+<p> <%=@user.name%> </p>
+
+<ul class="nav nav-tabs">
+	<% ["publications","presentations","webinars"].each do |resource| %>
+		<li class="<%= (active==resource ? "active" : "") %>"><a href="/users/<%=@user.id.to_s + "/" + resource %>"><%= resource.capitalize %></a></li>
+	<% end %>
+</ul>

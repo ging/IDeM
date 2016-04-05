@@ -1,0 +1,10 @@
+<div id="presentations" class="tab-pane in active">
+	<ul>
+    <% @user.publications.each do |publication| %>
+      <li><%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %></li>
+    <% end %>
+    <ul>
+</div>
+<% if isProfileOwner %>
+  <li><%= link_to('Crear publication', "#TODO") %></li>
+<% end %>

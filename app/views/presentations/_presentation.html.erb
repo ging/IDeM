@@ -1,4 +1,4 @@
-<li class="box-item presentation-item">
+<div class="col-md-3">
 
   <% generated_id= "presentation-" + presentation.id.to_s %>
   
@@ -18,7 +18,7 @@
   <% end %>
 
   <script>
-      document.getElementById("<%=generated_id%>").style.backgroundImage = "url('<%=presentation_raw_thumbail(presentation)%>')";
+      document.getElementById("<%=generated_id%>").style.backgroundImage = "url('<%=presentation.thumbnail_url%>')";
   </script>
 
   <!-- Info -->
@@ -32,14 +32,9 @@
       <span class="by"><%=t('by')%></span>
       <%= link_to presentation.author.name, presentation.author %>
     </div>
-    <!-- Views -->
-    <hr>
-    <div class="info-bottom">
-      <!--views -->
-      <div class="views">
-        <%=presentation.visit_count.to_s%>
-        <i class="fa fa-eye"></i>
-      </div>
+    <!-- Link -->
+    <div class="link">
+      <button>View presentation</button>
     </div>
   </div>
-</li>
+</div>
