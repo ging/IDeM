@@ -32,3 +32,6 @@ config/deploy/*
 public/scorm/12/excursions/*
 public/scorm/2004/excursions/*
 public/scorm/packages/*
+
+#PDFs
+public/system/pdfps/*
