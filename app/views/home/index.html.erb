@@ -7,18 +7,23 @@
 </div>
 
 <div id="contents">
-
-	<h2>FEATURED PRESENTATIONS</h2>
-	<div class="row">
-		<% @presentations.each do |presentation| %>
-	    	<%= render 'presentations/presentation', :presentation => presentation %>
-	  	<% end %>
+	<div id="presentations">
+		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">featured presentations</h3>
+		<div id="collapseOne" class="collapse in row">
+			<% @presentations.each do |presentation| %>
+		    	<%= render 'presentations/presentation', :presentation => presentation %>
+		  	<% end %>
+		</div>
+		<div id="content-footer"></div>
 	</div>
 
-	<h2>UNCOMING WEBINARS</h2>
-	<div class="row">
-		<% @webinars.each do |webinar| %>
-	    	<%= render 'webinars/webinar', :webinar => webinar %>
-	  	<% end %>
+	<div id="webinars">
+		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">upcoming webinars</h3>
+		<div id="collapseTwo" class="collapse row">
+			<% @webinars.each do |webinar| %>
+		    	<%= render 'webinars/webinar', :webinar => webinar %>
+		  	<% end %>
+		</div>
+		<div id="content-footer"></div>
 	</div>
 </div>

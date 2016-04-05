@@ -1,8 +1,6 @@
-<header id="header">
-	<ul>
-		<li><a href="<%=home_path%>">Home</a></li>
-		<li>Logueado como <%=current_user.name%></li>
-		<li><%= link_to('perfil', user_path(current_user)) %></li>
-		<li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>
-	</ul>
-</header>
+<div id="idem-logo"><%= link_to(image_tag('idem_logo.svg', :alt => 'idem'), '/', :class => "logo"); %></div>
+<div id="profile">
+	<%= image_tag('logos/small/user.png', :alt => current_user.name) %>
+	<%= link_to(current_user.name, user_path(current_user)) %>
+</div>
+<div class="header-tools" id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></div>
