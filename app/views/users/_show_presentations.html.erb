@@ -1,7 +1,7 @@
 <div id="presentations" class="tab-pane in active">
-	<ul>
-    <% @user.presentations.each do |presentation| %>
-      <li><%= render 'presentations/presentation', :presentation => presentation, :showActions => isProfileOwner %></li>
-    <% end %>
-    </ul>
+	<div class="row">
+	<% @user.presentations.each do |presentation| %>
+    	<%= render 'presentations/presentation', :presentation => presentation %>
+  	<% end %>
+</div>
 </div>
