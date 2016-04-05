@@ -42,6 +42,7 @@ gem "paperclip", '= 4.3.6'
 gem 'rubyzip', '= 1.0.0'
 gem 'rmagick', '=2.13.2'
 gem 'pdf-reader', '= 1.3.3'
+gem 'font-awesome-sass'
 
 #Thinking Sphinx
 #The included MySQL gems are required for connecting to Sphinx, so please include it even when you’re using PostgreSQL for your database.
