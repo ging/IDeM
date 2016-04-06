@@ -1,7 +1,7 @@
 class WebinarsController < ApplicationController
 
   before_filter :authenticate_user!
-  
+
 
   #############
   # REST methods
@@ -16,6 +16,7 @@ class WebinarsController < ApplicationController
   end
 
   def new
+    session[:current_publication_id] = params["publication"] unless params["publication"].blank?
     @webinar = Webinar.new
   end
 
@@ -26,7 +27,7 @@ class WebinarsController < ApplicationController
   def create
     params[:webinar].permit!
     @webinar = Webinar.new(params[:webinar])
-    # @webinar.publication_id = session[:current_publication_id]
+    @webinar.publication_id = session[:current_publication_id]
     @webinar.author_id = current_user.id
     @webinar.save!
     respond_to do |format|

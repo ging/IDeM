@@ -18,6 +18,7 @@ en:
               blank: "can't be blank"
   apps:
     name: "Application name"
+  delete: "Delete"
   dictionary:
     are_you_sure: "Are you sure?"
     back: "Back"
@@ -42,6 +43,7 @@ en:
     untitled: "Untitled"
     update: "Update"
     username: "Username"
+  edit: "Edit"
   header:
     account: "My Profile"
     home: "Home"
@@ -125,3 +127,9 @@ en:
     upcomming: "upcoming"
     unload_warning: "The presentation is not saved!"
     top: "forMe"
+  save: "Save"
+  sure: "Are you sure?"
+  webinar:
+    start_date: "Start date"
+    title: "Title"
+    title_input: "Title"
