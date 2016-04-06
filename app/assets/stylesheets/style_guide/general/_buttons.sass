@@ -4,8 +4,11 @@
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
+  @include btn-transition-orange
   a
     color: $idem-orange
+    &:hover
+      color: white
 
 
 .button-primary
@@ -25,9 +28,11 @@
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
+  @include btn-transition-red
   a
     color: $idem-red
-
+    &:hover
+      color: white !important
 
 .button-primary-red
   border: 1px solid $idem-red

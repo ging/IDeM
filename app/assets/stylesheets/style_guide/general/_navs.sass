@@ -1,0 +1,35 @@
+.nav
+  height: 46px
+  @include gradient
+  padding-left: 80px
+  a
+    color: grey
+  li.active
+    a, a:hover
+      color: $idem-red
+      background-color: transparent
+      border: none
+      font-weight: bold
+  li
+    @include tab-transition-border
+    a:hover, a:focus, a:active
+      background-color: transparent
+      border-color: transparent
+
+  #publications_tab.active
+    &:after
+      @include tab-border
+      background: $idem-orange
+    a
+      color: $idem-orange
+  #presentations_tab.active
+    &:after
+      @include tab-border
+      background: $idem-red
+
+  #webinars_tab.active
+    &:after
+      @include tab-border
+      background: $idem-yellow
+    a
+      color: $idem-yellow
