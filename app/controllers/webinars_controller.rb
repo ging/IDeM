@@ -13,6 +13,9 @@ class WebinarsController < ApplicationController
 
   def show
     @webinar = Webinar.find(params[:id])
+    username = current_user ? current_user.name : "Guest"
+    role = (current_user && @webinar.author_id==current_user.id) ? "IDEM_owner" : "IDEM_viewer"
+    @token = Nuve.createToken(@webinar.room_id, username, role)
   end
 
   def new
@@ -29,6 +32,9 @@ class WebinarsController < ApplicationController
     @webinar = Webinar.new(params[:webinar])
     @webinar.publication_id = session[:current_publication_id]
     @webinar.author_id = current_user.id
+    options = {data: {user_id: current_user.id, publication_id: session[:current_publication_id], user_name: current_user.name}}
+    room = Nuve.createRoom(params[:webinar][:title], options)
+    @webinar.room_id = JSON.parse(room)["_id"]
     @webinar.save!
     respond_to do |format|
       format.all { redirect_to webinar_path(@webinar) }

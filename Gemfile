@@ -44,6 +44,8 @@ gem 'rmagick', '=2.13.2'
 gem 'pdf-reader', '= 1.3.3'
 gem 'font-awesome-sass'
 
+gem 'ruby-hmac'
+
 #Thinking Sphinx
 #The included MySQL gems are required for connecting to Sphinx, so please include it even when you’re using PostgreSQL for your database.
 # gem 'mysql2',          '0.3.18', :platform => :ruby
