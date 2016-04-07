@@ -1,0 +1,29 @@
+<h4 class="actions-header-webinar">Actions</h4>
+
+<!--BTN ACTIONS-->
+<div class="btn-group actions_layout_show">
+
+  <!-- Edit -->
+  <% if user_signed_in? #KIKE XXX FIX and (can? :update, @presentation) %>
+    <button class="button-primary-yellow">
+      <%=link_to t("edit"), edit_webinar_path(@webinar)%>
+    </button>
+  <%end%>
+
+  
+  <!--Remove-->
+  <% if user_signed_in? #KIKE XXX FIX and can?(:destroy, @presentation) %>
+    <button class="button-primary-yellow">
+      <%= link_to t("delete"), webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
+    </button>
+  <%end%>
+
+</div>
+
+<h4 class="actions-header-webinar">Available presentations</h4>
+
+<ul>
+  <% webinar.publication.presentations.each do |presentation| %>
+    <li><%=presentation.title%></li>
+  <% end %>
+</ul>

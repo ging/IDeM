@@ -1,0 +1,30 @@
+<div class="col-md-2">
+
+  <div class="webinar">
+    <% generated_id= "webinar-" + webinar.id.to_s %>
+    <!-- Info -->
+    <div class="caption">
+      <!--Title -->
+      <h5>
+        <%= link_to webinar.title, webinar %>
+      </h5>
+      <!--Publication -->
+      <div class="publication">
+        <%= link_to webinar.publication.title, webinar.publication.loop_url, :target => '_blank' %>
+      </div>
+      <!--Date -->
+      <div class="date">
+        <h4><%= webinar.start_date.to_formatted_s(:short)%></h4>
+      </div>
+      <!--Author -->
+      <div class="author">
+        <%= image_tag('logos/small/user.png', :alt => webinar.author.name) %>
+        <%= link_to webinar.author.name, webinar.author %>
+      </div>
+      <!-- Link -->
+      <div class="link button-secondary-yellow">
+         <%= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
+      </div>
+    </div>
+  </div>
+</div>

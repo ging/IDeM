@@ -1,7 +1,7 @@
 <div id="presentations" class="tab-pane in active">
 	<div class="row">
 	<% @user.presentations.each do |presentation| %>
-    	<%= render 'presentations/presentation', :presentation => presentation %>
+    	<%= render 'presentations/presentation', :presentation => presentation, :showActions => isProfileOwner  %>
   	<% end %>
-</div>
+	</div>
 </div>

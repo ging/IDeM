@@ -1,5 +1,35 @@
+<% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + webinar_path(@webinar) %>
+
+
 <%= @webinar.title %>
 <%= @webinar.start_date%>
 
-<%=link_to t("edit"), edit_webinar_path(@webinar)%>
-<%= link_to t("delete"), webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
+<hr>
+<section id="show_items " class="layout_show">
+
+  <div class="doc-show">
+    <h3><%= @webinar.title %></h3>
+    <h5 class="publication-title"><%= link_to(@webinar.publication.title, @webinar.publication.loop_url, :target => '_blank')%></h5>
+    <div class="box-show row">
+      <div class="viewerContainer col-md-8">
+        <div class="viewerElement"></div>
+        <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar } %>
+      </div>
+      <div class="viewerContainer col-md-4">
+        <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar } %>
+      </div>
+    </div>
+
+    <!--owner-profile-->
+    <div class="description-activity">
+      <div class="box_description">
+        <!--tool-->
+        <div class="webinar_tool">
+          <%= render :partial => 'webinar_tool_tab', :locals => { :shortURL => shortURL} %>
+        </div>
+      </div>     
+
+    </div>
+  </div>
+  
+</section>
