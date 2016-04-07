@@ -1,8 +1,5 @@
 <% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + webinar_path(@webinar) %>
-
-
-<%= @webinar.title %>
-<%= @webinar.start_date%>
+<% isWebinarOwner = (user_signed_in? and current_user.id==@webinar.author_id) %>
 
 <hr>
 <section id="show_items " class="layout_show">
@@ -33,7 +30,62 @@
   
 </section>
 
+<script type="text/javascript" src="/assets/erizo.js"></script>
 <script type="text/javascript">
-  
+  window.onload = function () {
+
+      <%if isWebinarOwner%>
+        var localStream = Erizo.Stream({audio: true, video: true, data: true});
+      <%else%>
+        var localStream = Erizo.Stream({audio: false, video: false, data: true});
+      <%end%>
+      var room = Erizo.Room({token: "<%=@token%>"});
+      localStream.addEventListener("access-accepted", function () {
+
+          var subscribeToStreams = function (streams) {
+              for (var index in streams) {
+                var stream = streams[index];
+                if (localStream.getID() !== stream.getID()) {
+                    room.subscribe(stream);
+                }
+              }
+          };
+
+          room.addEventListener("room-connected", function (roomEvent) {
+            <%if isWebinarOwner%>
+              room.publish(localStream);
+            <%else%>
+              subscribeToStreams(roomEvent.streams);
+            <%end%>
+          });
+
+          room.addEventListener("stream-subscribed", function(streamEvent) {
+              var stream = streamEvent.stream;
+              
+              stream.play("webinar_video");
+          });
+
+          room.addEventListener("stream-added", function (streamEvent) {
+              var streams = [];
+              streams.push(streamEvent.stream);
+              subscribeToStreams(streams);
+          });
+
+          room.addEventListener("stream-removed", function (streamEvent) {
+              // Remove stream from DOM
+              var stream = streamEvent.stream;
+              if (stream.elementID !== undefined) {
+                  var element = document.getElementById(stream.elementID);
+                  document.body.removeChild(element);
+              }
+          });
+
+          room.connect();
+          <%if isWebinarOwner%>
+            localStream.play("webinar_video");
+          <%end%>
+      });
+      localStream.init();
+  };
 
 </script>
