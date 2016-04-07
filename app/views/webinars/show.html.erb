@@ -13,7 +13,7 @@
         <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar } %>
       </div>
       <div class="viewerContainer col-md-4">
-        <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar } %>
+        <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
       </div>
     </div>
 
@@ -61,7 +61,15 @@
           room.addEventListener("stream-subscribed", function(streamEvent) {
               var stream = streamEvent.stream;
               <%if isWebinarOwner%>
-                console.log('*********************nuevo viewer', stream.getAttributes().user);
+                if (stream.getID() !== localStream.getID) {
+
+                  console.log('*********************nuevo viewer', stream.getAttributes().user);
+                  var li = document.createElement('li');
+                  li.setAttribute("id", "user_" + stream.getID());
+                  li.innerHTML = stream.getAttributes().user;
+
+                  document.getElementById('connected_users').appendChild(li);
+                };
               <%else%>
                 stream.play("webinar_video");
               <%end%>
@@ -76,6 +84,11 @@
           room.addEventListener("stream-removed", function (streamEvent) {
               // Remove stream from DOM
               var stream = streamEvent.stream;
+
+              <%if isWebinarOwner%>
+                var element = document.getElementById('user_' + stream.getID());
+                document.getElementById('connected_users').removeChild(element);
+              <%end%>
             
           });
 
