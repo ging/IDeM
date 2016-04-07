@@ -1,5 +1,5 @@
-Formulario para crear nuevo webinar
+Formulario para editar webinar
 
-<%= form_for Webinar.new() do |f| %>
+<%= form_for @webinar do |f| %>
   <%=render :partial => "form.html.erb", :locals => { :f => f  } %>
 <% end %>

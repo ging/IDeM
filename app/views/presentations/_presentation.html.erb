@@ -2,11 +2,11 @@
 
   <div class="presentation">
     <% generated_id= "presentation-" + presentation.id.to_s %>
-    
+
     <%= link_to(presentation_url(presentation)) do %>
       <!-- image/icon -->
       <div class="container-img">
-        <div class="img-box" id="<%=generated_id%>"></div>      
+        <div class="img-box" id="<%=generated_id%>"></div>
         <%if presentation.draft%>
           <div class="presentation-draft">
             <h2 class="draftstyle">
@@ -34,7 +34,7 @@
         <%= link_to presentation.author.name, presentation.author %>
       </div>
       <!-- Link -->
-      <div class="link">
+      <div class="link button-secondary-red">
          <%= link_to('Go to presentation', presentation_url(presentation), :class => "logo");%>
       </div>
     </div>

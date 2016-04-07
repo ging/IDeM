@@ -1,0 +1,55 @@
+//animations
+@mixin tab-transition-border
+  &:after
+    content: ''
+    display: block
+    margin: auto
+    height: 0px
+    width: 100%
+    background: transparent
+    -webkit-transition: height .5s ease
+    -moz-transition: height .5s ease
+    -o-transition: height .5s ease
+    transition: height .5s ease
+  &:hover:after
+    height: 3px
+    background: $gray
+
+@mixin tab-border
+  content: ''
+  display: block
+  margin: 2px auto
+  height: 3px
+  width: 100%
+
+@mixin btn-transition-orange
+  -webkit-transition: all ease 0.8s
+  -moz-transition: all ease 0.8s
+  -o-transition: all ease 0.8s
+  transition: all ease 0.8s
+  &:hover
+    box-shadow: inset 200px 0 0 0 $idem-orange
+
+@mixin btn-transition-red
+  -webkit-transition: all ease 0.8s
+  -moz-transition: all ease 0.8s
+  -o-transition: all ease 0.8s
+  transition: all ease 0.8s
+  &:hover
+    box-shadow: inset 200px 0 0 0 $idem-red
+
+@mixin btn-transition-yellow
+  -webkit-transition: all ease 0.8s
+  -moz-transition: all ease 0.8s
+  -o-transition: all ease 0.8s
+  transition: all ease 0.8s
+  &:hover
+    box-shadow: inset 100px 0 0 0 $idem-yellow
+
+//gradients
+@mixin gradient
+  background: $gray-lighter-extra /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(transparent, $gray-lighter-extra) /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(transparent, $gray-lighter-extra) /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(transparent, $gray-lighter-extra) /* For Firefox 3.6 to 15 */
+  background: linear-gradient(transparent, $gray-lighter-extra) /* Standard syntax */

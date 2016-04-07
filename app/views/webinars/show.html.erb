@@ -1,0 +1,5 @@
+<%= @webinar.title %>
+<%= @webinar.start_date%>
+
+<%=link_to t("edit"), edit_webinar_path(@webinar)%>
+<%= link_to t("delete"), webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
