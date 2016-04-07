@@ -1,6 +1,6 @@
 class WebinarsController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:show]
 
 
   #############
@@ -13,7 +13,7 @@ class WebinarsController < ApplicationController
 
   def show
     @webinar = Webinar.find(params[:id])
-    username = current_user ? current_user.name : "Guest"
+    username = current_user ? current_user.id.to_s : "Guest"
     role = (current_user && @webinar.author_id==current_user.id) ? "IDEM_owner" : "IDEM_viewer"
     @token = Nuve.createToken(@webinar.room_id, username, role)
   end
