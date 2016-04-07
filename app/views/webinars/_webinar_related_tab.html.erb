@@ -24,6 +24,14 @@
 
 <ul>
   <% webinar.publication.presentations.each do |presentation| %>
-    <li><%=presentation.title%></li>
+    <li class="presentation_item" pres-url="<%=presentation_path(presentation, :format => :full)%>"><%=presentation.title%></li>
   <% end %>
 </ul>
+
+<script type="text/javascript">
+  $(".presentation_item").on("click", function(){
+    $("#webinar_presentation").attr('src',$(this).attr("pres-url"));
+    $("#webinar_presentation").parent().show();
+    
+  });
+</script>
