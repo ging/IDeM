@@ -213,7 +213,7 @@ class PresentationsController < ApplicationController
         tnumber = "0" + tnumber
       end
       thumbnail["src"] = IDeM::Application.config.full_domain + "/assets/logos/original/excursion-"+tnumber+".png"
-      thumbnail["src"] = Embed.checkUrlProtocol(thumbnail["src"],request.protocol)
+      thumbnail["src"] = Utils.checkUrlProtocol(thumbnail["src"],request.protocol)
       thumbnails["pictures"].push(thumbnail)
     end
 

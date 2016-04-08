@@ -6,6 +6,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+#Configuration accesible through the IDeM::Application::config var.
 module IDeM
   class Application < Rails::Application
 
@@ -73,6 +74,12 @@ module IDeM
         config.agnostic_random = "RAND()"
       end
     end
+
+    config.subtype_classes_mime_types = {
+      :picture => [:jpeg, :gif, :png, :bmp, :xcf],
+      :zipfile=> [:zip],
+      :officedoc=> [:odt, :odp, :ods, :doc, :ppt, :xls, :rtf, :pdf]
+    }
 
     #Require core extensions
     Dir[File.join(Rails.root, "lib", "core_ext", "*.rb")].each {|l| require l }
