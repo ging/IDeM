@@ -43,8 +43,6 @@ after 'deploy:update_code', 'deploy:fix_file_permissions'
 before 'deploy:precompile_idem_assets', 'deploy:link_files'
 after "deploy:fix_file_permissions", "deploy:precompile_idem_assets"
 after 'deploy:precompile_idem_assets', 'deploy:static_assets'
-before 'deploy:restart', 'deploy:start_sphinx'
-after  'deploy:start_sphinx', 'deploy:fix_sphinx_file_permissions'
 after "deploy:restart", "deploy:cleanup"
 
 
@@ -65,7 +63,7 @@ namespace(:deploy) do
   task :link_files do
     run "ln -s #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -s #{shared_path}/application_config.yml #{release_path}/config/application_config.yml"
-    run "ln -s #{shared_path}/thinking_sphinx.yml #{release_path}/config/thinking_sphinx.yml"
+    #run "ln -s #{shared_path}/thinking_sphinx.yml #{release_path}/config/thinking_sphinx.yml"
   end
 
   task :precompile_idem_assets do
@@ -77,14 +75,5 @@ namespace(:deploy) do
     run "cp -r #{release_path}/app/assets/fonts/* #{release_path}/public/assets/"
   end
 
-  task :start_sphinx do
-    run "cd #{current_path} && kill -9 `cat log/production.sphinx.pid` || true"
-    run "cd #{release_path} && bundle exec \"rake ts:rebuild RAILS_ENV=production\""
-  end
-
-  task :fix_sphinx_file_permissions do
-    run "/bin/chmod g+rw #{release_path}/log/production.searchd*"
-    sudo "/bin/chgrp www-data #{release_path}/log/production.searchd*"
-  end
 
 end

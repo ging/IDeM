@@ -8,7 +8,7 @@ Rails.application.configure do
 
   #initialize nuve service
   if IDeM::Application::config.APP_CONFIG["licode"]
-  	::Nuve = Nuve.new(IDeM::Application::config.APP_CONFIG["licode"]["service_id"], IDeM::Application::config.APP_CONFIG["licode"]["service_key"], IDeM::Application::config.APP_CONFIG["licode"]["auth_url"])
+  	::NuveInstance = Nuve.new(IDeM::Application::config.APP_CONFIG["licode"]["service_id"], IDeM::Application::config.APP_CONFIG["licode"]["service_key"], IDeM::Application::config.APP_CONFIG["licode"]["auth_url"])
 	end
 
 
