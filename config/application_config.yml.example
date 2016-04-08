@@ -6,7 +6,10 @@ development:
   #   oauth2_client_key: ""
   #   oauth2_primary_subscription_key: ""
   #   oauth2_secondary_subscription_key: ""
-  #  licode: 
+  # licode: 
   #	  auth_url: "url"
   #	  service_id: "id"
   #	  service_key: "key"
+  # YouTubeAPIKEY: ""
+  # EuropeanaAPIKEY: ""
+  # soundCloudAPIKEY: ""
