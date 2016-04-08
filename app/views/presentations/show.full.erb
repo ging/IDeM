@@ -37,17 +37,7 @@
 	<% if @presentation %>
 		options["watermarkURL"] = "<%=presentation_path(@presentation)%>";
 	<% end %>
-
-	//FullScreen
-	<% if @presentation %>
-		options["fullScreenFallback"] = {
-			enterFullscreenURL: "<%=presentation_path(@presentation, :format => :full)%>"
-		};
-		<% if @orgUrl %>
-			options["fullScreenFallback"].exitFullscreenURL = "<%=@orgUrl%>";
-		<% end %>
-	<% end %>
-
+	
 	//comeBackUrl for Mobile Devices
 	<% if @orgUrl %>
 	  options["comeBackUrl"] = "<%=@orgUrl%>";

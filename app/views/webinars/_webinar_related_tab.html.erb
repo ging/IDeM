@@ -55,7 +55,7 @@
       $("#webinar_video").removeClass('present_small');
       stream.player.resize();
     } else {
-      $("#webinar_presentation").attr('src', presentation);
+      $("#webinar_presentation").attr('allowfullscreen', 'false').attr('src', presentation);
       $("#webinar_presentation").parent().show();
       $("#webinar_presentation").parent().addClass('present_big');
 
