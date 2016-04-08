@@ -32,18 +32,59 @@
 
 <h4 class="actions-header-webinar">Available presentations</h4>
 
+
+
 <ul>
+  <li id="clear_presentation">Clear</li>
   <% webinar.publication.presentations.each do |presentation| %>
-    <li class="presentation_item" pres-url="<%=presentation_path(presentation, :format => :full)%>"><%=presentation.title%></li>
+  <li class="presentation_item" pres-url="<%=presentation_path(presentation, :format => :full)%>"><%=presentation.title%></li>
   <% end %>
 </ul>
 
-<script type="text/javascript">
-  $(".presentation_item").on("click", function(){
-    $("#webinar_presentation").attr('src',$(this).attr("pres-url"));
-    $("#webinar_presentation").parent().show();
-    
-  });
-</script>
-
 <%end%>
+
+<script type="text/javascript">
+
+  document.IDEM_SESSION = document.IDEM_SESSION || {};
+
+  document.IDEM_SESSION.switchPresentation = function (presentation, stream) {
+    if (presentation === 'none') {
+      $("#webinar_presentation").attr('src', '');
+      $("#webinar_presentation").parent().hide();
+      $("#webinar_video").addClass('present_big');
+      $("#webinar_video").removeClass('present_small');
+      stream.player.resize();
+    } else {
+      $("#webinar_presentation").attr('src', presentation);
+      $("#webinar_presentation").parent().show();
+      $("#webinar_presentation").parent().addClass('present_big');
+
+      $("#webinar_video").removeClass('present_big');
+      $("#webinar_video").addClass('present_small');
+      stream.player.resize();
+    }
+  }
+
+  <% if isWebinarOwner #KIKE XXX FIX and can?(:destroy, @presentation) %>
+
+  $(".presentation_item").on("click", function(){
+    var presentation = $(this).attr("pres-url");
+    document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);
+    document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
+    var attributes = document.IDEM_SESSION.localStream.getAttributes();
+    attributes.current_presentation = presentation;
+    document.IDEM_SESSION.localStream.setAttributes(attributes);
+                  
+  });
+
+  $("#clear_presentation").on("click", function(){
+    document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
+    document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
+    var attributes = document.IDEM_SESSION.localStream.getAttributes();
+    attributes.current_presentation = 'none';
+    document.IDEM_SESSION.localStream.setAttributes(attributes);
+  });
+
+  <%end%>
+
+</script>
