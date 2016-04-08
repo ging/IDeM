@@ -30,11 +30,12 @@ class WebinarsController < ApplicationController
   def create
     params[:webinar].permit!
     @webinar = Webinar.new(params[:webinar])
-    @webinar.publication_id = session[:current_publication_id]
+    if !params[:webinar][:publication_id]
+      @webinar.publication_id = session[:current_publication_id]
+    end
     @webinar.author_id = current_user.id
     options = {data: {user_id: current_user.id, publication_id: session[:current_publication_id], user_name: current_user.name}}
     room = NuveInstance.createRoom(params[:webinar][:title], options)
-    binding.pry
     @webinar.room_id = JSON.parse(room)["_id"]
     @webinar.save!
     respond_to do |format|
