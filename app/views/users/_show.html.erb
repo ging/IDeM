@@ -1,0 +1,9 @@
+<% tab ||= "publications" %>
+<% profileLoopData = @user.parsed_loop_data %>
+<% isProfileOwner = (user_signed_in? and current_user==@user) %>
+
+<%= render "users/profile_header", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner, :active => tab %>
+
+<div class="profile_tab_wrapper">
+    <%= render "users/show_" + tab, :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+</div>

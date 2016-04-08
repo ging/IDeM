@@ -3,19 +3,30 @@
 <hr>
 
 <div id="user">
-	<%= image_tag('logos/small/user.png', :alt => @user.name) %>
+	<%= image_tag(@user.avatar_url, :alt => @user.name) %>
 	<div id="info">
 		<p id="name"><%=@user.name%></p>
-		<p id="title">Researcher</p>
-		<p id="organization">UPM</p>
-		<p id="degree"><i class="fa fa-graduation-cap"></i>Masters</p>
-		<p id="location"><i class="fa fa-map-marker"></i>Spain</p>
+		<% unless profileLoopData["user_data"]["jobTitle"].blank? %>
+			<p id="title"><%= profileLoopData["user_data"]["jobTitle"] %></p>
+		<% end %>
+		<% unless profileLoopData["user_data"]["affiliation"].blank? %>
+			<p id="organization"><%= profileLoopData["user_data"]["affiliation"] %></p>
+		<% end %>
+		<% unless profileLoopData["user_data"]["degree"].blank? %>
+			<p id="degree"><i class="fa fa-graduation-cap"></i><%= profileLoopData["user_data"]["degree"] %></p>
+		<% end %>
+		<% unless profileLoopData["user_data"]["countryName"].blank? %>
+			<p id="location"><i class="fa fa-map-marker"></i><%= profileLoopData["user_data"]["countryName"] %></p>
+		<% end %>
+		<% unless profileLoopData["user_data"]["profileUrl"].blank? %>
+			<p id="loop_profile_link"><a target="_blank" href="<%=profileLoopData["user_data"]["profileUrl"]%>">View user profile on Loop</a></p>
+		<% end %>
 	</div>
 </div>
 
 
 <ul class="nav nav-tabs">
-	<% ["publications","presentations","webinars"].each do |resource| %>
+	<% ["publications","presentations","webinars", "followings", "followers"].each do |resource| %>
 		<li id="<%=resource%>_tab" class="<%= (active==resource ? "active" : "") %>"><a href="/users/<%=@user.id.to_s + "/" + resource %>"><%= resource.capitalize %></a></li>
 	<% end %>
 </ul>

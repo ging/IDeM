@@ -123,6 +123,7 @@ ActiveRecord::Schema.define(version: 20160405124152) do
     t.boolean  "ug_password_flag",       default: true
     t.text     "loop_data"
     t.text     "loop_profile_url"
+    t.text     "loop_avatar_url"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

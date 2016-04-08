@@ -19,4 +19,15 @@ class Utils
     I18n.t("languages." + lanCode.to_s, :default => lanCode.to_s)
   end
 
+  def self.getLanguageFromLoopCountry(country=nil)
+    return nil unless country.is_a? String
+    case country.downcase
+    when "spain"
+      return "es"
+    when "uk"
+      return "en"
+    else
+    end
+  end
+
 end

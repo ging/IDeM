@@ -1,7 +1,7 @@
 <div id="webinars" class="tab-pane in active">
-	<div class="row">
-	<% @user.webinars.each do |webinar| %>
-    	<%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner  %>
-  	<% end %>
-	</div>
+  <div class="row">
+    <% @user.webinars.each do |webinar| %>
+      <%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner  %>
+    <% end %>
+  </div>
 </div>

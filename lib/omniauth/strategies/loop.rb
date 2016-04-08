@@ -23,40 +23,23 @@ module OmniAuth
 
 
       uid {
-        user_data["id"]
+        loop_data["user_data"]["id"]
       }
 
       info do
-        info = {}
-
-        info["name"] = user_data["firstName"]
-        info["name"] += (" " + user_data["lastName"]) unless user_data["lastName"].blank?
-
-        info["loop_id"] = user_data["id"]
-        info["loop_profile_url"] = user_data["profileUrl"]
-
-        unless user_data["country"].blank?
-          case user_data["country"].downcase
-          when "spain"
-            info["language"] = "es"
-          else
-            info["language"] = I18n.locale.to_s
-          end
-        end
-
-        info["publications"] = user_data["publications"] unless user_data["publications"].nil?
-        info["followings"] = user_data["followings"] unless user_data["followings"].nil?
-        info["followers"] = user_data["followers"] unless user_data["followers"].nil?
-
+        info = loop_data
+        # Only data returned in the info var will be stored in the IDeM database.
+        # Filter data.
         info
       end
 
-      def user_data
-        @user_data ||= access_token.get('me?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
-        @user_data["publications"] ||= access_token.get('me/publications?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
-        @user_data["followings"] ||= access_token.get('me/following?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
-        @user_data["followers"] ||= access_token.get('me/followers?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
-        @user_data
+      def loop_data
+        @loop_data ||= {}
+        @loop_data["user_data"] ||= access_token.get('me?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @loop_data["publications"] ||= access_token.get('me/publications?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @loop_data["followings"] ||= access_token.get('me/following?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @loop_data["followers"] ||= access_token.get('me/followers?key=' + IDeM::Application::config.APP_CONFIG["loop"]["oauth2_primary_subscription_key"]).parsed
+        @loop_data
       end
 
 

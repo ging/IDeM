@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
 
   before_filter :authenticate_user!
-  before_filter :find_user, :only => [:show, :show_publications, :show_presentations, :show_webinars]
+  before_filter :find_user, :only => [:show, :show_publications, :show_presentations, :show_webinars, :show_followings, :show_followers]
 
   def show
   end
@@ -13,6 +13,12 @@ class UsersController < ApplicationController
   end
 
   def show_webinars
+  end
+
+  def show_followings
+  end
+
+  def show_followers
   end
 
   def edit

@@ -36,12 +36,26 @@ class User < ActiveRecord::Base
     self.uid if self.provider == "loop"
   end
 
+  def avatar_url
+    self.loop_avatar_url.blank? ? 'logos/small/user.png' : self.loop_avatar_url
+  end
+
   def followers
     Contact.where(receiver_id: self.id).map{|c| User.find_by_id(c.sender_id)}.compact
   end
 
   def followings
     Contact.where(sender_id: self.id).map{|c| User.find_by_id(c.receiver_id)}.compact
+  end
+
+  def parsed_loop_data
+    data = JSON.parse(self.loop_data) rescue {}
+    data["user_data"] ||= {}
+    data["followings"] ||= {}
+    data["followers"] ||= {}
+    data["followings"] = data["followings"]["value"] || {}
+    data["followers"] = data["followers"]["value"] || {}
+    data
   end
 
 
@@ -56,26 +70,18 @@ class User < ActiveRecord::Base
       user = User.new
       user.provider = auth.provider
       user.uid = auth.uid
-      user.name = auth.info.name
-      user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
+      userInfo = auth.info["user_data"] rescue {}
+      user.name = (userInfo["firstName"].blank? ? "" : userInfo["firstName"]) + (userInfo["lastName"].blank? ? "" : " " + userInfo["lastName"])
+      user.email = userInfo["email"].blank? ? (auth.uid.to_s + "@" + auth.provider + ".dit.upm.es") : userInfo["email"]
       user.password = Devise.friendly_token[0,20]
-      user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
+      loopLanguage = userInfo["countryName"].blank? ? nil : Utils.getLanguageFromLoopCountry(userInfo["countryName"])
+      user.language = loopLanguage.blank? ? I18n.locale.to_s : loopLanguage
       user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
     end
 
     #Update or create LOOP data
     user.loop_data = auth.info.to_hash.to_json
     user.save!
-
-    # user = where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-    #   #Create user with data from the provide
-    #   user.name = auth.info.name
-    #   user.email = !auth.info.email.blank? ? auth.info.email : (auth.uid.to_s + "@" + auth.provider + ".com")
-    #   user.password = Devise.friendly_token[0,20]
-    #   user.language = !auth.info.language.blank? ? auth.info.language : I18n.locale.to_s
-    #   user.ui_language = Utils.valid_locale?(user.language) ? user.language : I18n.locale.to_s
-    #   user.loop_data = auth.info.to_hash.to_json
-    # end
     
     user
   end
@@ -86,7 +92,9 @@ class User < ActiveRecord::Base
   def parse_for_meta
     return if self.loop_data.blank?
     info = JSON.parse(self.loop_data)
-    self.loop_profile_url = info["loop_profile_url"]
+    return if info["user_data"].blank?
+    self.loop_profile_url = info["user_data"]["profileUrl"]
+    self.loop_avatar_url = info["user_data"]["pictureUrl"]
   end
 
   def parse_for_publications

@@ -1,0 +1,17 @@
+<% contact ||= {} %>
+<% fullName = (contact["firstName"].blank? ? "" : contact["firstName"]) + (contact["lastName"].blank? ? "" : " " + contact["lastName"]) %>
+
+<ul>
+  <% unless fullName.blank? %>
+    <li><%=fullName%></li>
+  <% end %>
+  <% unless contact["pictureUrl"].blank? %>
+    <li><%=contact["pictureUrl"]%></li>
+  <% end %>
+  <% unless contact["profileUrl"].blank? %>
+    <li><%=contact["profileUrl"]%></li>
+  <% end %>
+  <% unless contact["jobTitle"].blank? %>
+    <li><%=contact["jobTitle"]%></li>
+  <% end %>
+</ul>

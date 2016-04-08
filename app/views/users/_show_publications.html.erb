@@ -1,12 +1,6 @@
 <div id="publications" class="tab-pane in active">
-    <% @user.publications.each do |publication| %>
-      <%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %>
-      <hr>
-    <% end %>
-</div> 
-
-<!-- 
-<% if isProfileOwner %>
-  <li><%= link_to('Crear publication', "#TODO") %></li>
-<% end %>
--->
+  <% @user.publications.each do |publication| %>
+    <%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %>
+    <hr>
+  <% end %>
+</div>

@@ -1,7 +1,1 @@
-<% isProfileOwner = (user_signed_in? and current_user==@user) %>
-
-<%= render "users/profile_header", :isProfileOwner => isProfileOwner, :active => "publications" %>
-
-<div class="profile_tab_wrapper">
-    <%= render "users/show_publications", :isProfileOwner => isProfileOwner %>
-</div>
+<%= render "users/show" %>
