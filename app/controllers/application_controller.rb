@@ -12,16 +12,16 @@ class ApplicationController < ActionController::Base
   #Wildcard route rescue
   def page_not_found
     respond_to do |format|
-      format.html {
+      format.json {
+        render json: I18n.t("dictionary.errors.page_not_found")
+      }
+      format.any {
         if request.path.include?("assets/") or request.xhr?
           render :text => 'Not Found', :status => '404'
         else
           flash[:alert] = I18n.t("dictionary.errors.page_not_found")
           redirect_to view_context.home_path, alert: flash[:alert]
         end
-      }
-      format.json {
-        render json: I18n.t("dictionary.errors.page_not_found")
       }
     end
   end
