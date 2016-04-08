@@ -17,7 +17,7 @@
 
 	// Sources enabled
 	configuration["ViSH"] = true;
-	configuration["ViSH_instances"] = ["<%= IDeM::Application.config.full_domain %>"];
+	configuration["ViSH_instances"] = ["http://vishub.org"];
 	configuration["Flickr"] = true;
 	<%unless IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'].nil? %>
 		configuration["Youtube"] = true;
@@ -25,7 +25,7 @@
 	<%end%>
 	configuration["Vimeo"] = false;
 	configuration["LRE"] = true;
-	configuration["LRE_path"] = "/lre/search";
+	configuration["LRE_path"] = "http://vishub.org/lre/search";
 	<%unless IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'].nil? %>
 		configuration["SoundCloud"] = true;
 		configuration["SoundCloudAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'] %>";
