@@ -35,9 +35,9 @@ TMP_FOLDER = "tmp/vish_editor"
 DOMAIN_URL = "" #this is what will substitute vishub.org
 TOOL_NAME = "" #this is what will substitute "vish editor"
 REPOSITORY_OR_PLATFORM_NAME = ""  #this is what ViSH will be substituted for, important the case sensitive
-EXCURSION_NAME_EN = "" #this is what excursion and virtual excursion will be substituted for in english
-EXCURSION_NAME_ES = "" #this is what excursion and virtual excursion will be substituted for in spanish
-EXCURSION_NAME_ES_PLURAL = ""
+EXCURSION_NAME_EN = "Presentation" #this is what excursion and virtual excursion will be substituted for in english
+EXCURSION_NAME_ES = "Presentación" #this is what excursion and virtual excursion will be substituted for in spanish
+EXCURSION_NAME_ES_PLURAL = "Presentaciones"
 
 
 # Rake Task
@@ -61,7 +61,7 @@ namespace :vish_editor do
     system "rm -rf " + VISH_EDITOR_PATH + "/examples/contents/scorm/stylesheets"
 
     system "mkdir -p " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/"
-    system "mkdir -p " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions"
+    system "mkdir -p " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations"
     system "cp -r " + VISH_EDITOR_PATH + "/images/ " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/"
     system "cp -r " + VISH_EDITOR_PATH + "/stylesheets/ " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/css_to_compile/"
     system "cp -r " + VISH_EDITOR_PATH + "/js/ " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/"
@@ -112,13 +112,13 @@ namespace :vish_editor do
         system "sed -i -e 's/Excursiones/" + EXCURSION_NAME_ES_PLURAL + "/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/lang/translations.js"
         system "sed -i -e 's/Excursión Virtual/" + EXCURSION_NAME_ES + "/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/lang/translations.js"
         system "sed -i -e 's/Excursión/" + EXCURSION_NAME_ES + "/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/lang/translations.js"
-        system "sed -i -e 's/excursión/" + EXCURSION_NAME_ES + "/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/lang/translations.js"
+        system "sed -i -e 's/excursión/" + EXCURSION_NAME_ES.downcase + "/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/js_to_compile/lang/translations.js"
     end
 
 
     #Copy HTML
-    system "sed -n  '/<!-- Copy HTML from here -->/,/<!-- Copy HTML until here -->/p' " + TMP_FOLDER + "/viewer.html > " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_viewer.full.erb"
-    system "sed -n  '/<!-- Copy HTML from here -->/,/<!-- Copy HTML until here -->/p' " + TMP_FOLDER + "/edit.html > " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_editor.full.erb"
+    system "sed -n  '/<!-- Copy HTML from here -->/,/<!-- Copy HTML until here -->/p' " + TMP_FOLDER + "/viewer.html > " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_viewer.full.erb"
+    system "sed -n  '/<!-- Copy HTML from here -->/,/<!-- Copy HTML until here -->/p' " + TMP_FOLDER + "/edit.html > " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_editor.full.erb"
    
     #system "rm -r " + TMP_FOLDER
 
@@ -193,7 +193,7 @@ namespace :vish_editor do
     system "rm -rf " + VISH_EDITOR_PLUGIN_PATH + "/app/scorm/*"
 
     #Copy HTML files to ViSH
-    system "cp " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_viewer.full.erb " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_viewer_scorm.full.erb"
+    system "cp " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_viewer.full.erb " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_viewer_scorm.full.erb"
     
     #Create folders
     system "mkdir -p " + VISH_EDITOR_PLUGIN_PATH + "/app/scorm/images/"
@@ -227,7 +227,7 @@ namespace :vish_editor do
     system "rm -r " + VISH_EDITOR_PLUGIN_PATH + "/app/scorm/stylesheets/libs/font-awesome"
 
     #Rewrite paths for SCORM
-    system "sed -i 's/\\\/images\\\//images\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_viewer_scorm.full.erb"
+    system "sed -i 's/\\\/images\\\//images\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_viewer_scorm.full.erb"
     system "sed -i 's/\\\/images\\\//..\\\/..\\\/images\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/scorm/stylesheets/*/*css"
     
     #Copy files to scorm folder in ViSH Editor
@@ -236,8 +236,8 @@ namespace :vish_editor do
 
   task :rewritePaths do
     #Rewrite HTML paths
-    system "sed -i 's/\\\/images\\\//\\\/assets\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_viewer.full.erb"
-    system "sed -i 's/\\\/images\\\//\\\/assets\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/excursions/_vish_editor.full.erb"
+    system "sed -i 's/\\\/images\\\//\\\/assets\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_viewer.full.erb"
+    system "sed -i 's/\\\/images\\\//\\\/assets\\\//g' " + VISH_EDITOR_PLUGIN_PATH + "/app/views/presentations/_vish_editor.full.erb"
 
     #Rewrite CSS paths
     system "sed -i 's/..\\\/..\\\/images/\\\/assets/g' " + VISH_EDITOR_PLUGIN_PATH + "/app/assets/stylesheets/*/*css"
