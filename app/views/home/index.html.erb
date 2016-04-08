@@ -10,6 +10,9 @@
 	<div id="presentations">
 		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">featured presentations</h3>
 		<div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
+			<%if user_signed_in? && current_user.publications.size>0%>
+				crear presentación
+			<%end%>
 			<% @presentations.each do |presentation| %>
 		    	<%= render 'presentations/presentation', :presentation => presentation %>
 		  	<% end %>
@@ -20,6 +23,9 @@
 	<div id="webinars">
 		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">upcoming webinars</h3>
 		<div id="collapseTwo" class="panel-collapse collapse row" role="tabpanel">
+			<%if user_signed_in? && current_user.publications.size>0%>
+				crear webinar
+			<%end%>
 			<% @webinars.each do |webinar| %>
 		    	<%= render 'webinars/webinar', :webinar => webinar %>
 		  	<% end %>

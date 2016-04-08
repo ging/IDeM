@@ -34,6 +34,7 @@ class WebinarsController < ApplicationController
     @webinar.author_id = current_user.id
     options = {data: {user_id: current_user.id, publication_id: session[:current_publication_id], user_name: current_user.name}}
     room = NuveInstance.createRoom(params[:webinar][:title], options)
+    binding.pry
     @webinar.room_id = JSON.parse(room)["_id"]
     @webinar.save!
     respond_to do |format|
