@@ -32,7 +32,7 @@ class Pdfp < ActiveRecord::Base
     imgLength.times do |index|
       imgUrl = IDeM::Application.config.full_domain + "/" + getRootUrl + getFullFileNameForIndex(index)
       if options and options[:protocol]
-        imgUrl = Embed.checkUrlProtocol(imgUrl,options[:protocol])
+        imgUrl = Utils.checkUrlProtocol(imgUrl,options[:protocol])
       end
       imgs["urls"].push(imgUrl)
     end

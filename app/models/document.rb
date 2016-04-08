@@ -46,7 +46,7 @@ class Document < ActiveRecord::Base
      :title => self.title,
      :src => IDeM::Application.config.full_domain + self.file.url
     }
-    json[:src] = Embed.checkUrlProtocol(json[:src],options[:protocol]) unless options[:protocol].blank?
+    json[:src] = Utils.checkUrlProtocol(json[:src],options[:protocol]) unless options[:protocol].blank?
     json
   end
 
