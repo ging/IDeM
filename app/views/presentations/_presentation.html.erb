@@ -30,8 +30,7 @@
       </h5>
       <!--Author -->
       <div class="author">
-        <%= image_tag('logos/small/user.png', :alt => presentation.author.name) %>
-        <%= link_to presentation.author.name, presentation.author %>
+        <%= render 'users/user', :user => presentation.author%>
       </div>
       <!-- Link -->
       <div class="link button-secondary-red">

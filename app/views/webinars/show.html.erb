@@ -1,6 +1,6 @@
 <% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + webinar_path(@webinar) %>
 <% isWebinarOwner = (user_signed_in? and current_user.id==@webinar.author_id) %>
-<% user = user_signed_in? ? current_user.id.to_s : 'Guest User' %>
+<% user = user_signed_in? ? {'name' => current_user.name, 'path' => user_path(current_user), 'avatar' => current_user.loop_avatar_url}.to_json : 'guest' %>
 
 <hr>
 <section id="show_items " class="layout_show">
@@ -67,11 +67,8 @@
             var stream = streamEvent.stream;
             <%if isWebinarOwner%>
               if (stream.getID() !== document.IDEM_SESSION.localStream.getID) {
-                var li = document.createElement('li');
-                li.setAttribute("id", "user_" + stream.getID());
-                li.innerHTML = stream.getAttributes().user;
-                document.getElementById('connected_users').appendChild(li);
-              };
+                document.IDEM_SESSION.addParticipant(stream.getID(), stream.getAttributes().user);
+              }
             <%else%>
               stream.play("webinar_video");
               document.IDEM_SESSION.switchPresentation(stream.getAttributes().current_presentation, stream);
@@ -98,8 +95,7 @@
             // Remove stream from DOM
             var stream = streamEvent.stream;
             <%if isWebinarOwner%>
-              var element = document.getElementById('user_' + stream.getID());
-              document.getElementById('connected_users').removeChild(element);
+              document.IDEM_SESSION.removeParticipant(stream.getID());
             <%end%>
         });
 

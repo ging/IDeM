@@ -18,8 +18,7 @@
       </div>
       <!--Author -->
       <div class="author">
-        <%= image_tag('logos/small/user.png', :alt => webinar.author.name) %>
-        <%= link_to webinar.author.name, webinar.author %>
+        <%= render 'users/user', :user => webinar.author%>
       </div>
       <!-- Link -->
       <div class="link button-secondary-yellow">
