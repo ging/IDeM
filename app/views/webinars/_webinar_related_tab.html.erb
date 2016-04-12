@@ -13,10 +13,19 @@
   </button>
 
   <!--Remove-->
-  <button class="button-primary-yellow">
-    <i class="fa fa-trash"></i><%= link_to 'Delete', webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
-  </button>
+  <button class="button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
+      <i class="fa fa-trash"></i>Delete
+    </button>
 </div>
+
+   <!--Remove confirmation-->
+    <div class="contentdelete" style="display: none">
+      <p class="delete_p"><i class="fa fa-trash-o"></i>  <%=t('presentation.confirm_delete')%></p>
+      <div class="actions">
+        <a class="btn button-primary-red btn_cancel closepopover">Cancel</a>
+        <%= link_to 'Delete', webinar_path(@webinar), :method => :delete, :class => 'btn btn-primary' %>
+      </div>
+    </div>
 
 <h4 class="actions-header-webinar">Available presentations</h4>
 
@@ -32,6 +41,15 @@
 <%end%>
 
 <script type="text/javascript">
+
+   $('.delete').popover({
+      html : true,
+      placement: "left",
+      content: function() {
+        return $('.contentdelete').html();
+      },
+      container: ".actions_layout_show"
+    });
 
   document.IDEM_SESSION = document.IDEM_SESSION || {};
 
