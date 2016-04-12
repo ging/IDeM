@@ -3,19 +3,23 @@
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
 
-    <button id="clear_presentation" class="button-primary-yellow button-disabled">
-      <i class="fa fa-picture-o"></i>Full video
-    </button>
+  <button id="init_webinar" class="button-primary-yellow">
+    <i class="fa fa-play"></i>Init Webinar
+  </button>
+
+  <button id="clear_presentation" class="button-primary-yellow button-disabled">
+    <i class="fa fa-picture-o"></i>Full video
+  </button>
 
   <!-- Edit -->
-    <button class="button-primary-yellow">
-      <i class="fa fa-pencil"></i><%=link_to 'Edit', edit_webinar_path(@webinar)%>
-    </button>
+  <button class="button-primary-yellow">
+    <i class="fa fa-pencil"></i><%=link_to 'Edit', edit_webinar_path(@webinar)%>
+  </button>
 
   <!--Remove-->
-    <button class="button-primary-yellow">
-      <i class="fa fa-trash"></i><%= link_to 'Delete', webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
-    </button>
+  <button class="button-primary-yellow">
+    <i class="fa fa-trash"></i><%= link_to 'Delete', webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
+  </button>
 </div>
 
 <h4 class="actions-header-webinar">Available presentations</h4>
@@ -65,7 +69,7 @@
         $(a).attr('href', user.path).attr('target','_blank');
         $(a).html(user.name);
       } else {
-        $(img).attr('src', '/logos/small/user.png');
+        $(img).attr('src', '/assets/logos/small/user.png');
         $(a).html('Guest user');
       }
       div.setAttribute("id", "user_" + stream_id);
@@ -79,6 +83,10 @@
       var element = document.getElementById('viewer_' + stream_id);
       document.getElementById('connected_users').removeChild(element);
     }
+
+    $("#init_webinar").on("click", function(e){
+      document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
+    });
   
     $(".presentation_item a").on("click", function(e){
       e.stopPropagation();
