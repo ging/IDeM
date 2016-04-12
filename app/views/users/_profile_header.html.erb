@@ -25,7 +25,7 @@
 </div>
 
 
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs user-nav">
 	<% ["publications","presentations","webinars", "followings", "followers"].each do |resource| %>
 		<li id="<%=resource%>_tab" class="<%= (active==resource ? "active" : "") %>"><a href="/users/<%=@user.id.to_s + "/" + resource %>"><span class="resource_count"><%= @user.send(resource).count %></span><%= resource.capitalize %></a></li>
 	<% end %>

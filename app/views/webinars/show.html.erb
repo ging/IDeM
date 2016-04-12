@@ -10,7 +10,7 @@
     <div class="box-show row">
       <div class="viewerContainer col-md-8">
         <div class="viewerElement"></div>
-        <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar } %>
+        <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
       </div>
       <div class="viewerContainer col-md-4">
         <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
@@ -45,7 +45,7 @@
       document.IDEM_SESSION.localStream = Erizo.Stream({audio: false, video: false, data: true, attributes: {'user': "<%=user%>"}});
     <%end%>
 
-    var room = Erizo.Room({token: "<%=@token%>"});
+    document.IDEM_SESSION.room = Erizo.Room({token: "<%=@token%>"});
 
     document.IDEM_SESSION.localStream.addEventListener("access-accepted", function(){
 
@@ -53,17 +53,16 @@
             for (var index in streams) {
               var stream = streams[index];
               if (document.IDEM_SESSION.localStream.getID() !== stream.getID()) {
-                  room.subscribe(stream);
+                  document.IDEM_SESSION.room.subscribe(stream);
               }
             }
         };
 
-        room.addEventListener("room-connected", function (roomEvent) {
-          room.publish(document.IDEM_SESSION.localStream);
+        document.IDEM_SESSION.room.addEventListener("room-connected", function (roomEvent) {
           subscribeToStreams(roomEvent.streams);
         });
 
-        room.addEventListener("stream-subscribed", function(streamEvent){
+        document.IDEM_SESSION.room.addEventListener("stream-subscribed", function(streamEvent){
             var stream = streamEvent.stream;
             <%if isWebinarOwner%>
               if (stream.getID() !== document.IDEM_SESSION.localStream.getID) {
@@ -85,13 +84,13 @@
             <%end%>
         });
 
-        room.addEventListener("stream-added", function (streamEvent) {
+        document.IDEM_SESSION.room.addEventListener("stream-added", function (streamEvent) {
             var streams = [];
             streams.push(streamEvent.stream);
             subscribeToStreams(streams);
         });
 
-        room.addEventListener("stream-removed", function (streamEvent) {
+        document.IDEM_SESSION.room.addEventListener("stream-removed", function (streamEvent) {
             // Remove stream from DOM
             var stream = streamEvent.stream;
             <%if isWebinarOwner%>
@@ -99,7 +98,7 @@
             <%end%>
         });
 
-        room.connect();
+        document.IDEM_SESSION.room.connect();
 
         <%if isWebinarOwner%>
           document.IDEM_SESSION.localStream.play("webinar_video");
