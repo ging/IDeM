@@ -35,10 +35,12 @@
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
+  color: $idem-red
   @include btn-transition-red
   a
     color: $idem-red
   &:hover
+    color: white
     a
       color: white !important
 
@@ -62,7 +64,8 @@
   @include btn-transition-yellow
   a
     color: $idem-yellow
-    &:hover
+  &:hover
+    a
       color: white !important
 
 .button-primary-yellow
