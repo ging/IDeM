@@ -35,10 +35,13 @@
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
+  background-color: white
+  color: $idem-red
   @include btn-transition-red
   a
     color: $idem-red
   &:hover
+    color: white !important
     a
       color: white !important
 
@@ -58,11 +61,15 @@
   padding: 4px 10px
   text-align: center
   font-size: 0.9em
+  background-color: white
+  color: $idem-yellow
   border-radius: $radius-base
   @include btn-transition-yellow
   a
     color: $idem-yellow
-    &:hover
+  &:hover
+    color: white !important
+    a
       color: white !important
 
 .button-primary-yellow
