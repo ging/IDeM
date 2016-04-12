@@ -125,7 +125,7 @@
   <div class="tab-content presentation-social">
 
     <!-- tab1 / description -->
-    <div class="tab-pane active" id="tab0">
+    <div class="tab-pane content-description active" id="tab0">
       Test presentation
     </div>
 
@@ -133,11 +133,11 @@
     <div class="tab-pane contentembed" id="tab2">
       <div class="form-group">
         <div class="input-group">
-          <textarea class="form-control" readonly="true" id="textarea_for_iframe" type="text">&lt;iframe id='presentation_iframe' src='//<%= request.env["HTTP_HOST"] + presentation_path(@presentation, :format => :full)%>' width='910' height='680' style='border:0' iframeborder='0' frameborder='0' iframeElement.frameBorder = 0; webkitallowfullscreen mozallowfullscreen allowfullscreen &gt;&lt;/iframe&gt</textarea>
-          <div class="input-group-addon"  >
-            <div data-toggle="tooltip" data-placement="right" title="<%=t('copy_to_clip')%>">
-              <button class="btn" id="btn_copy_embed"  >
-               <i class="fa fa-copy "></i>
+          <textarea class="form-control" readonly="true" id="textarea_for_iframe" type="text" style="overflow:auto;resize:none">&lt;iframe id='presentation_iframe' src='//<%= request.env["HTTP_HOST"] + presentation_path(@presentation, :format => :full)%>' width='910' height='680' style='border:0' iframeborder='0' frameborder='0' iframeElement.frameBorder = 0; webkitallowfullscreen mozallowfullscreen allowfullscreen &gt;&lt;/iframe&gt</textarea>
+          <div class="input-group-addon button-primary">
+            <div data-toggle="tooltip" data-placement="right" title="Copy to clip">
+              <button class="button-primary" id="btn_copy_embed">
+               <i class="fa fa-copy fa-lg"></i>
               </button>
             </div>
           </div>
@@ -151,10 +151,10 @@
         <div class="input-group">
 
           <input class="form-control" readonly="true" id="input_with_shorturl" type="text" value="<%=shortURL%>"/>
-          <div class="input-group-addon">
-            <div data-toggle="tooltip" data-placement="right" title="<%=t('copy_to_clip')%>">
-              <button class="btn" id="btn_copy_share" href="#" >
-                <i class="fa fa-copy "></i>
+          <div class="input-group-addon button-primary">
+            <div data-toggle="tooltip" data-placement="right" title="Copy to clip">
+              <button class="button-primary" id="btn_copy_share" href="#" >
+                <i class="fa fa-copy fa-lg"></i>
               </button>
             </div>
           </div>
@@ -183,8 +183,8 @@
       <!-- tab4 / scorm -->
       <div class="tab-pane contentscorm" id="tab4">
         <div class="contentscormc1">
-          <a class="btn btn-secundary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "12")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm12')%></a>
-          <a class="btn btn-secundary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "2004")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm2004')%></a>
+          <a class="button-secondary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "12")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm12')%></a>
+          <a class="button-secondary" href='<%=presentation_path(@presentation, :format => "scorm", :version => "2004")%>'><i class="fa fa-download"></i> <%=t('presentation.actions.scorm2004')%></a>
         </div>
         <div class="contentscormc2">
           <p><%=t("presentation.download_scorm")%></p>

@@ -1,4 +1,4 @@
- <a class="btn btn-xs btn-secundary" href="mailto:?subject=<%= t('excursion.invite.email.subject', :url=> IDeM::Application.config.APP_CONFIG["domain"], :title => CGI::escape(title || "")) %>&amp;body=<%= t('excursion.invite.email.body', { :url => url, :name => CGI::escape(name) }) %>" title="<%=t('sharing.email')%>">
-	<i class="fa fa-envelope"></i><%=t('excursion.actions.send_email') %>
 
-</a>
+  <a class="button-secondary" href="mailto:?subject=Here is my presentation <%=title%>&amp;body=You can view my presentation here:%0A%0A<%=url%>%0A%0ARegards,%0A%0A<%=name%>" title="Send link by Email">
+	  <i class="fa fa-envelope-o"></i> Send resource by Email
+  </a>
