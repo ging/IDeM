@@ -1,12 +1,7 @@
-	<label>Publication this presentation will be about</label>
-	<% pub_array = current_user.publications.map { |pub| [truncate(pub.title, :length => 60), pub.id] } %>
-	<%= select_tag(:create_with_publication_id, options_for_select(pub_array)) %>
+<label>Publication this presentation will be about</label>
+<% pub_array = current_user.publications.map { |pub| [truncate(pub.title, :length => 60), pub.id] } %>
+<%= select_tag(:create_with_publication_id, options_for_select(pub_array), :class => 'form-control') %>
 	
-	<div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-default" id="btn-crear">Crear</button>
-  </div>
-
 <script>
 	$(document).ready(function () {
 			$(document).on("click", "#btn-crear", function () {
