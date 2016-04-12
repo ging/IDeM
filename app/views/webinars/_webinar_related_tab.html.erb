@@ -22,7 +22,7 @@
 
 <div class="presentations_list">
   <% webinar.publication.presentations.each do |presentation| %>
-    <%= render 'presentations/presentation_mini', :presentation => presentation, :showActions => isWebinarOwner  %>
+    <%= render 'presentations/presentation_mini', :presentation => presentation, :blank => true %>
   <% end %>
 </div>
 
