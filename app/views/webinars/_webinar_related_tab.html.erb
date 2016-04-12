@@ -3,10 +3,6 @@
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
 
-  <button id="init_webinar" class="button-primary-yellow">
-    <i class="fa fa-play"></i>Init Webinar
-  </button>
-
   <button id="clear_presentation" class="button-primary-yellow button-disabled">
     <i class="fa fa-picture-o"></i>Full video
   </button>
@@ -86,29 +82,33 @@
 
     $("#init_webinar").on("click", function(e){
       document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
-    });
-  
-    $(".presentation_item a").on("click", function(e){
-      e.stopPropagation();
-    });
-    $(".presentation_item").on("click", function(){
-      $("#clear_presentation").removeClass('button-disabled');
-      var presentation = $(this).attr("pres-url");
-      document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);
-      //TODO. Process send sync messages
-      document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
-      var attributes = document.IDEM_SESSION.localStream.getAttributes();
-      attributes.current_presentation = presentation;
-      document.IDEM_SESSION.localStream.setAttributes(attributes);     
-    });
+      $("#webinar_pre").hide();
 
-    $("#clear_presentation").on("click", function(){
-      $("#clear_presentation").addClass('button-disabled');
-      document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
-      document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
-      var attributes = document.IDEM_SESSION.localStream.getAttributes();
-      attributes.current_presentation = 'none';
-      document.IDEM_SESSION.localStream.setAttributes(attributes);
+      $(".presentation_item a").on("click", function(e){
+        e.stopPropagation();
+      });
+      $(".presentation_item").on("click", function(){
+        $("#clear_presentation").removeClass('button-disabled');
+        $(".presentation_item").removeClass("presentation-selected");
+        $(this).addClass("presentation-selected");
+        var presentation = $(this).attr("pres-url");
+        document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);
+        //TODO. Process send sync messages
+        document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
+        var attributes = document.IDEM_SESSION.localStream.getAttributes();
+        attributes.current_presentation = presentation;
+        document.IDEM_SESSION.localStream.setAttributes(attributes);     
+      });
+
+      $("#clear_presentation").on("click", function(){
+        $("#clear_presentation").addClass('button-disabled');
+        $(".presentation_item").removeClass("presentation-selected");
+        document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
+        document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
+        var attributes = document.IDEM_SESSION.localStream.getAttributes();
+        attributes.current_presentation = 'none';
+        document.IDEM_SESSION.localStream.setAttributes(attributes);
+      });
     });
   <%end%>
 

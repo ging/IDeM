@@ -6,9 +6,28 @@
 	i
 		margin-right: 10px
 
+#webinar_pre
+	position: absolute
+	height: 500px
+	width: calc(100% - 30px)
+	background-color: $gray-lighter-extra
+	z-index: 1
+	opacity: 0.8
+	.pre-tools
+		position: relative
+		top: 42%
+		width: 50%
+		left: 25%
+		text-align: center
+		p
+			font-weight: bold
+		button
+			i
+				margin-right: 10px
+
 .present_big
 	height: 500px
-	witdh: 100%
+	width: 100%
 	background-color: $gray-lighter-extra
 
 .present_small
@@ -19,6 +38,8 @@
 
 .presentations_list
 	margin-top: 20px
+	.presentation-selected
+		border: 1px solid $idem-yellow
 	.presentation_item
 		cursor: pointer
 		position: relative
