@@ -1,3 +1,15 @@
+<div id="webinar_pre">
+	<div class="pre-tools">
+		<% if isWebinarOwner %>
+		<p>Click on "Init Webinar" to start the session. Please, check you are correctly viewing your video before.</p>
+		<button id="init_webinar" class="button-primary-yellow">
+			<i class="fa fa-play"></i>Init Webinar
+		</button>
+		<% else %>
+		<p>Webinar owner has not started the broadcast yet. The estimated starting time is <%= webinar.start_date.to_formatted_s(:short) %>.</p>
+		<% end %>
+	</div>
+</div>
 <div id="webinar_video" class="present_big"></div>
 
 <div class="presentation_viewer_wrapper" style="display:none">
