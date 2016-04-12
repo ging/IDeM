@@ -8,4 +8,13 @@
 <%if isProfileOwner && @user.publications.size>0%>
 	<%@webinar = Webinar.new%>
 	<%= render 'webinars/webinar_modal' %>
+
+	<script>
+		$(document).ready(function () {
+			$(document).on("click", ".btn-webinar", function () {
+			     var pubid = $(this).attr('data-pub');
+			     $("#myModal #webinar_publication_id").val(pubid);
+			});
+		});
+	</script>
 <%end%>

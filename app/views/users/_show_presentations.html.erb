@@ -1,7 +1,9 @@
 <div id="presentations" class="tab-pane in active">
   <div class="row">
     <%if isProfileOwner && @user.publications.size>0%>
-    	crear presentacion
+    	<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#presModal">
+        Create presentation
+      </button>
     <%elsif isProfileOwner%>
     	Para poder crear una presentación debes tener al menos una publicación
     <%end%>
@@ -10,3 +12,7 @@
     <% end %>
   </div>
 </div>
+
+<%if isProfileOwner && @user.publications.size>0%>
+  <%= render 'presentations/presentation_modal' %>
+<%end%>
