@@ -19,7 +19,11 @@
 
 		<!-- Link -->
 		<div class="link">
+			<% if blank? %>
 			<a target="_blank" href="<%= presentation_url(presentation)%>"><i class="fa fa-pencil"></i></a>
+			<% else %>
+			<a href="<%= presentation_url(presentation)%>"><i class="fa fa-pencil"></i></a>
+			<% end %>
 		</div>
 	</div>
 </div>

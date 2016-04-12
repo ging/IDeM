@@ -1,7 +1,17 @@
 <div id="webinars" class="tab-pane in active">
   <div class="row">
+    <%if isProfileOwner && @user.publications.size>0%>
+    <%= render 'webinars/webinar_new' %>
+    <%elsif isProfileOwner%>
+    	Para poder crear una presentación debes tener al menos una publicación
+    <%end%>
     <% @user.webinars.each do |webinar| %>
       <%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner  %>
     <% end %>
   </div>
 </div>
+
+<%if isProfileOwner && @user.publications.size>0%>
+	<%@webinar = Webinar.new%>
+	<%= render 'webinars/webinar_modal' %>
+<%end%>

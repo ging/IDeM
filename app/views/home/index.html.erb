@@ -9,26 +9,37 @@
 <div id="contents">
 	<div id="presentations">
 		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">featured presentations</h3>
-
-    <div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
-      <div class="fix-collapse">
-			  <% @presentations.each do |presentation| %>
-		    	<%= render 'presentations/presentation', :presentation => presentation %>
-		  	<% end %>
-		  </div>
-    </div>
+	    <div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
+	      	<div class="fix-collapse">
+	      	<%if user_signed_in? && current_user.publications.size>0%>
+				<%= render 'presentations/presentation_new' %>
+			<%end%>
+			<% @presentations.each do |presentation| %>
+			  	<%= render 'presentations/presentation', :presentation => presentation %>
+			<% end %>
+			</div>
+	    </div>
 		<hr>
 	</div>
 
 	<div id="webinars">
 		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">upcoming webinars</h3>
 		<div id="collapseTwo" class="panel-collapse collapse row" role="tabpanel">
-      <div class="fix-collapse">
-        <% @webinars.each do |webinar| %>
-		    	<%= render 'webinars/webinar', :webinar => webinar %>
-		  	<% end %>
-      </div>
+			<div class="fix-collapse">
+			<%if user_signed_in? && current_user.publications.size>0%>
+				<%= render 'webinars/webinar_new' %>
+			<%end%>
+			<% @webinars.each do |webinar| %>
+			   	<%= render 'webinars/webinar', :webinar => webinar %>
+			<% end %>
+			</div>
 		</div>
 		<hr>
 	</div>
 </div>
+
+<%if user_signed_in? && current_user.publications.size>0%>
+	<%= render 'presentations/presentation_modal' %>
+	<%@webinar = Webinar.new%>
+	<%= render 'webinars/webinar_modal' %>
+<%end%>
