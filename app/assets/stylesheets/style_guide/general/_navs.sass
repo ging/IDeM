@@ -1,3 +1,4 @@
+//title nav-tab
 .nav
   height: 46px
   @include gradient
@@ -5,11 +6,14 @@
   a
     color: grey
   li.active
-    a, a:hover
+    a, a:hover, a:focus
       color: $idem-red
       background-color: transparent
       border: none
       font-weight: bold
+  li.tab_webinar.active
+    a
+      color: $idem-yellow
   li
     @include tab-transition-border
     a:hover, a:focus, a:active
@@ -22,14 +26,20 @@
       background: $idem-orange
     a
       color: $idem-orange
-  #presentations_tab.active
+  #presentations_tab.active, .tab_presentation.active
     &:after
       @include tab-border
       background: $idem-red
 
-  #webinars_tab.active
+  #webinars_tab.active, .tab_webinar.active
     &:after
       @include tab-border
       background: $idem-yellow
     a
       color: $idem-yellow
+
+//tab content
+.tab-content
+  padding-top: 20px
+  font-size: 10pt
+  min-height: 100px

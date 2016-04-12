@@ -90,21 +90,21 @@
 <% unless editingToolbar %>
   <!--TABS-->
   <ul class="nav nav-tabs tooltab">
-    <li class="active">
+    <li class="tab_presentation active">
       <a href="#tab0" tabTitle='description' data-toggle="tab">
         <span class="  hidden-xs">
           Description
         </span>
       </a>
     </li>
-    <li>
+    <li class="tab_presentation">
       <a href="#tab2" tabTitle='embed' data-toggle="tab">
         <span class="  hidden-xs">
           Insert
         </span>
       </a>
     </li>
-    <li>
+    <li class="tab_presentation">
       <a href="#tab3" tabTitle='share' data-toggle="tab">
         <span class=" hidden-xs">
           Share
@@ -112,14 +112,14 @@
       </a>
     </li>
     <% if true #KIKE XXX FIX can?(:download_source, @presentation) %>
-      <li>
+      <li class="tab_presentation">
         <a href="#tab4" tabTitle='download' data-toggle="tab">
           <span class="hidden-xs">
             Download
           </span>
         </a>
       </li>
-    <%end%>    
+    <%end%>
   </ul>
 
   <div class="tab-content presentation-social">
@@ -191,7 +191,7 @@
         </div>
       </div>
     <% end %>
-   
+
   </div>
 
 <%end%>
