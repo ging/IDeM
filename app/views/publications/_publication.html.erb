@@ -7,7 +7,7 @@
 	<% if showActions %>
 	<div class="col-md-3 publication_actions">
 		<div class="button-secondary pull-right"><%= link_to('Create presentation', new_presentation_path({:publication => publication.id})) %></div>
-		<button type="button" class="button-secondary pull-right btn-webinar" data-pub="<%=publication.id%>" data-toggle="modal" data-target="#myModal">
+		<button type="button" class="button-secondary pull-right btn-webinar" data-pub="<%=publication.id%>" data-toggle="modal" data-target="#new_webinar_modal">
   			Schedule webinar
 		</button>
 	</div>
