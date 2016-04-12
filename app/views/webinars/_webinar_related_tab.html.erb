@@ -8,24 +8,24 @@
   </button>
 
   <!-- Edit -->
-  <button class="button-primary-yellow">
-    <i class="fa fa-pencil"></i><%=link_to 'Edit', edit_webinar_path(@webinar)%>
+  <button class="button-primary-yellow" data-toggle="modal" data-target="#new_webinar_modal">
+    <i class="fa fa-pencil"></i>Edit
   </button>
 
   <!--Remove-->
-  <button class="button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="<%=t('presentation.actions.delete')%>" data-placement="left" aria-hidden="true">
-      <i class="fa fa-trash"></i>Delete
-    </button>
+  <button class="button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="Delete Webinar" data-placement="left" aria-hidden="true">
+    <i class="fa fa-trash"></i>Delete
+  </button>
+  <!--Remove confirmation-->
+  <div class="contentdelete" style="display: none">
+    <p class="delete_p">Are you sure?</p>
+    <div class="actions">
+      <button class="button-secondary-yellow closepopover">Cancel</button>
+      <%= link_to 'Delete', webinar_path(@webinar), :method => :delete, :class => 'button-primary-yellow' %>
+    </div>
+  </div>
 </div>
 
-   <!--Remove confirmation-->
-    <div class="contentdelete" style="display: none">
-      <p class="delete_p"><i class="fa fa-trash-o"></i>  <%=t('presentation.confirm_delete')%></p>
-      <div class="actions">
-        <a class="btn button-primary-red btn_cancel closepopover">Cancel</a>
-        <%= link_to 'Delete', webinar_path(@webinar), :method => :delete, :class => 'btn btn-primary' %>
-      </div>
-    </div>
 
 <h4 class="actions-header-webinar">Available presentations</h4>
 
@@ -37,6 +37,10 @@
 
 <h4 class="actions-header-webinar">Connected users</h4>
 <div id="connected_users"></div>
+
+
+<%@webinar = webinar%>
+<%= render 'webinars/webinar_modal', :action => 'Edit' %>
 
 <%end%>
 

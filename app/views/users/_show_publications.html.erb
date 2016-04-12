@@ -7,7 +7,7 @@
 
 <%if isProfileOwner && @user.publications.size>0%>
 	<%@webinar = Webinar.new%>
-	<%= render 'webinars/webinar_modal' %>
+	<%= render 'webinars/webinar_modal', :action => 'Create'  %>
 
 	<script>
 		$(document).ready(function () {
