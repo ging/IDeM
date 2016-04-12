@@ -70,6 +70,7 @@
               }
             <%else%>
               stream.play("webinar_video");
+              $("#webinar_pre").hide();
               document.IDEM_SESSION.switchPresentation(stream.getAttributes().current_presentation, stream);
               stream.addEventListener("stream-data", function(evt) {
                 if (evt.msg.type === "presentation") {
@@ -95,6 +96,8 @@
             var stream = streamEvent.stream;
             <%if isWebinarOwner%>
               document.IDEM_SESSION.removeParticipant(stream.getID());
+            <%else%>
+              $("#webinar_pre").show();
             <%end%>
         });
 
