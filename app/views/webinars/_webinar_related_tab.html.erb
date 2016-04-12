@@ -1,45 +1,33 @@
-<h4 class="actions-header-webinar">Actions</h4>
+<% if isWebinarOwner %>
 
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
 
+    <button id="clear_presentation" class="button-primary-yellow button-disabled">
+      <i class="fa fa-picture-o"></i>Full video
+    </button>
+
   <!-- Edit -->
-  <% if isWebinarOwner %>
     <button class="button-primary-yellow">
-      <%=link_to t("edit"), edit_webinar_path(@webinar)%>
+      <i class="fa fa-pencil"></i><%=link_to 'Edit', edit_webinar_path(@webinar)%>
     </button>
-  <%end%>
 
-  
   <!--Remove-->
-  <% if isWebinarOwner %>
     <button class="button-primary-yellow">
-      <%= link_to t("delete"), webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
+      <i class="fa fa-trash"></i><%= link_to 'Delete', webinar_path(@webinar), data: {:confirm => t('sure')}, :method => :delete %>
     </button>
-  <%end%>
-
 </div>
-
-
-<% if isWebinarOwner %>
-<h4 class="actions-header-webinar">Connected users</h4>
-
-<ul id="connected_users">
-  
-</ul>
-
-
 
 <h4 class="actions-header-webinar">Available presentations</h4>
 
-
-
-<ul>
-  <li id="clear_presentation">Clear</li>
+<div class="presentations_list">
   <% webinar.publication.presentations.each do |presentation| %>
-  <li class="presentation_item" pres-url="<%=presentation_path(presentation, :format => :full)%>"><%=presentation.title%></li>
+    <%= render 'presentations/presentation_mini', :presentation => presentation, :showActions => isWebinarOwner  %>
   <% end %>
-</ul>
+</div>
+
+<h4 class="actions-header-webinar">Connected users</h4>
+<div id="connected_users"></div>
 
 <%end%>
 
@@ -67,7 +55,36 @@
   }
 
   <% if isWebinarOwner %>
+    document.IDEM_SESSION.addParticipant = function(stream_id,user) {
+      var div = document.createElement('div');
+      var img = document.createElement('img');
+      var a = document.createElement('a');
+      if (user !== 'guest') {
+        user = JSON.parse(user.replace(/&quot;/g,'"'));
+        $(img).attr('src', user.avatar);
+        $(a).attr('href', user.path).attr('target','_blank');
+        $(a).html(user.name);
+      } else {
+        $(img).attr('src', '/logos/small/user.png');
+        $(a).html('Guest user');
+      }
+      div.setAttribute("id", "user_" + stream_id);
+      $(div).attr("id", "viewer_" + stream_id);
+      $(div).addClass("viewer");
+      $(div).append(img);
+      $(div).append(a);
+      $('#connected_users').append(div);
+    }
+    document.IDEM_SESSION.removeParticipant = function(stream_id) {
+      var element = document.getElementById('viewer_' + stream_id);
+      document.getElementById('connected_users').removeChild(element);
+    }
+  
+    $(".presentation_item a").on("click", function(e){
+      e.stopPropagation();
+    });
     $(".presentation_item").on("click", function(){
+      $("#clear_presentation").removeClass('button-disabled');
       var presentation = $(this).attr("pres-url");
       document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);
       //TODO. Process send sync messages
@@ -78,6 +95,7 @@
     });
 
     $("#clear_presentation").on("click", function(){
+      $("#clear_presentation").addClass('button-disabled');
       document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
       document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
       var attributes = document.IDEM_SESSION.localStream.getAttributes();

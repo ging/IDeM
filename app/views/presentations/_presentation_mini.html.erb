@@ -1,0 +1,25 @@
+<div class="presentation_item" pres-url="<%=presentation_path(presentation, :format => :full)%>">
+	<% generated_id= "presentation-" + presentation.id.to_s %>
+
+	<!-- image/icon -->
+	<%= image_tag(presentation.thumbnail_url, :alt => presentation.title, :class => "presentation-image") %>
+
+	<!-- Info -->
+	<div class="caption">
+
+		<!--Title -->
+		<h5>
+		<%=presentation.title%>
+		</h5>
+
+		<!--Author -->
+		<div class="author">
+			<%= render 'users/user', :user => presentation.author, :blank => true%>
+		</div>
+
+		<!-- Link -->
+		<div class="link">
+			<a target="_blank" href="<%= presentation_url(presentation)%>"><i class="fa fa-pencil"></i></a>
+		</div>
+	</div>
+</div>

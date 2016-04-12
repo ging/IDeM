@@ -4,3 +4,8 @@
     <hr>
   <% end %>
 </div>
+
+<%if isProfileOwner && @user.publications.size>0%>
+	<%@webinar = Webinar.new%>
+	<%= render 'webinars/webinar_modal' %>
+<%end%>
