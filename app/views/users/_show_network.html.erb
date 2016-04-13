@@ -1,6 +1,7 @@
-<%if profileLoopData["followers"].size>0 && profileLoopData["followings"].size>0 %>
-  <%= render "users/show_followings", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+<%if profileLoopData["followers"].size>0 || profileLoopData["followings"].size>0 %>
   <%= render "users/show_followers", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+  <%= render "users/show_followings", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+
 <% else %>
 <div class="no_items">
   <p>Meet other researchers in</p>
