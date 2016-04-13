@@ -33,12 +33,12 @@
 			<a href="/users/<%=@user.id.to_s + "/" + resource %>"><span class="resource_count"><%= @user.send(resource).count %></span><%= resource.capitalize %></a>
 		</li>
 	<% end %>
-		<li id="network_tab" class="">
+		<li id="network_tab" class="<%= (active=="network" ? "active" : "") %>">
 			<% count = 0;%>
 			<%["followings", "followers"].each do |resource| %>
-				<% count += @user.send(resource).count;%>
+				<% count += @user.parsed_loop_data[resource].count;%>
 			<%end%>
-		 <a href="#"><span class="resource_count"><%=count%></span>Network</a>
+		 <a href="/users/<%=@user.id.to_s + "/network" %>"><span class="resource_count"><%=count%></span>Network</a>
 
 		</li>
 </ul>
