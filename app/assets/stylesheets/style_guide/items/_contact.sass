@@ -1,12 +1,15 @@
 .followings, .followers
+  margin: 10px 20px
+  width: 60%
   .following_item
     height: 80px
     padding: 10px
-    border-bottom: 1px solid $gray-lighter
+    border-top: 1px solid $gray-lighter
     img
       height: 100%
       margin-right: 10px
       float: left
+      border-radius: $radius-base
     .contact_info
       float: left
       .contact_name
@@ -17,5 +20,6 @@
         font-weight: bold
         font-size: 0.8em
         color: $idem-orange
+
   .following_item:last-child
-    border: none
+    border-bottom: 1px solid $gray-lighter
