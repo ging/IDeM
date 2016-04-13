@@ -116,10 +116,10 @@
       document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
       $("#webinar_pre").hide();
 
-      $(".presentation_item a").on("click", function(e){
+      $(".presentation_item_mini a").on("click", function(e){
         e.stopPropagation();
       });
-      $(".presentation_item").on("click", function(){
+      $(".presentation_item_mini").on("click", function(){
         $("#clear_presentation").removeClass('button-disabled');
         $(".presentation_item").removeClass("presentation-selected");
         $(this).addClass("presentation-selected");
@@ -134,7 +134,7 @@
 
       $("#clear_presentation").on("click", function(){
         $("#clear_presentation").addClass('button-disabled');
-        $(".presentation_item").removeClass("presentation-selected");
+        $(".presentation_item_mini").removeClass("presentation-selected");
         document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
         document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
         var attributes = document.IDEM_SESSION.localStream.getAttributes();

@@ -94,18 +94,18 @@
         document.IDEM_SESSION.room.addEventListener("stream-removed", function (streamEvent) {
             // Remove stream from DOM
             var stream = streamEvent.stream;
-            <%if isWebinarOwner%>
+            <% if isWebinarOwner %>
               document.IDEM_SESSION.removeParticipant(stream.getID());
-            <%else%>
+            <% else %>
               $("#webinar_pre").show();
-            <%end%>
+            <% end %>
         });
 
         document.IDEM_SESSION.room.connect();
 
-        <%if isWebinarOwner%>
+        <% if isWebinarOwner %>
           document.IDEM_SESSION.localStream.play("webinar_video");
-        <%end%>
+        <% end %>
 
     });
 
@@ -113,6 +113,9 @@
   };
 
   function onConnect(origin){
+    <% unless isWebinarOwner %>
+      VISH.IframeAPI.setSlave(true);
+    <% end %>
     // console.log("VE API: Communication stablished with " + origin);
     VISH.IframeAPI.registerCallback("onMessage",_onVEMessage);
   };
