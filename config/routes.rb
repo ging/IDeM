@@ -9,11 +9,12 @@ Rails.application.routes.draw do
   match '/users/:id/webinars' => 'users#show_webinars', via: [:get]
   match '/users/:id/followings' => 'users#show_followings', via: [:get]
   match '/users/:id/followers' => 'users#show_followers', via: [:get]
+  match '/users/:id/network' => 'users#show_network', via: [:get]
   resources :users
- 
+
   #Locale
   match '/change_locale', to: 'locales#change_locale', via: [:get]
-  
+
   #Thumbnails
   match '/thumbnails' => 'presentations#presentation_thumbnails', via: [:get]
 
@@ -35,7 +36,7 @@ Rails.application.routes.draw do
   #Download JSON
   match '/excursions/tmpJson' => 'excursions#uploadTmpJSON', :via => :post
   match '/excursions/tmpJson' => 'excursions#downloadTmpJSON', :via => :get
-  
+
   resources :presentations
 
   #Webinars

@@ -1,9 +1,11 @@
+<h4> Followers</h4>
+
 <div id="followers" class="tab-pane in active">
   <div class="row">
-    <ul>
+    <div class="followers">
       <% profileLoopData["followers"].each do |loop_contact| %>
-        <li><%= render 'contacts/loop_contact', :contact => loop_contact, :showActions => isProfileOwner %></li>
+        <div class="following_item"><%= render 'contacts/loop_contact', :contact => loop_contact, :showActions => isProfileOwner %></div>
       <% end %>
-    </ul>
+    </div>
   </div>
 </div>

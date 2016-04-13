@@ -82,7 +82,7 @@ class User < ActiveRecord::Base
     #Update or create LOOP data
     user.loop_data = auth.info.to_hash.to_json
     user.save!
-    
+
     user
   end
 
@@ -114,7 +114,7 @@ class User < ActiveRecord::Base
   def parse_for_contacts
     return if self.loop_data.blank?
     info = JSON.parse(self.loop_data)
-    
+
     #Followings
     unless info["followings"].blank? or info["followings"]["value"].blank?
       info["followings"]["value"].each do |cInfo|

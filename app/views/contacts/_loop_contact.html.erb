@@ -1,17 +1,22 @@
 <% contact ||= {} %>
 <% fullName = (contact["firstName"].blank? ? "" : contact["firstName"]) + (contact["lastName"].blank? ? "" : " " + contact["lastName"]) %>
 
-<ul>
+
+
+<% unless contact["pictureUrl"].blank? %>
+  <img src=<%=contact["pictureUrl"]%>></img>
+<% end %>
+<!--
+<#% unless contact["profileUrl"].blank? %>
+  <img src=<%=contact["profileUrl"]%>></img>
+<#% end %>
+-->
+<div class="contact_info">
   <% unless fullName.blank? %>
-    <li><%=fullName%></li>
+    <div class="contact_name"><%=fullName%></div>
   <% end %>
-  <% unless contact["pictureUrl"].blank? %>
-    <li><%=contact["pictureUrl"]%></li>
-  <% end %>
-  <% unless contact["profileUrl"].blank? %>
-    <li><%=contact["profileUrl"]%></li>
-  <% end %>
+
   <% unless contact["jobTitle"].blank? %>
-    <li><%=contact["jobTitle"]%></li>
+    <div class="contact_job"><%=contact["jobTitle"]%></div>
   <% end %>
-</ul>
+</div>
