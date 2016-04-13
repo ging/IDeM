@@ -47,7 +47,15 @@
   &:hover
     box-shadow: inset 200px 0 0 0 $idem-yellow
 
-//gradients
+//gradients & shadows
+@mixin box-shadowed
+  -webkit-box-shadow: 1px 1px 4px $gray-light
+  -moz-box-shadow: 1px 1px 4px $gray-light
+  -o-shadow: 1px 1px 4px $gray-light
+  box-shadow: 1px 1px 4px $gray-light
+  -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='$gray-light')"
+  filter: progid:DXImageTransform.Microsoft.Shadow(Strength=1, Direction=135, Color='$gray-light')
+
 @mixin gradient
   background: $gray-lighter-extra /* For browsers that do not support gradients */
   background: -webkit-linear-gradient(transparent, $gray-lighter-extra) /* For Safari 5.1 to 6.0 */

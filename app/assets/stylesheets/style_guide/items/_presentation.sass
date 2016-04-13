@@ -1,5 +1,5 @@
 // presentation
-
+//home & profile
 .presentation-item
   max-width: 200px
   min-width: 230px
@@ -59,3 +59,40 @@
     p
       padding: 20px 30px
       font-weight: bold
+
+// recommended on show
+
+.presentation_item_mini
+  position: relative
+  height: 74px
+  padding: 7px
+  @include box-shadowed
+  .presentation-image
+    height: 60px
+    float: left
+  .caption
+    margin-left: 90px
+    height: 60px
+    h5
+      height: 25px
+    .author
+      img
+        height: 23px
+      a
+        font-size: 8pt
+        font-weight: bold
+        color: black
+    .link
+      position: absolute
+      right: 12px
+      top: 7px
+      display: none
+      a
+        color: $gray
+.presentation_item_mini:hover
+  background-color: $gray-lighter-extra
+  .link
+    display: block
+  .link
+    a:hover
+      color: black
