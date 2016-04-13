@@ -24,8 +24,12 @@
 </body>
 
 <script>
-	$(document).on('click', ".closepopover", function(e){
-		$(".delete").popover("hide");
-	});
+  $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip();
+
+      $(document).on('click', ".closepopover", function(e){
+        $(".delete").popover("hide");
+      });
+  });
 </script>
 </html>
