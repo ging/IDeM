@@ -1,6 +1,6 @@
 class DocumentsController < ApplicationController
   
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :except => [:show]
   before_filter :fill_create_params, :only => [:create]
 
   def create
