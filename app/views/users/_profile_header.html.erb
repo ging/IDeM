@@ -8,7 +8,7 @@
 		<p id="name">
 			<span><%=@user.name%></span>
 			<% unless profileLoopData["user_data"]["profileUrl"].blank? %>
-			<%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank'); %>
+			<%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Edit at Loop"); %>
 			<% end %>
 		</p>
 		<% unless profileLoopData["user_data"]["jobTitle"].blank? %>

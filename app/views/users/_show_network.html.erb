@@ -1,3 +1,11 @@
-
-<%= render "users/show_followings", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
-<%= render "users/show_followers", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+<%if profileLoopData["followers"].size>0 && profileLoopData["followings"].size>0 %>
+  <%= render "users/show_followings", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+  <%= render "users/show_followers", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+<% else %>
+<div class="no_items">
+  <p>Meet other researchers in</p>
+  <% unless profileLoopData["user_data"]["profileUrl"].blank? %>
+  <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Follow people in Loop"); %>
+  <% end %>
+</div>
+<% end %>

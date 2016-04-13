@@ -4,9 +4,9 @@
     <%= render 'webinars/webinar_new' %>
     <%elsif isProfileOwner%>
       <div class="no_items">
-        <p>In order to create a webinar you must have at least one publication</p>
+        <p>In order to create a webinar you must have at least one publication in</p>
         <% unless profileLoopData["user_data"]["profileUrl"].blank? %>
-        <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Do it at Loop"); %>
+        <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Do it in Loop"); %>
         <% end %>
       </div>
     <%end%>
