@@ -60,6 +60,9 @@
 
         document.IDEM_SESSION.room.addEventListener("room-connected", function (roomEvent){
           subscribeToStreams(roomEvent.streams);
+          <% if !isWebinarOwner %>
+          document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
+          <% end %>
         });
 
         document.IDEM_SESSION.room.addEventListener("stream-subscribed", function(streamEvent){
