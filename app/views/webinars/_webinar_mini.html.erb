@@ -1,0 +1,35 @@
+<div class="webinar_item" pres-url="<%=webinar_path(webinar, :format => :full)%>">
+
+	<!-- Info -->
+	<div class="caption">
+
+		<!--Title -->
+		<h5>
+		<%=webinar.title%>
+		</h5>
+		
+		<!--Publication 
+		<div class="publication">
+			<p><%= webinar.publication.title%></p>
+		</div> -->
+
+		<!--Publication -->
+		<div class="date">
+			<p><%= webinar.start_date.to_formatted_s(:short)%></p>
+		</div>
+
+		<!--Author -->
+		<div class="author">
+			<%= render 'users/user', :user => webinar.author, :blank => true%>
+		</div>
+
+		<!-- Link -->
+		<div class="link">
+			<% if blank? %>
+			<a target="_blank" href="<%= webinar_url(webinar)%>"><i class="fa fa-pencil"></i></a>
+			<% else %>
+			<a href="<%= webinar_url(webinar)%>"><i class="fa fa-arrow-right"></i></a>
+			<% end %>
+		</div>
+	</div>
+</div>

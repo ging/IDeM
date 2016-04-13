@@ -5,7 +5,12 @@
 <div id="user">
 	<%= image_tag(@user.avatar_url, :alt => @user.name) %>
 	<div id="info">
-		<p id="name"><%=@user.name%></p>
+		<p id="name">
+			<span><%=@user.name%></span>
+			<% unless profileLoopData["user_data"]["profileUrl"].blank? %>
+			<%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank'); %>
+			<% end %>
+		</p>
 		<% unless profileLoopData["user_data"]["jobTitle"].blank? %>
 			<p id="title"><%= profileLoopData["user_data"]["jobTitle"] %></p>
 		<% end %>
@@ -17,9 +22,6 @@
 		<% end %>
 		<% unless profileLoopData["user_data"]["countryName"].blank? %>
 			<p id="location"><i class="fa fa-map-marker"></i><%= profileLoopData["user_data"]["countryName"] %></p>
-		<% end %>
-		<% unless profileLoopData["user_data"]["profileUrl"].blank? %>
-			<p id="loop_profile_link"><a target="_blank" href="<%=profileLoopData["user_data"]["profileUrl"]%>">View user profile on Loop</a></p>
 		<% end %>
 	</div>
 </div>

@@ -42,6 +42,16 @@
 <%@webinar = webinar%>
 <%= render 'webinars/webinar_modal', :action => 'Edit' %>
 
+<%else%>
+
+<h4 class="actions-header-webinar">Related webinars</h4>
+
+<div class="webinars_list">
+  <% webinar.author.webinars.each do |webinar| %>
+    <%= render 'webinars/webinar_mini', :webinar => webinar, :blank => false  %>
+  <% end %>
+</div>
+
 <%end%>
 
 <script type="text/javascript">
