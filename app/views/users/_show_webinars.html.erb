@@ -3,7 +3,12 @@
     <%if isProfileOwner && @user.publications.size>0%>
     <%= render 'webinars/webinar_new' %>
     <%elsif isProfileOwner%>
-    	Para poder crear una presentación debes tener al menos una publicación
+      <div class="no_items">
+        <p>In order to create a webinar you must have at least one publication</p>
+        <% unless profileLoopData["user_data"]["profileUrl"].blank? %>
+        <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Do it at Loop"); %>
+        <% end %>
+      </div>
     <%end%>
     <% @user.webinars.each do |webinar| %>
       <%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner  %>

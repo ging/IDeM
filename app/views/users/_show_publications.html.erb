@@ -1,8 +1,17 @@
 <div id="publications" class="tab-pane in active">
+<%if @user.publications.size>0%>
   <% @user.publications.each do |publication| %>
     <%= render 'publications/publication', :publication => publication, :showActions => isProfileOwner %>
     <hr>
   <% end %>
+<%else%>
+  <div class="no_items">
+    <p>In order to create presentations and webinars you must have at least one publication</p>
+    <% unless profileLoopData["user_data"]["profileUrl"].blank? %>
+    <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Do it at Loop"); %>
+    <% end %>
+  </div>
+<%end%>
 </div>
 
 <%if isProfileOwner && @user.publications.size>0%>
