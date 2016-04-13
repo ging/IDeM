@@ -20,7 +20,7 @@
       <%= javascript_include_tag "ckeditor/ckeditor" %>
     <%end%>
 
-    <% if Rails.env == "production" and not request.host == "vishub-test.dit.upm.es" %>
+    <% if Rails.env == "production" %>
       <%= javascript_include_tag js_file + ".min" %>
     <% else %>
       <%= javascript_include_tag js_file %>
