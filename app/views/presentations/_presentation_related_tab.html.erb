@@ -1,4 +1,4 @@
-<% if user_signed_in? && current_user.id == @presentation.author.id%>
+<% if isPresentationOwner%>
 
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
@@ -28,7 +28,9 @@
 <h4 class="actions-header-presentation">Related presentations</h4>
 
 <div class="author_presentations_list">
-  <% presentation.author.presentations.each do |presentation| %>
-    <%= render 'presentations/presentation_mini', :presentation => presentation, :blank => false  %>
+  <% presentation.author.presentations.each do |pres| %>
+    <% if pres.id != presentation.id %>
+      <%= render 'presentations/presentation_mini', :presentation => pres, :isPresentationOwner => isPresentationOwner %>
+    <% end %>
   <% end %>
 </div>
