@@ -8,7 +8,10 @@
 
 <div id="contents">
 	<div id="presentations">
-		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">featured presentations</h3>
+		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+      <i class="fa fa-caret-square-o-right" aria-hidden="true"></i>Featured presentations
+    </h3>
+  
 	    <div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
 	      	<div class="fix-collapse">
 	      	<%if user_signed_in? && current_user.publications.size>0%>
@@ -19,11 +22,13 @@
 			<% end %>
 			</div>
 	    </div>
-		<hr>
+		<!--<hr>-->
 	</div>
 
 	<div id="webinars">
-		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">upcoming webinars</h3>
+		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+      <i class="fa fa-clock-o" aria-hidden="true"></i>Upcoming webinars
+    </h3>
 		<div id="collapseTwo" class="panel-collapse collapse row" role="tabpanel">
 			<div class="fix-collapse">
 			<%if user_signed_in? && current_user.publications.size>0%>
@@ -34,7 +39,7 @@
 			<% end %>
 			</div>
 		</div>
-		<hr>
+		<!--<hr>-->
 	</div>
 </div>
 

@@ -47,6 +47,23 @@
   &:hover
     box-shadow: inset 200px 0 0 0 $idem-yellow
 
+@mixin transition-dark_red
+  -webkit-transition: all ease 0.8s
+  -moz-transition: all ease 0.8s
+  -o-transition: all ease 0.8s
+  transition: all ease 0.8s
+  &:hover
+    box-shadow: inset 0 42px 0 0 $dark-red
+
+@mixin transition-dark_yellow
+  -webkit-transition: all ease 0.8s
+  -moz-transition: all ease 0.8s
+  -o-transition: all ease 0.8s
+  transition: all ease 0.8s
+  &:hover
+    box-shadow: inset 0 42px 0 0 $dark-yellow
+
+
 //gradients & shadows
 @mixin box-shadowed
   -webkit-box-shadow: 1px 1px 4px $gray-light

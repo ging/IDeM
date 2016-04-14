@@ -18,29 +18,25 @@
       margin-bottom: 0
 
 #contents
-  padding-left: 65px
-  padding-right: 65px
-  h3
-    padding-left: 80px
-    padding-top: 15px
-    padding-bottom: 15px
-    margin: 0
-    margin-left: -80px
-    margin-right: -80px
-    color: white
-  .fix-collapse
-    padding: 35px 35px
-    overflow: hidden
-  //.row
-    padding: 35px 35px
-
   #presentations
     h3
       background-color: $idem-red
-    hr
-      background-color: $idem-red
+      @include transition-dark_red
   #webinars
     h3
       background-color: $idem-yellow
-    hr
-      background-color: $idem-yellow
+      @include transition-dark_yellow
+  h3
+    margin: 0
+    color: white
+    font-size: 1.2em
+    font-weight: normal
+    padding: 10px 65px
+
+    i
+      margin-right: 10px
+
+
+  .fix-collapse
+    padding: 35px 35px
+    overflow: hidden
