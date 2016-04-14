@@ -126,7 +126,11 @@
 
     <!-- tab1 / description -->
     <div class="tab-pane content-description active" id="tab0">
-      Test presentation
+      <% if @presentation.description.blank? %>
+      <div class="no_items">No description available.</div>
+      <% else %>
+      <%=@presentation.description%>
+      <% end %>
     </div>
 
     <!-- tab2 / embed -->
