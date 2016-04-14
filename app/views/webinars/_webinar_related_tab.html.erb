@@ -31,7 +31,8 @@
 
 <div class="presentations_list">
   <% webinar.publication.presentations.each do |presentation| %>
-    <%= render 'presentations/presentation_mini', :presentation => presentation, :blank => true %>
+    <%isPresentationOwner = (current_user.id == presentation.author_id) %>
+    <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
   <% end %>
 </div>
 
@@ -113,6 +114,13 @@
     }
 
     $("#init_webinar").on("click", function(e){
+
+      window.addEventListener("beforeunload", function (e) {
+        var confirmationMessage = 'You are currently performing a webinar. If you close this window you will loose the session.';
+        (e || window.event).returnValue = confirmationMessage; //Gecko + IE
+        return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+      });
+
       document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
       $("#webinar_pre").hide();
 
@@ -121,7 +129,7 @@
       });
       $(".presentation_item_mini").on("click", function(){
         $("#clear_presentation").removeClass('button-disabled');
-        $(".presentation_item").removeClass("presentation-selected");
+        $(".presentation_item_mini").removeClass("presentation-selected");
         $(this).addClass("presentation-selected");
         var presentation = $(this).attr("pres-url");
         document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);

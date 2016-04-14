@@ -69,12 +69,14 @@
   @include box-shadowed
   .presentation-image
     height: 60px
+    width: 80px
     float: left
   .caption
     margin-left: 90px
     height: 60px
     h5
       height: 25px
+      width: calc(100% - 52px)
     .author
       img
         height: 23px
@@ -89,6 +91,7 @@
       display: none
       a
         color: $gray
+        margin-left: 5px
 .presentation_item_mini:hover
   background-color: $gray-lighter-extra
   .link
