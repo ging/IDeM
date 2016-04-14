@@ -3,7 +3,7 @@
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
 
-  <button id="clear_presentation" class="button-primary-yellow button-disabled"> 
+  <button id="clear_presentation" class="button-primary-yellow button-disabled">
     <i class="fa fa-picture-o"></i>Full video
   </button>
 
@@ -133,13 +133,13 @@
 
   var add_text_to_chat = function(text, style, me, span, path) {
     var p = jQuery( '<p />' ), name_tag;
-    
+
     if (span) p.append(span);
     if (me) style += ' chat_name_me';
 
     if (path) {
       name_tag = jQuery( '<a />' );
-      name_tag.attr('href', path);  
+      name_tag.attr('href', path);
     } else {
       name_tag = jQuery( '<span />' );
     }
@@ -147,7 +147,7 @@
     p.addClass('chat_' + style);
     name_tag.text(text);
     p.append(name_tag);
-    
+
     $('.chat_conversation').append(p);
     $('.chat_conversation')[0].scrollTop = $('.chat_conversation')[0].scrollHeight;
   }
@@ -237,7 +237,7 @@
         document.IDEM_SESSION.videoStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
         var attributes = document.IDEM_SESSION.videoStream.getAttributes();
         attributes.current_presentation = presentation;
-        document.IDEM_SESSION.videoStream.setAttributes(attributes);     
+        document.IDEM_SESSION.videoStream.setAttributes(attributes);
       });
 
       $("#clear_presentation").on("click", function(){
