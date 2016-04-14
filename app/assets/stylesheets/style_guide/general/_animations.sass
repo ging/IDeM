@@ -30,7 +30,8 @@
   transition: all ease 0.8s
   &:hover
     box-shadow: inset 200px 0 0 0 $idem-orange
-
+    i
+      @include rotate5 
 @mixin btn-transition-red
   -webkit-transition: all ease 0.8s
   -moz-transition: all ease 0.8s
@@ -62,6 +63,29 @@
   transition: all ease 0.8s
   &:hover
     box-shadow: inset 0 42px 0 0 $dark-yellow
+
+//rotate
+@mixin rotate5
+  -ms-transform: rotate(5deg)
+  -webkit-transform: rotate(5deg)
+  transform: rotate(5deg)
+
+
+@mixin rotate45
+  -ms-transform: rotate(45deg)
+  -webkit-transform: rotate(45deg)
+  transform: rotate(45deg)
+
+@mixin rotate90
+  -ms-transform: rotate(90deg)
+  -webkit-transform: rotate(90deg)
+  transform: rotate(90deg)
+
+@mixin rotate180
+  -ms-transform: rotate(180deg)
+  -webkit-transform: rotate(180deg)
+  transform: rotate(180deg)
+
 
 
 //gradients & shadows
