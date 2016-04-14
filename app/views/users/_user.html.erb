@@ -1,7 +1,2 @@
-<%blank ||= false%>
 <%= image_tag(user.loop_avatar_url, :alt => user.name) %>
-<% if blank %>
-<%= link_to(user.name, user, :target => '_blank') %>
-<% else %>
 <%= link_to(user.name, user) %>
-<% end %>

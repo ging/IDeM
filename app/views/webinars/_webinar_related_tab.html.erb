@@ -3,7 +3,7 @@
 <!--BTN ACTIONS-->
 <div class="btn-group actions_layout_show">
 
-  <button id="clear_presentation" class="button-primary-yellow button-disabled">
+  <button id="clear_presentation" class="button-primary-yellow button-disabled"> 
     <i class="fa fa-picture-o"></i>Full video
   </button>
 
@@ -26,31 +26,63 @@
   </div>
 </div>
 
+<ul class="nav nav-tabs related_tooltab">
+  <li class="tab_webinar active">
+    <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Presentations</a>
+  </li>
+  <li class="tab_webinar">
+    <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Chat</a>
+  </li>
+  <li class="tab_webinar">
+    <a href="#related_tab2" tabTitle='Viewers' data-toggle="tab">Viewers</a>
+  </li>
+</ul>
 
-<h4 class="actions-header-webinar">Available presentations</h4>
-
-<div class="presentations_list">
-  <% webinar.publication.presentations.each do |presentation| %>
-    <%isPresentationOwner = (current_user.id == presentation.author_id) %>
-    <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
-  <% end %>
+<div class="tab-content related-tab-content">
+  <div class="tab-pane active content_presentations_list" id="related_tab0">
+      <% webinar.publication.presentations.each do |presentation| %>
+        <%isPresentationOwner = (current_user.id == presentation.author_id) %>
+        <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
+      <% end %>
+  </div>
+  <div class="tab-pane content_chat" id="related_tab1">
+    <div class="chat_conversation"></div>
+    <div class="chat_message">
+      <input type="text" id="chat_text"></input>
+      <button class="button-primary-yellow" id="chat_send">Send</button>
+    </div>
+  </div>
+  <div class="tab-pane content_connected_users" id="related_tab2">
+  </div>
 </div>
-
-<h4 class="actions-header-webinar">Connected users</h4>
-<div id="connected_users"></div>
-
 
 <%@webinar = webinar%>
 <%= render 'webinars/webinar_modal', :action => 'Edit' %>
 
 <%else%>
 
-<h4 class="actions-header-webinar">Related webinars</h4>
+<ul class="nav nav-tabs related_tooltab">
+  <li class="tab_webinar active">
+    <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Chat</a>
+  </li>
+  <li class="tab_webinar">
+    <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Related webinars</a>
+  </li>
+</ul>
 
-<div class="webinars_list">
-  <% webinar.author.webinars.each do |webinar| %>
-    <%= render 'webinars/webinar_mini', :webinar => webinar, :blank => false  %>
-  <% end %>
+<div class="tab-content related-tab-content">
+  <div class="tab-pane tab-pane-viewer active content_chat" id="related_tab0">
+    <div class="chat_conversation"></div>
+    <div class="chat_message">
+      <input type="text" id="chat_text"></input>
+      <button class="button-primary-yellow" id="chat_send">Send</button>
+    </div>
+  </div>
+  <div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
+    <% webinar.author.webinars.each do |webinar| %>
+      <%= render 'webinars/webinar_mini', :webinar => webinar %>
+    <% end %>
+  </div>
 </div>
 
 <%end%>
@@ -87,6 +119,75 @@
     }
   }
 
+  $('#chat_send').click(document.IDEM_SESSION.send_chat_message);
+
+  $('#chat_text')[0].onkeyup = function(e) {
+    e = e || event;
+    if (e.keyCode === 13) {
+        document.IDEM_SESSION.send_chat_message();
+    }
+    return true;
+  }
+
+  var last_chat_sender = null;
+
+  var add_text_to_chat = function(text, style, me, span, path) {
+    var p = jQuery( '<p />' ), name_tag;
+    
+    if (span) p.append(span);
+    if (me) style += ' chat_name_me';
+
+    if (path) {
+      name_tag = jQuery( '<a />' );
+      name_tag.attr('href', path);  
+    } else {
+      name_tag = jQuery( '<span />' );
+    }
+
+    p.addClass('chat_' + style);
+    name_tag.text(text);
+    p.append(name_tag);
+    
+    $('.chat_conversation').append(p);
+    $('.chat_conversation')[0].scrollTop = $('.chat_conversation')[0].scrollHeight;
+  }
+
+  document.IDEM_SESSION.send_chat_message = function() {
+    var text_val = $('#chat_text')[0].value;
+      if(text_val.match (/\S/)) {
+          if (document.IDEM_SESSION.chatStream) {
+              document.IDEM_SESSION.chatStream.sendData({msg: text_val, user: "<%=user%>", type: "chat"});
+          }
+          document.IDEM_SESSION.chat_message_received({msg: text_val, user: "<%=user%>"}, true);
+      }
+      $('#chat_text')[0].value = '';
+  };
+
+  document.IDEM_SESSION.chat_message_received = function(data, me, sender) {
+
+    var name = 'Guest User', path;
+    if (data.user !== 'guest') {
+      name = JSON.parse(data.user.replace(/&quot;/g,'"')).name;
+      path = JSON.parse(data.user.replace(/&quot;/g,'"')).path;
+    }
+
+    if (last_chat_sender !== sender) {
+      add_text_to_chat(name, 'name', me, undefined, path);
+      last_chat_sender = sender;
+    }
+    var date = new Date();
+    var hour = date.getHours();
+    var minutes = date.getMinutes();
+    if ((hour + '').length === 1) hour = '0' + hour;
+    if ((minutes + '').length === 1) minutes = '0' + minutes;
+
+    var span = jQuery( '<span />' );
+      span.addClass('chat_date');
+      span.text(hour + ':' + minutes);
+
+    add_text_to_chat(data.msg, 'msg', undefined, span);
+  };
+
   <% if isWebinarOwner %>
     document.IDEM_SESSION.addParticipant = function(stream_id,user) {
       var div = document.createElement('div');
@@ -106,11 +207,10 @@
       $(div).addClass("viewer");
       $(div).append(img);
       $(div).append(a);
-      $('#connected_users').append(div);
+      $('.content_connected_users').append(div);
     }
     document.IDEM_SESSION.removeParticipant = function(stream_id) {
-      var element = document.getElementById('viewer_' + stream_id);
-      document.getElementById('connected_users').removeChild(element);
+      $('#viewer_' + stream_id).remove();
     }
 
     $("#init_webinar").on("click", function(e){
@@ -121,7 +221,7 @@
         return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
       });
 
-      document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
+      document.IDEM_SESSION.room.publish(document.IDEM_SESSION.videoStream);
       $("#webinar_pre").hide();
 
       $(".presentation_item_mini a").on("click", function(e){
@@ -132,22 +232,22 @@
         $(".presentation_item_mini").removeClass("presentation-selected");
         $(this).addClass("presentation-selected");
         var presentation = $(this).attr("pres-url");
-        document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.localStream);
+        document.IDEM_SESSION.switchPresentation(presentation, document.IDEM_SESSION.videoStream);
         //TODO. Process send sync messages
-        document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
-        var attributes = document.IDEM_SESSION.localStream.getAttributes();
+        document.IDEM_SESSION.videoStream.sendData({type: "presentation", action: 'update', pres_id: presentation});
+        var attributes = document.IDEM_SESSION.videoStream.getAttributes();
         attributes.current_presentation = presentation;
-        document.IDEM_SESSION.localStream.setAttributes(attributes);     
+        document.IDEM_SESSION.videoStream.setAttributes(attributes);     
       });
 
       $("#clear_presentation").on("click", function(){
         $("#clear_presentation").addClass('button-disabled');
         $(".presentation_item_mini").removeClass("presentation-selected");
-        document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.localStream);
-        document.IDEM_SESSION.localStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
-        var attributes = document.IDEM_SESSION.localStream.getAttributes();
+        document.IDEM_SESSION.switchPresentation('none', document.IDEM_SESSION.videoStream);
+        document.IDEM_SESSION.videoStream.sendData({type: "presentation", action: 'update', pres_id: 'none'});
+        var attributes = document.IDEM_SESSION.videoStream.getAttributes();
         attributes.current_presentation = 'none';
-        document.IDEM_SESSION.localStream.setAttributes(attributes);
+        document.IDEM_SESSION.videoStream.setAttributes(attributes);
       });
     });
   <%end%>

@@ -36,56 +36,96 @@
 	bottom: 0
 	position: absolute !important
 
-.presentations_list
+.related_tooltab
 	margin-top: 20px
-	.presentation-selected
-		border: 1px solid rgba(227, 212, 12, 0.51)
-		background-color: rgba(227, 212, 12, 0.51)
-	.presentation_item
-		cursor: pointer
-		position: relative
-		height: 74px
-		padding: 7px
-		.presentation-image
-			height: 60px
-			float: left
-		.caption
-			margin-left: 90px
-			height: 60px
-			h5
-				height: 25px
-			.author
-				img
-					height: 23px
-				a
-					font-size: 8pt
-					font-weight: bold
-					color: black
-			.link
-				position: absolute
-				right: 12px
-				top: 7px
-				display: none
-				a
-					color: grey
-	.presentation_item:hover
-		background-color: $idem-yellow
-		.link
-			display: block
-		.link
-			a:hover
-				color: black
+	padding-left: 0
+	background: none
 
-#connected_users
-	.viewer
-		margin-top: 10px
-		img
-			width: 30px
-			margin-right: 15px
-		a
-			font-size: 10pt
-			font-weight: bold
-			color: black
+.related-tab-content
+	.tab-pane
+		width: 100%
+		height: 384px
+		overflow-y: scroll
+		&.tab-pane-viewer
+			height: 414px
+	.content_presentations_list
+		.presentation-selected
+			border: 1px solid rgba(227, 212, 12, 0.51)
+			background-color: rgba(227, 212, 12, 0.51)
+		.presentation_item
+			cursor: pointer
+			position: relative
+			height: 74px
+			padding: 7px
+			.presentation-image
+				height: 60px
+				float: left
+			.caption
+				margin-left: 90px
+				height: 60px
+				h5
+					height: 25px
+				.author
+					img
+						height: 23px
+					a
+						font-size: 8pt
+						font-weight: bold
+						color: black
+				.link
+					position: absolute
+					right: 12px
+					top: 7px
+					display: none
+					a
+						color: grey
+		.presentation_item:hover
+			background-color: $idem-yellow
+			.link
+				display: block
+			.link
+				a:hover
+					color: black
+
+	.content_chat
+		overflow-y: hidden
+		.chat_conversation
+			height: calc(100% - 38px)
+			overflow-y: scroll
+			padding-right: 20px
+			p
+				margin-bottom: 0
+			.chat_name
+				font-weight: bold
+				a
+					color: #333
+			.chat_name_me
+				color: $idem-yellow
+				a
+					color: $idem-yellow
+			.chat_msg
+				margin-left: 10px
+				color: #9B9B9B
+				word-break: break-word
+				.chat_date
+					color: #CECACA
+					font-size: 12px
+					font-style: italic
+					margin-right: 8px
+		.chat_message
+			margin-top: 10px
+			input
+				width: calc(100% - 55px)
+	.content_connected_users
+		.viewer
+			padding: 7px
+			img
+				width: 30px
+				margin-right: 15px
+			a
+				font-size: 10pt
+				font-weight: bold
+				color: black
 
 .webinars_list
 	margin-top: 20px

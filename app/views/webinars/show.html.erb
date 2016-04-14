@@ -13,7 +13,7 @@
         <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
       </div>
       <div class="viewerContainer col-md-4">
-        <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
+        <%= render :partial => 'webinar_related_tab', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner, :user => user } %>
       </div>
     </div>
 
@@ -39,93 +39,106 @@
 
     <% if isWebinarOwner %>
       $(window).resize(function(){
-        document.IDEM_SESSION.localStream.player.resize();
+        document.IDEM_SESSION.videoStream.player.resize();
       });
-      document.IDEM_SESSION.localStream = Erizo.Stream({audio: true, video: true, data: true, attributes: {'user': "<%=user%>", 'current_presentation': 'none'}});
+      document.IDEM_SESSION.chatStream = Erizo.Stream({audio: false, video: false, data: true, attributes: {'user': "<%=user%>"}});
+      document.IDEM_SESSION.videoStream = Erizo.Stream({audio: true, video: true, data: true, attributes: {'current_presentation': 'none'}});
     <%else%>
-      document.IDEM_SESSION.localStream = Erizo.Stream({audio: false, video: false, data: true, attributes: {'user': "<%=user%>"}});
+      document.IDEM_SESSION.chatStream = Erizo.Stream({audio: false, video: false, data: true, attributes: {'user': "<%=user%>"}});
     <%end%>
 
     document.IDEM_SESSION.room = Erizo.Room({token: "<%=@token%>"});
 
-    document.IDEM_SESSION.localStream.addEventListener("access-accepted", function(){
+    document.IDEM_SESSION.chatStream.addEventListener("access-accepted", function(){
 
-        var subscribeToStreams = function (streams) {
-          for (var index in streams) {
-            var stream = streams[index];
-            if (document.IDEM_SESSION.localStream.getID() !== stream.getID()) {
-                document.IDEM_SESSION.room.subscribe(stream);
-            }
+      var subscribeToStreams = function (streams) {
+        for (var index in streams) {
+          var stream = streams[index];
+          if (!stream.hasVideo() && document.IDEM_SESSION.chatStream.getID() !== stream.getID()) {
+              document.IDEM_SESSION.room.subscribe(stream);
           }
-        };
-
-        document.IDEM_SESSION.room.addEventListener("room-connected", function (roomEvent){
-          subscribeToStreams(roomEvent.streams);
           <% if !isWebinarOwner %>
-          document.IDEM_SESSION.room.publish(document.IDEM_SESSION.localStream);
-          <% end %>
-        });
+          if (stream.hasVideo()) {
+              document.IDEM_SESSION.room.subscribe(stream);
+          }
+          <%end%>
+        }
+      };
 
-        document.IDEM_SESSION.room.addEventListener("stream-subscribed", function(streamEvent){
-            var stream = streamEvent.stream;
-            <% if isWebinarOwner %>
-              if (stream.getID() !== document.IDEM_SESSION.localStream.getID) {
-                document.IDEM_SESSION.addParticipant(stream.getID(), stream.getAttributes().user);
+      document.IDEM_SESSION.room.addEventListener("room-connected", function (roomEvent){
+        subscribeToStreams(roomEvent.streams);
+        document.IDEM_SESSION.room.publish(document.IDEM_SESSION.chatStream);
+      });
+
+      document.IDEM_SESSION.room.addEventListener("stream-subscribed", function(streamEvent){
+          var stream = streamEvent.stream;
+          if (stream.hasVideo()) {
+            stream.play("webinar_video");
+            $("#webinar_pre").hide();
+             $( window ).resize(function (){
+              stream.player.resize();
+            });
+            var streamAttributes = stream.getAttributes();
+            document.IDEM_SESSION.switchPresentation(streamAttributes.current_presentation, stream);
+            if(streamAttributes.current_presentation != "none"){
+              document.IDEM_SESSION.currentSlide = (typeof streamAttributes.current_slide == "number") ? streamAttributes.current_slide : 1;
+            }
+            stream.addEventListener("stream-data", function(evt) {
+              if (evt.msg.type === "presentation") {
+                document.IDEM_SESSION.switchPresentation(evt.msg.pres_id, stream);
+              } else if (evt.msg.type === "VE") {
+                _onLicodeMessage(evt.msg);
               }
-            <% else %>
-              stream.play("webinar_video");
-              $("#webinar_pre").hide();
-              var streamAttributes = stream.getAttributes();
-              document.IDEM_SESSION.switchPresentation(streamAttributes.current_presentation, stream);
-              if(streamAttributes.current_presentation != "none"){
-                document.IDEM_SESSION.currentSlide = (typeof streamAttributes.current_slide == "number") ? streamAttributes.current_slide : 1;
-              }
-              stream.addEventListener("stream-data", function(evt) {
-                if (evt.msg.type === "presentation") {
-                  document.IDEM_SESSION.switchPresentation(evt.msg.pres_id, stream);
-                } else if (evt.msg.type === "VE") {
-                  _onLicodeMessage(evt.msg);
-                }
-              });
-              $( window ).resize(function (){
-                stream.player.resize();
-              });
-            <%end%>
-        });
-
-        document.IDEM_SESSION.room.addEventListener("stream-added", function (streamEvent) {
-            var streams = [];
-            streams.push(streamEvent.stream);
-            subscribeToStreams(streams);
-        });
-
-        document.IDEM_SESSION.room.addEventListener("stream-removed", function (streamEvent) {
-            // Remove stream from DOM
-            var stream = streamEvent.stream;
+            });
+          } else {
             <% if isWebinarOwner %>
-              document.IDEM_SESSION.removeParticipant(stream.getID());
-            <% else %>
-              $("#webinar_pre").show();
+            if (stream.getID() !== document.IDEM_SESSION.chatStream.getID) {
+              document.IDEM_SESSION.addParticipant(stream.getID(), stream.getAttributes().user);
+            }
             <% end %>
-        });
+            stream.addEventListener("stream-data", function(evt) {
+              if (evt.msg.type === "chat" && stream.getID() !== document.IDEM_SESSION.chatStream.getID()) {
+                document.IDEM_SESSION.chat_message_received(evt.msg, undefined, evt.stream.getID());
+              }
+            });
+          }
+      });
 
-        document.IDEM_SESSION.room.connect();
+      document.IDEM_SESSION.room.addEventListener("stream-added", function (streamEvent) {
+          var streams = [];
+          streams.push(streamEvent.stream);
+          subscribeToStreams(streams);
+      });
 
-        <% if isWebinarOwner %>
-          document.IDEM_SESSION.localStream.play("webinar_video");
-        <% end %>
+      document.IDEM_SESSION.room.addEventListener("stream-removed", function (streamEvent) {
+          // Remove stream from DOM
+          var stream = streamEvent.stream;
+          <% if isWebinarOwner %>
+            document.IDEM_SESSION.removeParticipant(stream.getID());
+          <% else %>
+            $("#webinar_pre").show();
+          <% end %>
+      });
+
+      document.IDEM_SESSION.room.connect();
+
 
     });
-
-    document.IDEM_SESSION.localStream.init();
+    document.IDEM_SESSION.chatStream.init();
+    <% if isWebinarOwner %>
+      document.IDEM_SESSION.videoStream.addEventListener("access-accepted", function(){
+        document.IDEM_SESSION.videoStream.play("webinar_video");
+      });
+     document.IDEM_SESSION.videoStream.init();
+    <% end %>
   };
 
   function onConnect(origin){
     <% if isWebinarOwner %>
       VISH.IframeAPI.registerCallback("onGoToSlide",function(slideNumber,origin){
-        var attributes = document.IDEM_SESSION.localStream.getAttributes();
+        var attributes = document.IDEM_SESSION.videoStream.getAttributes();
         attributes.current_slide = slideNumber;
-        document.IDEM_SESSION.localStream.setAttributes(attributes);
+        document.IDEM_SESSION.videoStream.setAttributes(attributes);
       });
     <% else %>
       VISH.IframeAPI.setSlave(true);
@@ -142,7 +155,7 @@
     if(typeof VEMessageObject.sent !== "boolean"){
       VEMessageObject.sent = true;
       // Send message using Licode stream
-      document.IDEM_SESSION.localStream.sendData(VEMessageObject);
+      document.IDEM_SESSION.videoStream.sendData(VEMessageObject);
     }
   };
 
