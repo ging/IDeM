@@ -64,6 +64,7 @@ namespace(:deploy) do
     run "ln -s #{shared_path}/database.yml #{release_path}/config/database.yml"
     run "ln -s #{shared_path}/application_config.yml #{release_path}/config/application_config.yml"
     #run "ln -s #{shared_path}/thinking_sphinx.yml #{release_path}/config/thinking_sphinx.yml"
+    run "ln -s #{shared_path}/documents #{release_path}/"
   end
 
   task :precompile_idem_assets do
