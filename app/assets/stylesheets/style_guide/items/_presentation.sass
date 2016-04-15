@@ -65,23 +65,26 @@
 .presentation_item_mini
   position: relative
   height: 74px
-  padding: 7px
+  //width: 100%
+  padding: 5px
   margin: 5px
   @include box-shadowed
   .presentation-image
-    height: 60px
-    width: 80px
+    height: 100%
+    width: 34%
     float: left
   .caption
-    margin-left: 90px
-    height: 60px
+    float: left
+    margin: 0 7px
+    width: 56%
     h5
-      height: 25px
+      height: 35px
       width: calc(100% - 52px)
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap
-      font-size: 0.9em
+      font-size: 10pt
+      margin: 0
     .author
       img
         height: 23px

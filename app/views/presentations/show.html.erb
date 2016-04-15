@@ -12,7 +12,7 @@
 
 <%=javascript_include_tag "VISH.IframeAPI" %>
 
-<script type="text/javascript"> 
+<script type="text/javascript">
   //VE extra vars
   var options = {};
   options["readHashFromParent"] = true;
@@ -26,11 +26,11 @@
     <h3><%= @presentation.title %></h3>
     <h5 class="publication-title"><%= link_to(@presentation.publication.title, @presentation.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
-      <div class="viewerContainer col-md-9">
+      <div class="viewerContainer col-xs-12 col-sm-8 col-lg-9">
         <div class="viewerElement"></div>
         <%= render :partial => 'presentation_show', :locals  => { :presentation => @presentation } %>
       </div>
-      <div class="viewerContainer col-md-3">
+      <div class="viewerContainer col-xs-12 col-sm-4 col-lg-3">
         <%= render :partial => 'presentation_related_tab', :locals  => { :presentation => @presentation, :isPresentationOwner => isPresentationOwner } %>
       </div>
     </div>
@@ -42,9 +42,9 @@
         <div class="presentation_tool">
           <%= render :partial => 'presentation_tool_tab', :locals => { :shortURL => shortURL} %>
         </div>
-      </div>     
+      </div>
 
     </div>
   </div>
-  
+
 </section>
