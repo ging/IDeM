@@ -75,3 +75,55 @@
     p
       padding: 20px 30px
       font-weight: bold
+
+.webinar_item_mini
+  position: relative
+  height: 74px
+  padding: 10px
+  margin: 5px
+  @include box-shadowed
+  .presentation-image
+    height: 100%
+    width: 34%
+    float: left
+  .date
+    position: absolute
+    right: 10px
+    bottom: 1px
+    p
+      float: right
+      margin-left: 5px
+      font-size: 0.9em
+  .caption
+    float: left
+    width: 100%
+    h5
+      height: 31px
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+      font-size: 10pt
+      margin: 0
+    .author
+      img
+        height: 23px
+      a
+        font-size: 8pt
+        font-weight: bold
+        color: black
+
+    .link
+      position: absolute
+      right: 12px
+      top: 7px
+      display: none
+      a
+        color: $gray
+        margin-left: 5px
+  &:hover
+    background-color: $gray-lighter-extra
+    .link
+      display: block
+    .link
+      a:hover
+        color: black

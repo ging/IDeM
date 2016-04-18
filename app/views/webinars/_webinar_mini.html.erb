@@ -1,4 +1,4 @@
-<div class="webinar_item" pres-url="<%=webinar_path(webinar, :format => :full)%>">
+<div class="webinar_item_mini" pres-url="<%=webinar_path(webinar, :format => :full)%>">
 
 	<!-- Info -->
 	<div class="caption">
@@ -7,16 +7,14 @@
 		<h5>
 		<%=webinar.title%>
 		</h5>
-		
-		<!--Publication 
+
+		<!--Publication
 		<div class="publication">
 			<p><%= webinar.publication.title%></p>
 		</div> -->
 
 		<!--Publication -->
-		<div class="date">
-			<p><%= webinar.start_date.to_formatted_s(:short)%></p>
-		</div>
+
 
 		<!--Author -->
 		<div class="author">
@@ -27,5 +25,8 @@
 		<div class="link">
 			<a href="<%= webinar_url(webinar)%>"><i class="fa fa-eye"></i></a>
 		</div>
+	</div>
+	<div class="date">
+		<i class="fa fa-clock-o"></i><p><%= webinar.start_date.to_formatted_s(:short)%></p>
 	</div>
 </div>
