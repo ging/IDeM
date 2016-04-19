@@ -106,8 +106,10 @@
 
       document.IDEM_SESSION.room.addEventListener("stream-added", function (streamEvent) {
           var streams = [];
-          streams.push(streamEvent.stream);
-          subscribeToStreams(streams);
+          if (!streamEvent.stream.hasScreen()) {
+            streams.push(streamEvent.stream);
+            subscribeToStreams(streams);
+          }
       });
 
       document.IDEM_SESSION.room.addEventListener("stream-removed", function (streamEvent) {
@@ -132,6 +134,47 @@
      document.IDEM_SESSION.videoStream.init();
     <% end %>
   };
+
+  <% if isWebinarOwner %>
+  function startRecording (callback){
+    document.IDEM_SESSION.recordStream = Erizo.Stream({audio: true, screen: true});
+
+    document.IDEM_SESSION.recordStream.addEventListener("access-accepted", function (){
+      document.IDEM_SESSION.room.publish(document.IDEM_SESSION.recordStream, {}, function (stream_id) {
+        document.IDEM_SESSION.room.startRecording(document.IDEM_SESSION.recordStream, function (recording_id) {
+          document.IDEM_SESSION.recording_id = recording_id;
+          $("#recording_button span").text('Stop recording');
+          $("#recording_button").unbind("click");
+          $("#recording_button").on("click", stopRecording);
+          // TODO: create recorder webinar in idem
+        });
+      });
+    });
+
+    document.IDEM_SESSION.recordStream.addEventListener("access-denied", function (){
+      var alert = jQuery( 
+        '<div class="alert alert-danger alert-dismissable" role="alert">' +
+          '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+          '<strong>Ups!</strong> You have to install ' + 
+          '<a href="https://addons.mozilla.org/es/firefox/addon/idem/" target="_blank" class="alert-link">Idem Webinar Recording extension</a> ' + 
+          'to record a webinar. Remember that it is only available in Firefox.' + 
+        '</div>'
+      );
+      $('#idem_notifications').append(alert);
+    });
+
+    document.IDEM_SESSION.recordStream.init();
+  }
+  function stopRecording (){
+    document.IDEM_SESSION.room.stopRecording(document.IDEM_SESSION.recording_id, function(result, error){
+      if (result !== undefined){
+        $("#recording_button span").text('Record webinar');
+        $("#recording_button").unbind("click");
+        $("#recording_button").on("click", startRecording);
+      }
+    });
+  }
+  <% end %>
 
   function onConnect(origin){
     <% if isWebinarOwner %>

@@ -7,6 +7,10 @@
     <i class="fa fa-picture-o"></i>Full video
   </button>
 
+  <button id="recording_button" class="button-primary-yellow">
+    <i class="fa fa-picture-o"></i><span>Record webinar</span>
+  </button>
+
   <!-- Edit -->
   <button class="button-primary-yellow" data-toggle="modal" data-target="#new_webinar_modal">
     <i class="fa fa-pencil"></i>Edit
@@ -182,8 +186,8 @@
     if ((minutes + '').length === 1) minutes = '0' + minutes;
 
     var span = jQuery( '<span />' );
-      span.addClass('chat_date');
-      span.text(hour + ':' + minutes);
+    span.addClass('chat_date');
+    span.text(hour + ':' + minutes);
 
     add_text_to_chat(data.msg, 'msg', undefined, span);
   };
@@ -249,6 +253,10 @@
         attributes.current_presentation = 'none';
         document.IDEM_SESSION.videoStream.setAttributes(attributes);
       });
+    });
+
+    $("#recording_button").on("click", function () {
+      startRecording();
     });
   <%end%>
 
