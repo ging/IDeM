@@ -4,36 +4,49 @@
 	options = {};
 	var configuration = {};
 
-	configuration["mode"] = "vish";
-
 	configuration["ImagesPath"] = "/assets/";
 	configuration["StylesheetsPath"] = "/assets/";
 
-	configuration["rootPath"] = "<%= IDeM::Application.config.full_domain %>";
-
-	configuration["Upload"] = false;
 	configuration["uploadPresentationPath"] = "<%= presentations_path :format=> 'json'%>";
+	configuration["previewPresentationPath"] = "/excursions/preview";
+
+	configuration["uploadImagePath"] = "<%= documents_path :format=> "json"%>";
+	// configuration["uploadObjectPath"] = "<%= documents_path :format=> "json"%>";
 	configuration["uploadPDF2PPath"] = "<%= pdfps_path :format=> "json"%>";
+	// configuration["uploadEPackagesPath"] = "<%= documents_path :format=> "json"%>";
+	configuration["enableFileImportation"] = true;
 
 	// Sources enabled
 	configuration["ViSH"] = true;
-	configuration["ViSH_instances"] = ["http://vishub.org"];
+	configuration["ViSH_instances"] = ["http://vishub.org","http://educainternet.es"];
 	configuration["Flickr"] = true;
+	<% unless IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
+		configuration["Europeana"] = true;
+		configuration["EuropeanaAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
+	<% end %>
 	<% unless IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'].nil? %>
 		configuration["Youtube"] = true;
 		configuration["YoutubeAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'] %>";
 	<% end %>
-	configuration["Vimeo"] = false;
 	configuration["LRE"] = true;
 	configuration["LRE_path"] = "http://vishub.org/lre/search";
 	<% unless IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'].nil? %>
 		configuration["SoundCloud"] = true;
 		configuration["SoundCloudAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'] %>";
 	<% end %>
-	<% unless IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
-		configuration["Europeana"] = true;
-		configuration["EuropeanaAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
-	<% end %>
+
+	//Thumbnails
+	configuration["thumbnailsPath"] = '/thumbnails.json';
+	
+	//Tags
+	// configuration["tagsPath"]
+	
+	//TmpJSON
+	// configuration["uploadJSONPath"]
+
+	//Attachment
+	// configuration["uploadAttachmentPath"]
+	
 
 	configuration["presentationSettings"] = true;
 
@@ -42,10 +55,15 @@
 	tagsSettings.maxTags = '<%=IDeM::Application.config.tagsSettings["maxTags"]%>';
 	tagsSettings.triggerKeys = <%=raw(IDeM::Application.config.tagsSettings["triggerKeys"].to_json)%>;     	
 	configuration["tagsSettings"] = tagsSettings;
-	
-	options["configuration"] = configuration;
 
+	configuration["publishPermissions"] = ["Comment","Download","Clone"]
+
+	options["configuration"] = configuration;
 	options["developping"] = false;
+
+	options["environment"] = {
+		name: "<%= IDeM::Application.config.name %>"
+	}
 
 	options["user"] = {
 		name: "<%= current_user.name %>",
@@ -60,10 +78,6 @@
 	<% if current_user %>
 		options["exitURL"]  = "<%= url_for(current_user) %>";
 	<% end %>
-
-	<%if default_tag%>
-		options["default_tag"] = "<%=default_tag %>";
-	<%end%>
 
 	options.addons = [];
 	var addon = new Object();

@@ -80,7 +80,7 @@
 									<span i18n-key="i.AddSlide">Add Slide</span>
 								</a>
 							</li>
-							<li>
+							<li id="vemenu_import">
 								<a class="menu_option expansive" href="#">
 									<i class="icon-button icon-rotate-180 icon-download-alt"></i>
 									<span i18n-key="i.Import">Import</span>
@@ -100,7 +100,7 @@
 									</li>
 								</ul>
 							</li>
-							<li>
+							<li id="vemenu_export">
 								<a class="menu_option expansive" href="#">
 									<i class="icon-button icon-rotate-360 icon-download-alt"></i>
 									<span i18n-key="i.Export">Export</span>
@@ -320,7 +320,7 @@
 						<p id="presentation_details_preview_title" class="presentation_details_column_title" i18n-key="i.Preview">Preview</p>
 						<div id="presentation_details_preview">
 							<div id="presentation_details_preview_thumbnail">
-								<div title="Click to add an avatar. You should select an avatar to identify your presentation" id="presentation_details_preview_thumbnail_img_wrapper">
+								<div title="Click to add an avatar. You should select an avatar to identify your excursion" id="presentation_details_preview_thumbnail_img_wrapper">
 									<img id="presentation_details_preview_thumbnail_img" class="addThumbnailPlus" src="/assets/icons/addThumbnail.png">
 								</div>
 								<p class="addthumbtitle" i18n-key="i.Addanavatar" style="display: none;">Add an avatar *</p>
@@ -358,25 +358,26 @@
 
 						<div id="presentation_details_description">
 							<span class="presentation_details_text" i18n-key="i.Description">Description</span>
-							<textarea id="presentation_details_textarea" placeholder="Please describe in a few words what your presentation is about..." i18n-key="i.presDescriptionPlaceHolder"></textarea>
+							<textarea id="presentation_details_textarea" placeholder="Please describe in a few words what your excursion is about..." i18n-key="i.presDescriptionPlaceHolder"></textarea>
 						</div>			
 
 					    <div id="attachment_in_presentation_details">
-					    	<span class="presentation_details_text" i18n-key="i.Attatchment">Attatchment</span>
+					    	<span class="presentation_details_text" i18n-key="i.Attatchment">Attatchment</span><br/>
+					    	<div class="file_details_upload">
+								<form id="attachment_file_form" method="post" action="#" enctype="multipart/form-data">
+									<div class="attachmentFileUpload" disabled="disabled" i18n-key-tooltip="i.tooltip.UploadAttachment" title="If this button is deactivated, you need to save your excursion first.">
+										<span i18n-key="i.ChooseFile">Choose File</span>
+										<input type="file" name="attachment" id="attachment_file">
+									</div>
+									<input id="description_attachment" placeholder="Choose File" disabled="disabled">
+									<input type="hidden" name="author_id" id="attachment_author">
+									<input type="hidden" name="authenticity_token" id="attachment_auth_token">
+									<input id="upload_file_attachment" type="submit" class="button" i18n-key="i.Upload" value="Upload" disabled="true">
+									<input type="hidden" name="pres_id" id="attachment_pres_id">
+									<span id="upload_icon_success" class="icon-button icon-ok" aria-hidden="true"></span>
+								</form>
+							</div>
 					    </div>
-						<div class="file_details_upload">
-							<form id="attachment_file_form" method="post" action="attatchment_file.json" enctype="multipart/form-data">
-								<div class="attachmentFileUpload" disabled="disabled" i18n-key-tooltip="i.tooltip.UploadAttachment" title="If this button is deactivated, you need to save your presentation first.">
-									<span i18n-key="i.ChooseFile">Choose File</span>
-									<input type="file" name="attachment" id="attachment_file">
-								</div>
-								<input id="description_attachment" placeholder="Choose File" disabled="disabled">
-								<input type="hidden" name="author_id" id="attachment_author">
-								<input type="hidden" name="authenticity_token" id="attachment_aut_token">
-								<input id="upload_file_attachment" type="submit" class="button" i18n-key="i.Upload" value="Upload" disabled="true">
-								<span id="upload_icon_success" class="icon-button icon-ok" aria-hidden="true"></span>
-							</form>
-						</div>
 
 					</div>
 
@@ -543,7 +544,7 @@
 							<div id="educational_objectives_title">
 								<span i18n-key="i.EducationalObjectives">Educational Objectives</span>
 							</div>
-							<textarea id="educational_objectives_textarea" name="educational_objectives" placeholder="Please describe the educational objectives you aim to fulfil by using this presentation..." i18n-key="i.EducationalObjectivesPlaceholder"></textarea>
+							<textarea id="educational_objectives_textarea" name="educational_objectives" placeholder="Please describe the educational objectives you aim to fulfil by using this excursion..." i18n-key="i.EducationalObjectivesPlaceholder"></textarea>
 						</div>
 					</div>
 			 	</div>
@@ -707,7 +708,7 @@
 					<img class="image_add_url" src="/assets/icons/url_upl.png"/>
 					<div class="textD">
 						<p class="textfancy" i18n-key="i.AddslideshowPDF">Add slideshow from PDF file</p></br>
-						<form class="documentsForm" action="pdfex.json" method="post" enctype="multipart/form-data">
+						<form class="documentsForm" action="#" method="post" enctype="multipart/form-data">
 							<input type="file" name="pdfex[attach]" accept="application/pdf" class="upload_file_input">
 							<input type="hidden" name="pdfex[scope]" value="1">
 							<input type="hidden" name="pdfex[owner_id]">
@@ -729,7 +730,7 @@
 					<img class="image_add_url" src="/assets/icons/url_upl.png"/>
 					<div class="textD">
 						<p class="textfancy" i18n-key="i.AddePackage">Add an e-Learning package from a ZIP file. Supported formats: SCORM and custom HTML5 Web Applications.</p></br>
-						<form id="package_file_input" class="documentsForm" action="documents.json" method="post" enctype="multipart/form-data">
+						<form id="package_file_input" class="documentsForm" action="#" method="post" enctype="multipart/form-data">
 							<input type="file" name="document[file]" class="upload_file_input">
 							<input type="hidden" name="document[scope]" value="1">
 							<input type="hidden" name="document[title]">
@@ -771,7 +772,7 @@
 				<img title="Help" i18n-key-tooltip="i.tooltip.Help" class='help_in_fancybox' id='tab_presentations_repo_help' src='/assets/vicons/helptutorial_circle_blank.png'/>
 				<div class="presentations_repo_content">
 					<p id="descSearch" i18n-key="i.PresentationsRepository">Search on the repository the presentation you would like to import</p>
-					<img src="/assets/logos/repositoryimg.png" id="repoLogo" class="imagelogotab repositoryimgclass"/>  
+					<img src="/assets/logos/vishlogo.png" id="repoLogo" class="imagelogotab repositoryimgclass"/>  
 					<div class="search_container">
 						<input type="search" class="input_text_fancy input_text_presentations formsizefancy2 marginsfancy3" > </input>
 					</div>
@@ -956,7 +957,7 @@
 					<img class="image_add_url" src="/assets/icons/url_upl.png"/>
 					<div class="textD">
 						<p class="textfancy" i18n-key="i.selectPicture">Select picture to upload</p></br>
-						<form class="documentsForm" action="documents.json" method="post" enctype="multipart/form-data">
+						<form class="documentsForm" action="#" method="post" enctype="multipart/form-data">
 							<input type="file" name="document[file]" class="upload_file_input"/>
 							<input type="hidden" name="document[scope]" value="1"/>
 							<input type="hidden" name="document[title]"/>
@@ -988,7 +989,7 @@
 
 			<div id='tab_pic_repo_content' class="fancy_tab_content">
 				<div class="box1 box1fancy2">
-					<img src="/assets/logos/repositoryimg.png" class="imagelogotab repositoryimgclass"/>				  		  
+					<img src="/assets/logos/vishlogo.png" class="imagelogotab repositoryimgclass"/>				  		  
 					<div class="search_container">
 						<input id="search_picture" type="search" class="input_text_fancy formsizefancy2 marginsfancy2" > </input>
 					</div>
@@ -1196,7 +1197,7 @@
 					<img class="image_add_url" src="/assets/icons/url_upl.png"/>
 					<div class="textD">
 						<p class="textfancy"><span i18n-key="i.selectObjectUpload">Select a file to upload</span>. <span i18n-key="i.selectObjectUpload2">Supported formats: SWF (flash), PDF</span>.</p><br>
-						<form  id="object_file_input" class="documentsForm" action="documents.json" method="post" enctype="multipart/form-data">
+						<form  id="object_file_input" class="documentsForm" action="#" method="post" enctype="multipart/form-data">
 							<input type="file" name="document[file]" class="upload_file_input">
 							<input type="hidden" name="document[scope]" value="1">
 							<input type="hidden" name="document[title]">
@@ -1227,7 +1228,7 @@
 
 			<div id='tab_object_repo_content' class="fancy_tab_content">
 				<div class="box1 box1fancy2">
-					<img src="/assets/logos/repositoryimg.png" class="imagelogotab repositoryimgclass"/>
+					<img src="/assets/logos/vishlogo.png" class="imagelogotab repositoryimgclass"/>
 					<div class="search_container">
 						<input id="search_object" type="search" class="input_text_fancy formsizefancy2 marginsfancy2" > </input>
 					</div>
@@ -1294,12 +1295,10 @@
 					<li><a href="#" onclick="VISH.Editor.Utils.loadTab('tab_video_repo'); return false;" id="tab_video_repo" class="fancy_tab">ViSH</a></li>
 					<li><a href="#" onclick="VISH.Editor.Utils.loadTab('tab_video_youtube'); return false;" id="tab_video_youtube" class="fancy_tab"><img src='/assets/logos/youtube.png'/></a></li>
 					<li><a href="#" onclick="VISH.Editor.Utils.loadTab('tab_audio_soundcloud'); return false;" id="tab_audio_soundcloud" class="fancy_tab"><img src='/assets/logos/soundcloud.png'/></a></li>
-					<li><a href="#" onclick="VISH.Editor.Utils.loadTab('tab_video_vimeo'); return false;" id="tab_video_vimeo" class="fancy_tab disabled"><img src='/assets/logos/vimeo.png'/></a></li>
 				</ul>
 				<img title="Help" i18n-key-tooltip="i.tooltip.Help" class='help_in_fancybox' id='tab_video_from_url_help' src='/assets/vicons/helptutorial_circle_blank.png'/>
 				<img title="Help" i18n-key-tooltip="i.tooltip.Help" class='help_in_fancybox' id='tab_video_repo_help' src='/assets/vicons/helptutorial_circle_blank.png'/>
 				<img title="Help" i18n-key-tooltip="i.tooltip.Help" class='help_in_fancybox' id='tab_video_youtube_help' src='/assets/vicons/helptutorial_circle_blank.png'/>
-				<img title="Help" i18n-key-tooltip="i.tooltip.Help" class='help_in_fancybox' id='tab_video_vimeo_help' src='/assets/vicons/helptutorial_circle_blank.png'/>
 			</div>
 
 			<div id='tab_video_from_url_content' class="fancy_tab_content">
@@ -1324,7 +1323,7 @@
 
 			<div id='tab_video_repo_content' class="fancy_tab_content">		
 				<div class="box1 box1fancy2">	
-					<img src="/assets/logos/repositoryimg.png" class="imagelogotab repositoryimgclass"/>	  
+					<img src="/assets/logos/vishlogo.png" class="imagelogotab repositoryimgclass"/>	  
 					<div class="search_container">
 						<input id="search_video" type="search" class="input_text_fancy formsizefancy2 marginsfancy2" > </input>
 					</div>
@@ -1374,24 +1373,6 @@
 				</div>
 			</div>
 
-
-			<div id='tab_video_vimeo_content' class="fancy_tab_content">
-				<div class="box1 box1fancy2">
-					<img src="/assets/logos/vimeologo.png" class="imagelogotab">
-					<div class="search_container" id="vimeo_search_container">
-						<input id="search_vimeo_fancy" type="search" class="input_text_fancy formsizefancy2 marginsfancy2" id="vimeo_text_to_search"> </input>
-					</div>
-					<div id="tab_video_vimeo_content_carrousel"></div>
-					<div id="tab_video_vimeo_content_preview" class="content_preview">
-						<div id="tab_video_vimeo_content_preview_video" class="content_preview_data"></div>
-						<div id="tab_video_vimeo_content_preview_metadata" class="content_preview_metadata"></div>
-						<div id="tab_video_vimeo_content_preview_foot" class="content_preview_foot">
-							<button type="button" class="okButton okButtonCarrousel" onclick="VISH.Editor.Video.vimeo.addSelectedVideo()">Add</button>
-						</div>
-					</div>
-				</div>
-			</div>
-
 		</div>
 	</div>
 
@@ -1408,7 +1389,7 @@
 
 			<div id='tab_live_resource_content' class="fancy_tab_content"> 
 				<div class="box1 box1fancy2">
-					<img src="/assets/logos/repositoryimg.png" class="imagelogotab repositoryimgclass"/>
+					<img src="/assets/logos/vishlogo.png" class="imagelogotab repositoryimgclass"/>
 					<div class="search_container">
 						<input id="search_live_resource" type="search" class="input_text_fancy formsizefancy2 marginsfancy2" > </input>
 					</div>
@@ -1593,7 +1574,7 @@
 	<ol id="menubar_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Close" i18n-key="i.Close" class="tut_template_editorfull tut_without_arrow" data-options="tipLocation:none">
 			<h2 i18n-key="i.walkWelcome1_1">Welcome to ViSH Editor!</h2>
-			<p i18n-key="i.walkWelcome1_2">ViSH Editor is an innovative web application that allows you to create amazing web slideshows and novel educational resources such as Presentations.</p>
+			<p i18n-key="i.walkWelcome1_2">ViSH Editor is an innovative web application that allows you to create amazing web slideshows and novel educational resources such as Virtual Excursions.</p>
 			<p><span i18n-key="i.walkMenuHelp1a">To learn how to use ViSH Editor you can watch several video tutorials in our</span> <a i18n-key="i.YouTubeChannel" class="tut_tutlink" href="http://www.youtube.com/channel/UCo-73n6eZBWNBs2gvKLyBhQ?feature=watch" target="_blank">YouTube Channel</a>. <span i18n-key="i.walkMenuHelp1b">These tutorials cover from basic usage for beginners to advanced features.</span></p>
 			<p><span i18n-key="i.walkMenuHelp2">The following video tutorial will teach you how to getting started with ViSH Editor in a few minutes.</span> <span class="tut_tutlink" onClick="VISH.Tour.startTourWithId('getting_started_help','top');" i18n-key="i.walkMenuHelp3">If you prefer you can click here to see a text tutorial which will teach you quickly the basics to get started.</span></p>
 			<p i18n-key="i.vtTitle_GStarted" class="tut_video_title">Getting Started with ViSH Editor</p>
@@ -1607,7 +1588,7 @@
 	<ol id="getting_started_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Next" i18n-key="i.Next" class="tut_width500_center tut_without_arrow" data-options="tipLocation:none">
 			<h2 i18n-key="i.walkWelcome1_1">Welcome to ViSH Editor!</h2>
-			<p i18n-key="i.walkWelcome1_2">ViSH Editor is an innovative web application that allows you to create amazing web slideshows and novel educational resources such as Presentations.</p>
+			<p i18n-key="i.walkWelcome1_2">ViSH Editor is an innovative web application that allows you to create amazing web slideshows and novel educational resources such as Virtual Excursions.</p>
 			<p i18n-key="i.walkWelcome1_3">In this walkthrough you will learn how to get started with this tool.</p>
 		</li>
 
@@ -1728,32 +1709,32 @@
 
 		<li data-id="presentation_details_description" data-text="Next" i18n-key="i.Next" data-options="tipLocation:none;" class="tut_settings tut_without_arrow">
 			<h2 i18n-key="i.walkSettings1_1">Welcome to the Settings screen</h2>
-			<p><span i18n-key="i.walkSettings1_2">Here you can specify information about your Presentation.</span></p>
-			<p><span i18n-key="i.walkSettings1_3">The title and avatar (an image to identify your presentation in the ViSH platform) are mandatory fields, so you should fill them before publish your presentation.</span></p>
-			<p><span i18n-key="i.walkSettings1_4">At the left side, you can see a preview of how your presentation will be presented in the ViSH Platform.</span></p>
+			<p><span i18n-key="i.walkSettings1_2">Here you can specify information about your Virtual Excursion.</span></p>
+			<p><span i18n-key="i.walkSettings1_3">The title and avatar (an image to identify your excursion in the ViSH platform) are mandatory fields, so you should fill them before publish your excursion.</span></p>
+			<p><span i18n-key="i.walkSettings1_4">At the left side, you can see a preview of how your excursion will be presented in the ViSH Platform.</span></p>
 			<p class="tut_space">&nbsp;</p>
 		</li>
 
 		<li data-id="presentation_details_title" data-text="Next" i18n-key="i.Next" data-options="tipLocation:bottom;" class="tut_width350 tut_with_arrow">
 			<h2 i18n-key="i.walkSettings2_1">Write a title (Mandatory)</h2>
-			<p i18n-key="i.walkSettings2_2">Type the title of your presentation in this input. The title is important because it is the one that will appear in the ViSH Platform and the one that other users of the platform will see.</p>
+			<p i18n-key="i.walkSettings2_2">Type the title of your excursion in this input. The title is important because it is the one that will appear in the ViSH Platform and the one that other users of the platform will see.</p>
 		</li>
 
 		<li data-id="presentation_details_preview_thumbnail_img" data-text="Next" i18n-key="i.Next" data-options="tipLocation:top;" class="tut_width350 tut_with_arrow">
-			<h2 i18n-key="i.walkSettings3_1">Add an avatar for your presentation (Mandatory)</h2>
-			<p i18n-key="i.walkSettings3_2">Click on this button to choose an image to represent your presentation. This image will be the avatar of the presentation and is important because it will be shown in the ViSH Platform, allowing users to identify the presentation.</p>
+			<h2 i18n-key="i.walkSettings3_1">Add an avatar for your excursion (Mandatory)</h2>
+			<p i18n-key="i.walkSettings3_2">Click on this button to choose an image to represent your excursion. This image will be the avatar of the excursion and is important because it will be shown in the ViSH Platform, allowing users to identify the excursion.</p>
 		</li>
 
 		<li data-id="presentation_details_license" data-text="Next" i18n-key="i.Next" data-options="tipLocation:top;" class="tut_width350 tut_with_arrow">
-			<h2 i18n-key="i.walkSettings4_1">Add a license for this presentation (Mandatory)</h2>
-			<p i18n-key="i.walkSettings4_2">Since you are the author of this presentation, you need to include a license for it. Choose between different licenses from Creative Commons and apply it from dropdown menu. This is Creative Commons license webpage (https://creativecommons.org/licenses/) where they explain different licenses in deep.</p>
-			<p i18n-key="i.walkSettings4_3">Remember that you can only change license before publishing the presentation. If you have published it, the presentation license dropdown will remain disabled and you will not be able to change it.</p>
+			<h2 i18n-key="i.walkSettings4_1">Add a license for this excursion (Mandatory)</h2>
+			<p i18n-key="i.walkSettings4_2">Since you are the author of this excursion, you need to include a license for it. Choose between different licenses from Creative Commons and apply it from dropdown menu. This is Creative Commons license webpage (https://creativecommons.org/licenses/) where they explain different licenses in deep.</p>
+			<p i18n-key="i.walkSettings4_3">Remember that you can only change license before publishing the excursion. If you have published it, the excursion license dropdown will remain disabled and you will not be able to change it.</p>
 		</li>
 
 		<li data-id="presentation_details_description" data-options="tipLocation:bottom;" i18n-key="i.Next" data-text="Next" class="tut_width350 tut_with_arrow">
 		<h2 i18n-key="i.walkSettings5_1">Write a description</h2>
-		<p i18n-key="i.walkSettings5_2">Here you can explain in detail what the presentation is about.</p>
-		<p i18n-key="i.walkSettings5_3">This description will be shown in the ViSH Platform in the page of this presentation. Therefore, all users that access this presentation will be able to read it.</p>
+		<p i18n-key="i.walkSettings5_2">Here you can explain in detail what the excursion is about.</p>
+		<p i18n-key="i.walkSettings5_3">This description will be shown in the ViSH Platform in the page of this excursion. Therefore, all users that access this excursion will be able to read it.</p>
 		</li>
 
 		<li data-id="selectthemeshelp" data-text="Next" i18n-key="i.Next" data-options="tipLocation:bottom;" class="tut_width350 tut_with_arrow">
@@ -1764,31 +1745,31 @@
 		</li>
 
 		<li data-id="tags_in_presentation_details" data-text="Next" i18n-key="i.Next" data-options="tipLocation:top;" class="tut_width500 tut_with_arrow">
-			<h2 i18n-key="i.walkSettings7_1">Add tags to your presentation</h2>
-			<p i18n-key="i.walkSettings7_2">Here you can add tags (or keywords) to your presentation.</p>
-			<p i18n-key="i.walkSettings7_3">These keywords are very useful to categorize the presentation. Also, they are used as search terms in the ViSH platform (as well as in other repositories), and therefore add keywords to an presentation facilitates its searching and retrieval.</p>
+			<h2 i18n-key="i.walkSettings7_1">Add tags to your excursion</h2>
+			<p i18n-key="i.walkSettings7_2">Here you can add tags (or keywords) to your excursion.</p>
+			<p i18n-key="i.walkSettings7_3">These keywords are very useful to categorize the excursion. Also, they are used as search terms in the ViSH platform (as well as in other repositories), and therefore add keywords to an excursion facilitates its searching and retrieval.</p>
 			<p><span i18n-key="i.walkSettings7_4">Tag examples</span>: <i i18n-key="i.nanoscience">nanoscience</i>, <i i18n-key="i.math">math</i> <span i18n-key="i.or">or</span> <i i18n-key="i.biology">biology</i></p>
 			<p class="tut_space">&nbsp;</p>
 		</li>
 
 		<li data-id="attachment_in_presentation_details" data-text="Next" i18n-key="i.Next" data-options="tipLocation:top;" class="tut_width500 tut_with_arrow">
 			<h2 i18n-key="i.walkSettings8_1">Attachment</h2>
-			<p i18n-key="i.walkSettings8_2">You can add complementary materials for your presentation through an attachment.</p>
-			<p i18n-key="i.walkSettings8_3">To upload an attachment you must have previously saved the presentation. Once the attached file is uploaded, users can download it from the presentation page at the ViSH platform.</p>
+			<p i18n-key="i.walkSettings8_2">You can add complementary materials for your excursion through an attachment.</p>
+			<p i18n-key="i.walkSettings8_3">To upload an attachment you must have previously saved the excursion. Once the attached file is uploaded, users can download it from the excursion page at the ViSH platform.</p>
 			<p class="tut_space">&nbsp;</p>
 		</li>
 
 		<li data-id="metadata_clasification_button" data-text="Next" i18n-key="i.Next" data-options="tipLocation:top;" class="tut_width500 tut_with_arrow">
 			<h2 i18n-key="i.walkSettings9_1">Advanced Settings</h2>
 			<p i18n-key="i.walkSettings9_2">Clicking on this button will bring up the Advanced Settings screen.</p>
-			<p i18n-key="i.walkSettings9_3">In this screen you can specify more pedagogy related information, permissions and other aspects about your presentation.</p>
+			<p i18n-key="i.walkSettings9_3">In this screen you can specify more pedagogy related information, permissions and other aspects about your excursion.</p>
 			<p><span i18n-key="i.walkSettings9_4">Details about the information that can be specified are described in the contextual help of the different screens.</p>
 		</li>
 
 		<li class="tut_width500 tut_with_arrow" data-id="save_presentation_details" class="tut_with_arrow" data-options="tipLocation:top" data-text="Finish" i18n-key="i.Finish">
 			<h2 i18n-key="i.walkSettings10_1">Start using ViSH Editor</h2>
-			<p i18n-key="i.walkSettings10_2">Once you have fulfilled the information of your presentation, at least the title and avatar, you can start to create your presentation with ViSH Editor by clicking on the 'Continue' button.</p>
-			<p i18n-key="i.walkSettings10_3">If you do not want to fulfill all the information now, you can also start using ViSH Editor by clicking on the “Fill later” button, but in this case remember that you should come back to the Settings screen and complete all the mandatory fields before publish the presentation.</p>
+			<p i18n-key="i.walkSettings10_2">Once you have fulfilled the information of your excursion, at least the title and avatar, you can start to create your excursion with ViSH Editor by clicking on the 'Continue' button.</p>
+			<p i18n-key="i.walkSettings10_3">If you do not want to fulfill all the information now, you can also start using ViSH Editor by clicking on the “Fill later” button, but in this case remember that you should come back to the Settings screen and complete all the mandatory fields before publish the excursion.</p>
 			<p class="tut_space_big">&nbsp;</p>
 		</li>
 	</ol>
@@ -1797,16 +1778,16 @@
 	<ol id="help_metadata_selection_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Finish" i18n-key="i.Finish" class="tut_metadata tut_without_arrow" data-options="tipLocation:none">
 			<h2 i18n-key="i.walkMetadata1_1">Welcome to the Metadata screen</h2>
-			<p><span i18n-key="i.walkMetadata1_2_1">In this screen you can specify more pedagogy related information (or metadata) about your presentation. These metadata are grounded on and are compliant with the Learning Object Metadata (LOM) standard. The last specification of this standard, which explains in a detailed way all fields of this screen, can be found</span> <a href="http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf" target="_blank"><span i18n-key="i.walkMetadata1_2_2">here</span></a>.</p>
+			<p><span i18n-key="i.walkMetadata1_2_1">In this screen you can specify more pedagogy related information (or metadata) about your excursion. These metadata are grounded on and are compliant with the Learning Object Metadata (LOM) standard. The last specification of this standard, which explains in a detailed way all fields of this screen, can be found</span> <a href="http://ltsc.ieee.org/wg12/files/LOM_1484_12_1_v1_Final_Draft.pdf" target="_blank"><span i18n-key="i.walkMetadata1_2_2">here</span></a>.</p>
 			<p class="tut_space">&nbsp;</p>
 			<p i18n-key="i.walkMetadata1_3">Below is given a brief explanation of each of the fields that can be specified here.</p>
 			<p class="tut_space_small">&nbsp;</p>
-			<p> <i i18n-key="i.Language">Language</i>: <span i18n-key="i.walkMetadata1_4">The language of your presentation.</span></p>
-			<p> <i i18n-key="i.Context">Context</i>: <span i18n-key="i.walkMetadata1_5">The principal environment within which the learning and use of this learning object (i.e. the presentation) is intended to take place.</span></p>
+			<p> <i i18n-key="i.Language">Language</i>: <span i18n-key="i.walkMetadata1_4">The language of your excursion.</span></p>
+			<p> <i i18n-key="i.Context">Context</i>: <span i18n-key="i.walkMetadata1_5">The principal environment within which the learning and use of this learning object (i.e. the excursion) is intended to take place.</span></p>
 			<p> <i i18n-key="i.AgeRange">Age range</i>: <span i18n-key="i.walkMetadata1_6">Age of the typical intended user.</span></p>
 			<p> <i i18n-key="i.Difficulty">Difficulty</i>: <span i18n-key="i.walkMetadata1_7">How hard it is to work with or through this learning object.</span></p>
 			<p> <i i18n-key="i.TypicalLearningTime">Typical Learning Time</i>: <span i18n-key="i.walkMetadata1_8">Approximate or typical time it takes to work with this learning object.</span></p>
-			<p> <i i18n-key="i.Subject">Subject</i>: <span i18n-key="i.walkMetadata1_9">The topic (or topics) of the presentation.</span></p>
+			<p> <i i18n-key="i.Subject">Subject</i>: <span i18n-key="i.walkMetadata1_9">The topic (or topics) of the excursion.</span></p>
 			<p> <i i18n-key="i.EducationalObjectives">Educational Objectives</i>: <span i18n-key="i.walkMetadata1_10">Comments on how this learning object is to be used.</span></p>
 			<p class="tut_space_big">&nbsp;</p>
 		</li>
@@ -1816,10 +1797,10 @@
 	<ol id="help_publication_selection_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Finish" i18n-key="i.Finish" class="tut_metadata tut_without_arrow" data-options="tipLocation:none">
 			<h2 i18n-key="i.walkPublication1_1">Welcome to the Permissions screen</h2>
-			<p><span i18n-key="i.walkPublication1_2">In this screen you can change the permissions that other users of the ViSH platform will have on your presentation once it has been published. You will be able to change these settings at any time.</span></p>
-			<p><b><span i18n-key="i.allowComment">Comment</span></b>: <span i18n-key="i.walkPublication1_3">allows to enable or disable comments for this presentation.</span></p>
-			<p><b><span i18n-key="i.allowDownload">Download</span></b>: <span i18n-key="i.walkPublication1_4">allows other users to download the presentation in any format.</span></p>
-			<p><b><span i18n-key="i.allowClone">Clone</span></b>: <span i18n-key="i.walkPublication1_5">allows other users to obtain a copy of the presentation in their own account keeping the authoring chain and including a reference to the original author (or authors).</span></p>
+			<p><span i18n-key="i.walkPublication1_2">In this screen you can change the permissions that other users of the ViSH platform will have on your excursion once it has been published. You will be able to change these settings at any time.</span></p>
+			<p><b><span i18n-key="i.allowComment">Comment</span></b>: <span i18n-key="i.walkPublication1_3">allows to enable or disable comments for this excursion.</span></p>
+			<p><b><span i18n-key="i.allowDownload">Download</span></b>: <span i18n-key="i.walkPublication1_4">allows other users to download the excursion in any format.</span></p>
+			<p><b><span i18n-key="i.allowClone">Clone</span></b>: <span i18n-key="i.walkPublication1_5">allows other users to obtain a copy of the excursion in their own account keeping the authoring chain and including a reference to the original author (or authors).</span></p>
 			<p class="tut_space_big">&nbsp;</p>
 		</li>
 	</ol>
@@ -1828,7 +1809,7 @@
 	<ol id="help_rte_selection_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Finish" i18n-key="i.Finish" class="tut_metadata tut_without_arrow" data-options="tipLocation:none">
 			<h2 i18n-key="i.walkRTE1_1">Welcome to the RTE options screen</h2>
-			<p><span i18n-key="i.walkRTE1_2">In this screen you can specify the integration and interaction options of the learning object (i.e the presentation) with the RTE (Run-Time Environment).</span></p>
+			<p><span i18n-key="i.walkRTE1_2">In this screen you can specify the integration and interaction options of the learning object (i.e the excursion) with the RTE (Run-Time Environment).</span></p>
 			<p><span i18n-key="i.walkRTE1_3">When the learning object is exported to a standard e-Learning format like SCORM and it is integrated into an external system (for example, an LMS like Moodle or Blackboard), it communicates with the run-time environment of the external system. The options on this screen allow to configure different aspects of that communication.</span></p>
 			<p class="tut_space_big">&nbsp;</p>
 		</li>
@@ -1993,12 +1974,12 @@
 	<!-- Help searching presentations in ViSH to insert -->
 	<ol id="help_pres_selection_help" class="joyRideTipContent">
 		<li data-id="thumbcontent" data-text="Close" i18n-key="i.Close" class="tut_add_resources_fancybox tut_width700_center tut_without_arrow" data-options="tipLocation:none">
-			<h2 i18n-key="i.walkInsertingViSHPres_1">Adding Slides from Presentations</h2>
-			<p i18n-key="i.walkInsertingViSHPres_2">Here you can search Presentations on the ViSH platform in order to add them (or add selected slides from them) to your presentation.</p>
+			<h2 i18n-key="i.walkInsertingViSHPres_1">Adding Slides from Virtual Excursions</h2>
+			<p i18n-key="i.walkInsertingViSHPres_2">Here you can search Virtual Excursions on the ViSH platform in order to add them (or add selected slides from them) to your presentation.</p>
 			<p>
-				<span i18n-key="i.walkSearch1">Write the name you want to search inside the text box, for example</span> <i><span i18n-key="i.nature">nature</span></i>, <span i18n-key="i.walkPresSearch2">and press the 'enter' key to start the search. When the search has finished, the found Presentations will be shown in this screen.</span>
+				<span i18n-key="i.walkSearch1">Write the name you want to search inside the text box, for example</span> <i><span i18n-key="i.nature">nature</span></i>, <span i18n-key="i.walkPresSearch2">and press the 'enter' key to start the search. When the search has finished, the found Virtual Excursions will be shown in this screen.</span>
 			</p>
-			<p i18n-key="i.walkInsertingViSHPres_3">Click on any of the Presentations to select it. After that, a new button "Preview" will be displayed.	Once you click on this button, a new screen will pop up for you to select the slides  that you want to insert in your presentation.</p>
+			<p i18n-key="i.walkInsertingViSHPres_3">Click on any of the Virtual Excursions to select it. After that, a new button "Preview" will be displayed.	Once you click on this button, a new screen will pop up for you to select the slides  that you want to insert in your presentation.</p>
 			<p class="tut_space">&nbsp;</p>
 		</li>
 	</ol>

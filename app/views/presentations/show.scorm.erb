@@ -13,14 +13,12 @@
 	<%= render :partial => 'presentations/vish_viewer_scorm.full' %>
 
 	<% unless presentation
-		#Get presentation from database if exists and its published
+		#Get excursion from database if exists and is published
 		presId = Integer(json["vishMetadata"]["id"]) rescue nil
 		draft = (json["vishMetadata"]["draft"]==="true") rescue true
 		unless presId.blank? or draft
-			presentation = Excursion.find_by_id(presId)
-			if presentation.nil? or presentation.draft
-				presentation = nil
-			end
+			presentation = Prseentation.find_by_id(presId)
+			presentation = nil if presentation.nil? or presentation.draft
 		end
 	end %>
 
@@ -29,10 +27,8 @@
 
 		var configuration = {};
 
-		configuration["mode"] = "vish";
-
-		configuration["ImagesPath"] = "images/";
-		configuration["StylesheetsPath"] = "stylesheets/";
+		configuration["ImagesPath"] = "/images/";
+		configuration["StylesheetsPath"] = "/stylesheets/";
 
 		// Recommendations API
 		configuration["recommendationsAPI"] = {
@@ -40,8 +36,6 @@
 		};
 
 		options["configuration"] = configuration;
-
-
 		options["developping"] = false;
 		
 		options["scorm"] = true;
