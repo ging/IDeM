@@ -1,4 +1,4 @@
-class AddRecording < ActiveRecord::Migration
+class AddRecordings < ActiveRecord::Migration
   def change
     create_table :recordings do |t|
       t.column :publication_id, :integer
