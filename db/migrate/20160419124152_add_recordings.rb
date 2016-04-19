@@ -5,7 +5,6 @@ class AddRecording < ActiveRecord::Migration
       t.column :webinar_id, :integer
       t.column :recording_id, :integer
       t.column :author_id, :integer
-      t.column :room_id, :text
       t.column :title, :text
       t.timestamps
     end
