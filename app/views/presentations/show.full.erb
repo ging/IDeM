@@ -1,3 +1,4 @@
+<%= javascript_include_tag 've_idem_locales' %>
 <%= render :partial => 'presentations/vish_viewer.full' %>
 
 <script>
@@ -6,6 +7,10 @@
 
 	configuration["ImagesPath"] = "/assets/";
 	configuration["StylesheetsPath"] = "/assets/";
+
+	// Locales
+	configuration["defaultLanguage"] = "en";
+	configuration["locales"] = VE_IDEM_Locales;
 
 	// Recommendations API
 	configuration["recommendationsAPI"] = {

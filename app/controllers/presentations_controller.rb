@@ -103,9 +103,7 @@ class PresentationsController < ApplicationController
   end
 
   def update
-    if params[:excursion]
-      params[:excursion].permit!
-    end
+    params[:excursion].permit! unless params[:excursion].blank?
 
     @presentation = Presentation.find(params[:id])
     wasDraft = @presentation.draft
@@ -118,7 +116,7 @@ class PresentationsController < ApplicationController
       end
     end
 
-    @presentation.update_attributes!(params[:excursion])
+    @presentation.update_attributes!(params[:excursion] || {})
    
     published = (wasDraft===true and @presentation.draft===false)
     if published

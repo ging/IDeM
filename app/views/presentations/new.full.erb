@@ -1,3 +1,4 @@
+<%= javascript_include_tag 've_idem_locales' %>
 <%= render :partial => 'vish_editor' %>
 
 <script>	
@@ -57,6 +58,10 @@
 	configuration["tagsSettings"] = tagsSettings;
 
 	configuration["publishPermissions"] = ["Comment","Download","Clone"]
+
+	// Locales
+	configuration["defaultLanguage"] = "en";
+	configuration["locales"] = VE_IDEM_Locales;
 
 	options["configuration"] = configuration;
 	options["developping"] = false;
