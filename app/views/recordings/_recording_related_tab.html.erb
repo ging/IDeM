@@ -1,0 +1,35 @@
+<% if isRecordingOwner %>
+
+<!--BTN ACTIONS-->
+<div class="btn-group actions_layout_show">
+
+  <!-- Edit -->
+  <button class="button-primary-yellow" data-toggle="modal" data-target="#new_recording_modal">
+    <i class="fa fa-pencil"></i>Edit
+  </button>
+
+  <!--Remove-->
+  <button class="button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="Delete recording" data-placement="left" aria-hidden="true">
+    <i class="fa fa-trash"></i>Delete
+  </button>
+  <!--Remove confirmation-->
+  <div class="contentdelete" style="display: none">
+    <p class="delete_p">Are you sure?</p>
+    <div class="actions">
+      <button class="button-secondary-yellow closepopover">Cancel</button>
+      <%= link_to 'Delete', recording_path(@recording), :method => :delete, :class => 'button-primary-yellow' %>
+    </div>
+  </div>
+</div>
+
+<%@recording = recording%>
+<%= render 'recordings/recording_modal', :action => 'Edit' %>
+
+
+<%end%>
+
+<div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
+  <% @recording.publication.webinars.each do |webinar| %>
+    <%= render 'webinars/webinar_mini', :webinar => webinar %>
+  <% end %>
+</div>

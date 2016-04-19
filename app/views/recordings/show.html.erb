@@ -1,1 +1,29 @@
-show de recordings
+<% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + recording_path(@recording) %>
+<% isRecordingOwner = (user_signed_in? and current_user.id==@recording.author_id) %>
+
+<hr>
+<section id="show_items " class="layout_show">
+  <div class="doc-show">
+    <h3><%= @recording.title %></h3>
+    <h5 class="publication-title"><%= link_to(@recording.publication.title, @recording.publication.loop_url, :target => '_blank')%></h5>
+    <div class="box-show row">
+      <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">
+        <%= render :partial => 'recording_show', :locals  => { :recording => @recording, :isRecordingOwner => isRecordingOwner } %>
+      </div>
+      <div class="viewerContainer col-xs-12 col-sm-5 col-lg-3">
+        <%= render :partial => 'recording_related_tab', :locals  => { :recording => @recording, :isRecordingOwner => isRecordingOwner} %>
+      </div>
+    </div>
+
+    <!--owner-profile-->
+    <div class="description-activity">
+      <div class="box_description">
+        <!--tool-->
+        <div class="recording_tool">
+          <%= render :partial => 'recording_tool_tab', :locals => { :shortURL => shortURL} %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

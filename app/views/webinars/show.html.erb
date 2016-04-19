@@ -30,6 +30,10 @@
   </div>
 </section>
 
+<%if isWebinarOwner %>
+  <%= render 'recordings/recording_modal', :action => 'Record'%>
+<%end%>
+
 <%=javascript_include_tag "VISH.IframeAPI" %>
 <script type="text/javascript" src="/assets/erizo.js"></script>
 <script type="text/javascript">
@@ -146,7 +150,8 @@
           $("#recording_button span").text('Stop recording');
           $("#recording_button").unbind("click");
           $("#recording_button").on("click", stopRecording);
-          // TODO: create recorder webinar in idem
+          $('#new_recording_modal').modal('hide');
+          createRecording(recording_id);
         });
       });
     });
@@ -162,7 +167,7 @@
       );
       $('#idem_notifications').append(alert);
     });
-
+    console.log('ssssss');
     document.IDEM_SESSION.recordStream.init();
   }
   function stopRecording (){
@@ -170,7 +175,33 @@
       if (result !== undefined){
         $("#recording_button span").text('Record webinar');
         $("#recording_button").unbind("click");
-        $("#recording_button").on("click", startRecording);
+        $("#recording_button").on("click", function (){
+          $('#new_recording_modal').modal();
+          startRecording();
+        });
+      }
+    });
+  }
+
+  function createRecording(recording_id) {
+    var url = '/recordings/';
+    var data = {
+      publication_id: "<%=@webinar.publication.id%>",
+      webinar_id: "<%=@webinar.id%>",
+      recording_id: recording_id + '',
+      title: $('#recording_title').val()
+    };
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      processData: false,
+      contentType: 'application/json',
+      data: JSON.stringify(data),
+      statusCode: {
+        200: function (data, status, xhr) {
+          
+        }
       }
     });
   }

@@ -3,7 +3,7 @@ class AddRecordings < ActiveRecord::Migration
     create_table :recordings do |t|
       t.column :publication_id, :integer
       t.column :webinar_id, :integer
-      t.column :recording_id, :integer
+      t.column :recording_id, :text
       t.column :author_id, :integer
       t.column :title, :text
       t.timestamps

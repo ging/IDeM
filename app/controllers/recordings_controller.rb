@@ -12,9 +12,6 @@ class RecordingsController < ApplicationController
 
   def show
     @recording = Recording.find(params[:id])
-    username = current_user ? current_user.id.to_s : "Guest"
-    role = (current_user && @recording.author_id==current_user.id) ? "IDEM_owner" : "IDEM_viewer"
-    @token = NuveInstance.createToken(@recording.room_id, username, role)
   end
 
   def new
@@ -33,9 +30,6 @@ class RecordingsController < ApplicationController
       @recording.publication_id = session[:current_publication_id]
     end
     @recording.author_id = current_user.id
-    options = {data: {user_id: current_user.id, publication_id: session[:current_publication_id], user_name: current_user.name}}
-    room = NuveInstance.createRoom(params[:recording][:title], options)
-    @recording.room_id = JSON.parse(room)["_id"]
     @recording.save!
     respond_to do |format|
       format.all { redirect_to recording_path(@recording) }

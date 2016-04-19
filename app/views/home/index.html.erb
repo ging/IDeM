@@ -37,6 +37,9 @@
 			<% @webinars.each do |webinar| %>
 			   	<%= render 'webinars/webinar', :webinar => webinar %>
 			<% end %>
+			<% @recordings.each do |recording| %>
+			   	<%= render 'recordings/recording', :recording => recording %>
+			<% end %>
 			</div>
 		</div>
 		<!--<hr>-->

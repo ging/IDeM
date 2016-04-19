@@ -1,4 +1,4 @@
-<%= form_for @webinar do |f| %>
+<%= form_for @recording do |f| %>
 	<!--TITULO-->
 	<label>Publication this webinar will be about</label>
 	<% pub_array = current_user.publications.map { |pub| [truncate(pub.title, :length => 60), pub.id] } %>
@@ -7,16 +7,11 @@
 	<label>Title</label>
 	<%= f.text_field :title, :class => "form-control", :placeholder => t('webinar.title_input') %>
 
-	<label>Start date</label>
-	<div id="date-panel">
-	<%=f.datetime_select(:start_date, {}, {:class => 'form-control'})%>
-	</div>
-
 <!--Closing body div-->
 </div>   
 <div class="modal-footer">
 <button type="button" class="button-secondary-yellow" data-dismiss="modal">Close</button>
-	<%= f.submit action, :id => "saveWebinar", :class => "button-primary-yellow"%>
+	<%= f.submit 'Edit', :id => "saveWebinar", :class => "button-primary-yellow"%>
 </div>
 
 <% end %>

@@ -1,0 +1,109 @@
+<ul class="nav nav-tabs tooltab">
+  <li class="tab_webinar active">
+    <a href="#tab0" tabTitle='description' data-toggle="tab">
+      <span class="  hidden-xs">
+        Description
+      </span>
+    </a>
+  </li>
+  <!--<li class="tab_recording">
+    <a href="#tab2" tabTitle='embed' data-toggle="tab">
+      <span class="  hidden-xs">
+        Insert
+      </span>
+    </a>
+  </li>-->
+  <li class="tab_webinar">
+    <a href="#tab3" tabTitle='share' data-toggle="tab">
+      <span class=" hidden-xs">
+        Share
+      </span>
+    </a>
+  </li>
+    <li class="tab_webinar">
+      <a href="#tab4" tabTitle='download' data-toggle="tab">
+        <span class="hidden-xs">
+          Download
+        </span>
+      </a>
+    </li>
+</ul>
+
+<div class="tab-content presentation-social">
+  <div class="tab-pane active" id="tab0">
+    <%# if @recording.description.blank? %>
+      <div class="no_items">No description available.</div>
+    <%# else %>
+      <%#=@precording.description%>
+    <%# end %>
+  </div>
+  <!--<div class="tab-pane contentembed" id="tab2">
+    <div class="form-group">
+      <div class="input-group">
+        <textarea class="form-control" readonly="true" id="textarea_for_iframe" type="text" style="overflow:auto;resize:none">
+
+        </textarea>
+        <div class="input-group-addon button-primary-yellow">
+          <div data-toggle="tooltip" data-placement="right" title="Copy to clip">
+            <button class="button-primary-yellow" id="btn_copy_embed">
+             <i class="fa fa-copy fa-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>-->
+
+  <div class="tab-pane contentShare" id="tab3">
+    <div class="form-group">
+      <div class="input-group">
+
+        <input class="form-control" readonly="true" id="input_with_shorturl" type="text" value="<%=shortURL%>"/>
+        <div class="input-group-addon button-primary-yellow">
+          <div data-toggle="tooltip" data-placement="right" title="Copy to clip">
+            <button class="button-primary-yellow" id="btn_copy_share" href="#" >
+              <i class="fa fa-copy fa-lg"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="social_toolbar_presentation">
+      <div class="social_toolbar_presentation">
+        <div class="social">
+          <%= render :partial=>'shareon/email', :locals=>{:url=>shortURL, :title => @recording.title, :name => (user_signed_in? ? current_user.name : '')} %>
+        </div>
+        <div class="social">
+          <%= render :partial=>'shareon/twitter', :locals=>{:url=>shortURL, :counturl=>(request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + recording_path(@recording) )} %>
+        </div>
+        <div class="social">
+          <%= render :partial=>'shareon/facebook', :locals=>{:url=>shortURL} %>
+        </div>
+        <div class="social">
+          <%= render :partial=>'shareon/gplus', :locals=>{:url=>shortURL} %>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-pane contentShare" id="tab4">
+    <!-- si tienes grabaciones de este recording-->
+      <div class="no_items">No recordings available</div>
+    <%# sino %>
+      <%#=@recordings%>
+    <%# fin %>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+   $('.delete').popover({
+      html : true,
+      placement: "left",
+      content: function() {
+        return $('.contentdelete').html();
+      },
+      container: ".actions_layout_show"
+    });
+</script>
