@@ -14,7 +14,11 @@
       </div>
       <!--Date -->
       <div class="date">
+        <%if webinar.respond_to?('start_date') %>
         <h4><%= webinar.start_date.to_formatted_s(:short)%></h4>
+        <%else%>
+        <h4><%= webinar.created_at.to_formatted_s(:short)%></h4>
+        <%end%>
       </div>
       <!--Author -->
       <div class="author">
@@ -22,7 +26,11 @@
       </div>
       <!-- Link -->
       <div class="link button-secondary-yellow">
-         <%= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
+        <%if webinar.respond_to?('start_date') %>
+        <%= link_to('Go to webinar (live)', webinar_url(webinar), :class => "logo");%>
+        <%else%>
+        <%= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
+        <%end%>
       </div>
     </div>
   </div>
