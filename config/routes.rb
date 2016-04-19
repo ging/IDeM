@@ -41,6 +41,8 @@ Rails.application.routes.draw do
 
   #Webinars
   resources :webinars
+  #Recordings
+  resources :recordings
 
   #PDF to Presentation
   # resources :pdfexes, :except => [:index], controller: 'pdfps'
