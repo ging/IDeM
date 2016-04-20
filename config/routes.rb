@@ -19,23 +19,16 @@ Rails.application.routes.draw do
   match '/thumbnails' => 'presentations#presentation_thumbnails', via: [:get]
 
   #Documents
-  match '/presentations/documents' => 'documents#create', :via => :post
-  match '/presentations/:id/documents' => 'documents#create', :via => :post
   resources :documents
   resources :pictures
 
   #Presentations
-  match 'presentations/last_slide' => 'presentations#last_slide', :via => :get
-  match 'excursions/preview' => 'presentations#preview', :via => :get
-  match 'presentations/:id/metadata' => 'presentations#metadata', :via => :get
-  match 'presentations/:id/scormMetadata' => 'presentations#scormMetadata', :via => :get
-  match '/excursions/:id/upload_attachment' => 'presentations#upload_attachment', :via => :post
-  match '/presentations/:id/attachment' => 'presentations#show_attachment', :via => :get
-  match '/presentations/:id.licode' => 'presentations#show', :defaults => { :format => "gateway", :gateway => 'licode' }, :via => :get
-  match '/presentations/:id.embed' => 'presentations#show', :defaults => { :format => "full" }, :via => :get
-  #Download JSON
-  match '/excursions/tmpJson' => 'excursions#uploadTmpJSON', :via => :post
-  match '/excursions/tmpJson' => 'excursions#downloadTmpJSON', :via => :get
+  match '/presentations/:id/metadata' => 'presentations#metadata', :via => :get
+  match '/presentations/:id/scormMetadata' => 'presentations#scormMetadata', :via => :get
+  match '/presentations/last_slide' => 'presentations#last_slide', :via => :get
+  match '/presentations/preview' => 'presentations#preview', :via => :get
+  match '/presentations/tmpJson' => 'presentations#uploadTmpJSON', :via => :post
+  match '/presentations/tmpJson' => 'presentations#downloadTmpJSON', :via => :get
 
   resources :presentations
 
