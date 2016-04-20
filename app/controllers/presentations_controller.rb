@@ -219,43 +219,6 @@ class PresentationsController < ApplicationController
   end
 
 
-  def upload_attachment
-    presentation = Presentation.find_by_id(params[:id])
-
-    unless presentation.nil? || params[:attachment].blank?
-      authorize! :update, presentation
-      presentation.update_attributes(:attachment => params[:attachment])
-      if presentation.save
-        respond_to do |format|
-          msg = { :status => "ok", :message => "success"}
-          format.json  { render :json => msg }
-        end
-      else
-        respond_to do |format|
-         msg = { :status => "bad_request", :message => "bad_size"}
-        format.json  { render :json => msg }
-      end
-      end
-    else
-      respond_to do |format|
-         msg = { :status => "bad_request", :message => "wrong_params"}
-        format.json  { render :json => msg }
-      end
-    end
-  end
-
-  def show_attachment
-    presentation_id = params[:id]
-    presentation = Presentation.find(presentation_id)
-
-    unless presentation.blank? || presentation.attachment.blank?
-      attachment = File.open(presentation.attachment.path)
-      attachment_name = rename_attachment( attachment, presentation_id)
-      send_file attachment, :filename => attachment_name
-    end
-  end
-
-
   ##################
   # Recomendation on the last slide
   ##################
@@ -287,13 +250,9 @@ class PresentationsController < ApplicationController
     respond_to do |format|  
       format.json {
         results = Hash.new
-
-        unless params["json"].present?
-          return render :json => results
-        else
-          json = params["json"]
-        end
-
+        return render :json => results unless params["json"].present?
+        json = params["json"]
+        
         responseFormat = "json" #Default
         if params["responseFormat"].is_a? String
           responseFormatParsedParam = params["responseFormat"].downcase
@@ -307,40 +266,40 @@ class PresentationsController < ApplicationController
           end
         end
 
-        count = Site.current.config["tmpCounter"].nil? ? 1 : Site.current.config["tmpCounter"]
-        Site.current.config["tmpCounter"] = count + 1
-        Site.current.save!
+        tmpFileName = Time.now.to_i.to_s
 
         if responseFormat == "json"
           #Generate JSON file
-          filePath = "#{Rails.root}/public/tmp/json/#{count.to_s}.json"
+          filePath = "#{Rails.root}/public/tmp/json/#{tmpFileName}.json"
           t = File.open(filePath, 'w')
           t.write json
           t.close
-          results["url"] = "#{IDeM::Application.config.full_domain}/presentations/tmpJson.json?fileId=#{count.to_s}"
+          results["url"] = "#{IDeM::Application.config.full_domain}/presentations/tmpJson.json?fileId=#{tmpFileName}"
         elsif responseFormat == "scorm" and ["12","2004"].include?(scormVersion)
           #Generate SCORM package
           filePath = "#{Rails.root}/public/tmp/scorm/"
-          fileName = "scorm" + scormVersion + "-tmp-#{count.to_s}"
+          fileName = "scorm" + scormVersion + "-tmp-#{tmpFileName}"
           Presentation.createSCORM(scormVersion,filePath,fileName,JSON(json),nil,self)
           results["url"] = "#{IDeM::Application.config.full_domain}/tmp/scorm/#{fileName}.zip"
         elsif responseFormat == "qti"
            #Generate QTI package
            filePath = "#{Rails.root}/public/tmp/qti/"
            FileUtils.mkdir_p filePath
-           fileName = "qti-tmp-#{count.to_s}"
+           fileName = "qti-tmp-#{tmpFileName}"
            Presentation.createQTI(filePath,fileName,JSON(json))
            results["url"] = "#{IDeM::Application.config.full_domain}/tmp/qti/#{fileName}.zip"
         elsif responseFormat == "MoodleXML"
-            #Generate Moodle XML package
+           #Generate Moodle XML package
            filePath = "#{Rails.root}/public/tmp/moodlequizxml/"
            FileUtils.mkdir_p filePath
-           fileName = "moodlequizxml-tmp-#{count.to_s}"
+           fileName = "moodlequizxml-tmp-#{tmpFileName}"
            Presentation.createMoodleQUIZXML(filePath,fileName,JSON(json))
            results["url"] = "#{IDeM::Application.config.full_domain}/tmp/moodlequizxml/#{fileName}.xml"
            results["xml"] = File.open("#{filePath}#{fileName}.xml").read
            results["filename"] = "#{fileName}.xml"
         end
+
+        results["url"] = Utils.checkUrlProtocol(results["url"],request.protocol) unless results["url"].blank?
 
         render :json => results
       }
@@ -350,14 +309,9 @@ class PresentationsController < ApplicationController
   def downloadTmpJSON
     respond_to do |format|
       format.json {
-        if params["fileId"] == nil
-          results = Hash.new
-          render :json => results
-          return
-        else
-          fileId = params["fileId"]
-        end
-
+        return render :json => Hash.new if params["fileId"] == nil
+        
+        fileId = params["fileId"]
         if params["filename"]
           filename = params["filename"]
         else
@@ -368,11 +322,12 @@ class PresentationsController < ApplicationController
         if File.exist? filePath
           send_file "#{filePath}", :type => 'application/json', :disposition => 'attachment', :filename => "#{filename}.json"
         else 
-          render :json => results
+          render :json => Hash.new
         end
       }
     end
   end
+
 
   private
 
