@@ -11,7 +11,7 @@
 		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
       <i class="fa fa-picture-o" aria-hidden="true"></i>Featured presentations
     </h3>
-  
+
 	    <div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
 	      	<div class="fix-collapse">
 	      	<%if user_signed_in? && current_user.publications.size>0%>
@@ -22,7 +22,6 @@
 			<% end %>
 			</div>
 	    </div>
-		<!--<hr>-->
 	</div>
 
 	<div id="webinars">
@@ -37,14 +36,25 @@
 			<% @webinars.each do |webinar| %>
 			   	<%= render 'webinars/webinar', :webinar => webinar %>
 			<% end %>
-			<% @recordings.each do |recording| %>
-			   	<%= render 'webinars/webinar', :webinar => recording %>
-			<% end %>
 			</div>
 		</div>
-		<!--<hr>-->
 	</div>
+
+  <div id="recordings">
+    <h3 role="button" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+      <i class="fa fa-youtube-play" aria-hidden="true"></i>Last recordings
+    </h3>
+    <div id="collapseThree" class="panel-collapse collapse row" role="tabpanel">
+      <div class="fix-collapse">
+      <% @recordings.each do |recording| %>
+          <%= render 'webinars/webinar', :webinar => recording %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+
 </div>
+
 
 <%if user_signed_in? && current_user.publications.size>0%>
 	<%= render 'presentations/presentation_modal' %>

@@ -1,0 +1,34 @@
+<% if isWebinarOwner %>
+
+<!--BTN ACTIONS-->
+
+<div class="btn-group actions_layout_show" role="group">
+
+  <button type="button" id="clear_presentation" class="btn button-primary-yellow button-disabled">
+    <i class="fa fa-picture-o"></i>
+  </button>
+
+  <!-- Edit -->
+  <button type="button" data-toggle="tooltip" title="Edit" data-placement="top" class="btn button-primary-yellow" data-toggle="modal" data-target="#new_webinar_modal">
+    <i class="fa fa-pencil"></i>
+  </button>
+
+  <!--Remove-->
+  <button type="button" data-toggle="tooltip" title="Delete" data-placement="top" class="btn button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="Delete Webinar" data-placement="left" aria-hidden="true">
+    <i class="fa fa-trash"></i>
+  </button>
+
+  <!--Remove confirmation-->
+  <div class="contentdelete" style="display: none">
+    <p class="delete_p">Are you sure?</p>
+    <div class="actions">
+      <button class="button-secondary-yellow closepopover">Cancel</button>
+      <%= link_to 'Delete', webinar_path(@webinar), :method => :delete, :class => 'button-primary-yellow' %>
+    </div>
+  </div>
+  <button type="button" data-toggle="tooltip" title="Record webinar" data-placement="top" id="recording_button" class="btn button-primary-yellow">
+    <i class="fa fa-circle special_record"></i><span></span>
+  </button>
+</div>
+
+<% end %>

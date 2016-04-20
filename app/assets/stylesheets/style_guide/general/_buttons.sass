@@ -1,5 +1,5 @@
 .button-disabled
-  opacity: .65
+  opacity: .4
   pointer-events: none
 
 .button-secondary
@@ -73,19 +73,23 @@
       color: white !important
 
 .button-primary-yellow
-  border: 1px solid $idem-yellow
+  //border: 1px solid $idem-yellow
+  border: none
   padding: 4px 10px
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
   background-color: $idem-yellow
   color: white
-  a
+  a, i
     color: white
+  &:hover
+    background-color: $dark-yellow
+    border-radius: $radius-base
 
 //exceptions
 
 .special_record
   font-size: 0.9em !important
-  color: $idem-red
+  color: $idem-red !important
   padding: 3px
