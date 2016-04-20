@@ -167,8 +167,8 @@
         '</div>'
       );
       $('#idem_notifications').append(alert);
+      $('#new_recording_modal').modal('hide');
     });
-    console.log('ssssss');
     document.IDEM_SESSION.recordStream.init();
   }
   function stopRecording (){

@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, :only => [:edit, :update]
   before_filter :find_user, :only => [:show, :show_publications, :show_presentations, :show_webinars, :show_followings, :show_followers, :show_network]
 
   def show

@@ -24,6 +24,13 @@ class Presentation < ActiveRecord::Base
   after_save :parse_for_metadata_id
   after_destroy :remove_scorms
 
+  ####################
+  ## Class methods
+  ####################
+
+  def self.public
+    self.where(:draft => false)
+  end
 
   ####################
   ## Model methods
@@ -170,12 +177,8 @@ class Presentation < ActiveRecord::Base
     elsif (ejson["vishMetadata"] and ejson["vishMetadata"]["id"])
       identifier = ejson["vishMetadata"]["id"].to_s
       lomIdentifier = "urn:ViSH:" + identifier
-    else
-      count = Site.current.config["tmpCounter"].nil? ? 1 : Site.current.config["tmpCounter"]
-      Site.current.config["tmpCounter"] = count + 1
-      Site.current.save!
-      
-      identifier = "TmpSCORM_" + count.to_s
+    else    
+      identifier = "TmpSCORM_" + Time.now.to_i.to_s
       lomIdentifier = "urn:ViSH:" + identifier
     end
 
