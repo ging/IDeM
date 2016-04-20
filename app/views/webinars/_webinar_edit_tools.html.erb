@@ -11,10 +11,8 @@
   <!-- Edit -->
   <!--<span data-toggle="modal" data-target="#new_webinar_modal">-->
 
-  <button type="button" data-toggle="modal" data-target="#new_webinar_modal" class="btn button-primary-yellow">
-    <span data-toggle="tooltip" title="Edit" data-placement="top">
-      <i class="fa fa-pencil"></i>
-    </span>
+  <button id="edit_webinar_button" type="button" data-toggle="tooltip" title="Edit" data-placement="top" class="btn button-primary-yellow">
+    <i class="fa fa-pencil"></i>
   </button>
 
 
@@ -35,5 +33,12 @@
     <i class="fa fa-circle special_record"></i><span></span>
   </button>
 </div>
+
+<script type="text/javascript">
+
+$("#edit_webinar_button").on("click", function(e){
+  $('#new_webinar_modal').modal();
+});
+</script>
 
 <% end %>
