@@ -148,7 +148,10 @@
       document.IDEM_SESSION.room.publish(document.IDEM_SESSION.recordStream, {}, function (stream_id) {
         document.IDEM_SESSION.room.startRecording(document.IDEM_SESSION.recordStream, function (recording_id) {
           document.IDEM_SESSION.recording_id = recording_id;
-          $("#recording_button span").text('Stop recording');
+          $("#recording_button i").removeClass('fa-circle');
+          $("#recording_button i").removeClass('special_record');
+          $("#recording_button i").addClass('fa-stop');
+          $("#recording_button").attr('data-original-title', 'Stop recording');
           $("#recording_button").unbind("click");
           $("#recording_button").on("click", stopRecording);
           $('#new_recording_modal').modal('hide');
@@ -174,7 +177,10 @@
   function stopRecording (){
     document.IDEM_SESSION.room.stopRecording(document.IDEM_SESSION.recording_id, function(result, error){
       if (result !== undefined){
-        $("#recording_button span").text('Record webinar');
+        $("#recording_button i").addClass('fa-circle');
+        $("#recording_button i").addClass('special_record');
+        $("#recording_button i").removeClass('fa-stop');
+        $("#recording_button").attr('data-original-title', 'Start recording');
         $("#recording_button").unbind("click");
         $("#recording_button").on("click", function (){
           $('#new_recording_modal').modal();
