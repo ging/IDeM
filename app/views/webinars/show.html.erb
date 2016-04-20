@@ -10,6 +10,7 @@
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">
         <div class="viewerElement"></div>
+      
         <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
       </div>
       <div class="viewerContainer col-xs-12 col-sm-5 col-lg-3">
@@ -157,12 +158,12 @@
     });
 
     document.IDEM_SESSION.recordStream.addEventListener("access-denied", function (){
-      var alert = jQuery( 
+      var alert = jQuery(
         '<div class="alert alert-danger alert-dismissable" role="alert">' +
           '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
-          '<strong>Ups!</strong> You have to install ' + 
-          '<a href="https://addons.mozilla.org/es/firefox/addon/idem/" target="_blank" class="alert-link">Idem Webinar Recording extension</a> ' + 
-          'to record a webinar. Remember that it is only available in Firefox.' + 
+          '<strong>Ups!</strong> You have to install ' +
+          '<a href="https://addons.mozilla.org/es/firefox/addon/idem/" target="_blank" class="alert-link">Idem Webinar Recording extension</a> ' +
+          'to record a webinar. Remember that it is only available in Firefox.' +
         '</div>'
       );
       $('#idem_notifications').append(alert);
@@ -200,7 +201,7 @@
       data: JSON.stringify(data),
       statusCode: {
         200: function (data, status, xhr) {
-          
+
         }
       }
     });

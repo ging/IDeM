@@ -1,3 +1,4 @@
+
 <div id="webinar_pre">
 	<div class="pre-tools">
 		<% if isWebinarOwner %>
@@ -10,6 +11,7 @@
 		<% end %>
 	</div>
 </div>
+<%= render :partial => 'webinar_edit_tools', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
 <div id="webinar_video" class="present_big"></div>
 
 <div class="presentation_viewer_wrapper" style="display:none">
