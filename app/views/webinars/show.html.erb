@@ -177,6 +177,7 @@
         $("#recording_button").unbind("click");
         $("#recording_button").on("click", function (){
           $('#new_recording_modal').modal();
+          startRecording();
         });
       }
     });
@@ -188,7 +189,7 @@
       publication_id: "<%=@webinar.publication.id%>",
       webinar_id: "<%=@webinar.id%>",
       recording_id: recording_id + '',
-      title: $('#recording_title').val()
+      title: $('#recording_title').text()
     };
 
     $.ajax({
@@ -204,14 +205,6 @@
       }
     });
   }
-
-  $("#next_button").on("click", function(){
-    $('#record_step1').addClass('hidden');
-    $('#next_button').addClass('hidden');
-    $('#recording_title_label').text($('#recording_title').val());
-    $('#record_step2').removeClass('hidden');
-    startRecording();
-  });
   <% end %>
 
   function onConnect(origin){
