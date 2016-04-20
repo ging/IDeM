@@ -1,13 +1,16 @@
+<%= javascript_include_tag 've_idem_locales' %>
 <%= render :partial => 'presentations/vish_viewer.full' %>
 
 <script>
 	options = {};
 	var configuration = {};
 
-	configuration["mode"] = "vish";
-
 	configuration["ImagesPath"] = "/assets/";
 	configuration["StylesheetsPath"] = "/assets/";
+
+	// Locales
+	configuration["defaultLanguage"] = "en";
+	configuration["locales"] = VE_IDEM_Locales;
 
 	// Recommendations API
 	configuration["recommendationsAPI"] = {
@@ -21,6 +24,11 @@
 
 	options["configuration"] = configuration;
 	options["developping"] = false;
+
+	//Environment data
+	options["environment"] = {
+		name: "<%= IDeM::Application.config.name %>"
+	}
 
 	//User data
 	<% if user_signed_in? %>
@@ -40,11 +48,11 @@
 	
 	//comeBackUrl for Mobile Devices
 	<% if @orgUrl %>
-	  options["comeBackUrl"] = "<%=@orgUrl%>";
+		options["comeBackUrl"] = "<%=@orgUrl%>";
 	<% else %>
-	  <% if request && request.referrer %>
-		options["comeBackUrl"] = "<%=request.referrer%>";
-	  <% end %>
+		<% if request && request.referrer %>
+			options["comeBackUrl"] = "<%=request.referrer%>";
+		<% end %>
 	<% end %>
 
 	<% unless params["oreferrer"].blank? %>

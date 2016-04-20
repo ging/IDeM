@@ -1,47 +1,67 @@
-<%= render :partial => 'vish_editor.full' %>
+<%= javascript_include_tag 've_idem_locales' %>
+<%= render :partial => 'vish_editor' %>
 
 <script>	
 	options = {};
 	var configuration = {};
 
-	configuration["mode"] = "vish";
-
 	configuration["ImagesPath"] = "/assets/";
 	configuration["StylesheetsPath"] = "/assets/";
 
-	configuration["rootPath"] = "<%= IDeM::Application.config.full_domain %>";
-
-	configuration["Upload"] = false;
 	configuration["uploadPresentationPath"] = "<%= presentation_path @presentation, :format=> "json" %>";
+	configuration["previewPresentationPath"] = "/excursions/preview";
+
+	configuration["uploadImagePath"] = "<%= documents_path :format=> "json"%>";
+	// configuration["uploadObjectPath"] = "<%= documents_path :format=> "json"%>";
 	configuration["uploadPDF2PPath"] = "<%= pdfps_path :format=> "json"%>";
+	// configuration["uploadEPackagesPath"] = "<%= documents_path :format=> "json"%>";
+	configuration["enableFileImportation"] = true;
 
 	// Sources enabled
 	configuration["ViSH"] = true;
-	configuration["ViSH_instances"] = ["http://vishub.org"];
+	configuration["ViSH_instances"] = ["http://vishub.org","http://educainternet.es"];
 	configuration["Flickr"] = true;
-	<%unless IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'].nil? %>
-		configuration["Youtube"] = true;
-		configuration["YoutubeAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'] %>";
-	<%end%>
-	configuration["Vimeo"] = false;
-	configuration["LRE"] = true;
-	configuration["LRE_path"] = "http://vishub.org/lre/search";
-	<%unless IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'].nil? %>
-		configuration["SoundCloud"] = true;
-		configuration["SoundCloudAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'] %>";
-	<%end%>
 	<% unless IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'].nil? %>
 		configuration["Europeana"] = true;
 		configuration["EuropeanaAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['EuropeanaAPIKEY'] %>";
 	<% end %>
+	<% unless IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'].nil? %>
+		configuration["Youtube"] = true;
+		configuration["YoutubeAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['YouTubeAPIKEY'] %>";
+	<% end %>
+	configuration["LRE"] = true;
+	configuration["LRE_path"] = "http://vishub.org/lre/search";
+	<% unless IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'].nil? %>
+		configuration["SoundCloud"] = true;
+		configuration["SoundCloudAPIKEY"] =  "<%= IDeM::Application.config.APP_CONFIG['soundCloudAPIKEY'] %>";
+	<% end %>
+
+	//Thumbnails
+	configuration["thumbnailsPath"] = '/thumbnails.json';
+	
+	//Tags
+	// configuration["tagsPath"]
+	
+	//TmpJSON
+	// configuration["uploadJSONPath"]
+
+	//Attachment
+	// configuration["uploadAttachmentPath"]
+	
 
 	configuration["presentationSettings"] = true;
-	
+
 	var tagsSettings = new Object();
 	tagsSettings.maxLength = '<%=IDeM::Application.config.tagsSettings["maxLength"]%>';
 	tagsSettings.maxTags = '<%=IDeM::Application.config.tagsSettings["maxTags"]%>';
-	tagsSettings.triggerKeys = <%=raw(IDeM::Application.config.tagsSettings["triggerKeys"].to_json)%>; 
+	tagsSettings.triggerKeys = <%=raw(IDeM::Application.config.tagsSettings["triggerKeys"].to_json)%>;     	
 	configuration["tagsSettings"] = tagsSettings;
+
+	configuration["publishPermissions"] = ["Comment","Download","Clone"]
+
+	// Locales
+	configuration["defaultLanguage"] = "en";
+	configuration["locales"] = VE_IDEM_Locales;
 
 	//WAPP TOKEN API
 	configuration["WAPP_TOKEN_API"] = {
@@ -49,14 +69,16 @@
 	};
 
 	options["configuration"] = configuration;
-	
-
 	options["developping"] = false;
 
+	options["environment"] = {
+		name: "<%= IDeM::Application.config.name %>"
+	}
+
 	options["user"] = {
-			name: "<%= @presentation.owner.name %>",
-			id: "<%= @presentation.owner.id %>",
-			token: "<%= form_authenticity_token %>"
+		name: "<%= @presentation.owner.name %>",
+		id: "<%= @presentation.owner.id %>",
+		token: "<%= form_authenticity_token %>"
 	};
 
 	options["draft"] = <%= @presentation.draft.to_s %>;
@@ -72,7 +94,6 @@
 	<% end %>
 
 	options.addons = [];
-
 	var addon = new Object();
 	addon.target = "Both";
 	addon.id = "IframeMessenger";
