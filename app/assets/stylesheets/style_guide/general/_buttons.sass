@@ -46,15 +46,19 @@
       color: white !important
 
 .button-primary-red
-  border: 1px solid $idem-red
+  //border: 1px solid $idem-red
+  border: none
   padding: 4px 10px
   text-align: center
   font-size: 0.9em
   border-radius: $radius-base
   background-color: $idem-red
   color: white
-  a
+  a, i
     color: white
+  &:hover
+    background-color: $dark-red
+    border-radius: $radius-base
 
 .button-secondary-yellow
   border: 1px solid $idem-yellow
