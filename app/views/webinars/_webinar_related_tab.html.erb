@@ -235,6 +235,9 @@
       $(".presentation_item_mini a").on("click", function(e){
         e.stopPropagation();
       });
+
+      $(".presentation_item_mini").unbind("click");
+
       $(".presentation_item_mini").on("click", function(){
         $("#clear_presentation").removeClass('button-disabled');
         $(".presentation_item_mini").removeClass("presentation-selected");
@@ -262,6 +265,16 @@
     $("#recording_button").on("click", function () {
       $('#new_recording_modal').modal('show');
       startRecording();
+    });
+
+    $(".presentation_item_mini").on("click", function(){
+        var alert = jQuery(
+        '<div class="alert alert-info alert-dismissable" role="alert">' +
+          '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+          'You need to start the webinar before sharing a presentation.' +
+        '</div>'
+      );
+      $('#idem_notifications').append(alert);
     });
 
   <%end%>
