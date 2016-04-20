@@ -24,6 +24,13 @@ class Presentation < ActiveRecord::Base
   after_save :parse_for_metadata_id
   after_destroy :remove_scorms
 
+  ####################
+  ## Class methods
+  ####################
+
+  def self.public
+    self.where(:draft => false)
+  end
 
   ####################
   ## Model methods
