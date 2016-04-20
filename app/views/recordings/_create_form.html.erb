@@ -1,6 +1,9 @@
 <label>This recording will be about publication</label>
 <p><%=@webinar.publication.title%></p>
 
+<label>Title (you would edit the title later)</label>
+<p id="recording_title" type="text"><%=@webinar.title%>-<%=Time.now.to_formatted_s(:short)%></p>
+
 <label>To start the recording fill the title and then, in the popover in the left side:</label>
 <ol>
 	<li>Select "IDeM" in the "Window to share" option</li>
@@ -8,8 +11,6 @@
 	<li>Click on "Share selected elements"</li>
 </ol>
 
-<label>Title</label>
-<input class="form-control" placeholder="Title" id="recording_title" type="text">
 
 <!--Closing body div-->
 </div>   

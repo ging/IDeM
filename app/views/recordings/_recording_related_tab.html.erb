@@ -28,6 +28,8 @@
 
 <%end%>
 
+<h4 class="actions-header-webinar">Related webinars</h4>
+
 <div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
   <% @recording.publication.webinars.each do |webinar| %>
     <%= render 'webinars/webinar_mini', :webinar => webinar %>
