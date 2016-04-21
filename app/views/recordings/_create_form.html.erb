@@ -1,19 +1,17 @@
-<label>This recording will be about publication</label>
-<p><%=@webinar.publication.title%></p>
+<div class="modal-body">
+	<label>This recording will be about publication</label>
+	<p><%=@webinar.publication.title%></p>
 
-<span><label>Title </label> (you could edit the title later)</span>
-<p id="recording_title" type="text"><%=@webinar.title%>-<%=Time.now.to_formatted_s(:short)%></p>
+	<span><label>Title </label> (you could edit the title later)</span>
+	<p id="recording_title" type="text"><%=@webinar.title%>-<%=Time.now.to_formatted_s(:short)%></p>
 
-<label>To start the recording fill the title and then, in the popover in the left side:</label>
-<ol>
-	<li>Select "IDeM" in the "Window to share" option</li>
-	<li>Select the desired mic in the "Mic to share" option</li>
-	<li>Click on "Share selected elements"</li>
-</ol>
-
-
-<!--Closing body div-->
-</div>   
+	<label>To start the recording fill the title and then, in the popover in the left side:</label>
+	<ol>
+		<li>Select "IDeM" in the "Window to share" option</li>
+		<li>Select the desired mic in the "Mic to share" option</li>
+		<li>Click on "Share selected elements"</li>
+	</ol>
+</div>
 <div class="modal-footer">
-<button type="button" class="button-secondary-yellow" data-dismiss="modal">Close</button>
+	<button type="button" class="button-secondary-yellow" data-dismiss="modal">Close</button>
 </div>

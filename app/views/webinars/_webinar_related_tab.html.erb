@@ -1,114 +1,74 @@
 <% if isWebinarOwner %>
+  <ul class="nav nav-tabs related_tooltab">
+    <li class="tab_webinar active">
+      <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Presentations</a>
+    </li>
+    <li class="tab_webinar">
+      <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Chat</a>
+    </li>
+    <li class="tab_webinar">
+      <a href="#related_tab2" tabTitle='Viewers' data-toggle="tab">Viewers</a>
+    </li>
+  </ul>
 
-<!--BTN ACTIONS-->
-
-<!--<div class="btn-group actions_layout_show" role="group">
-
-  <button type="button" id="clear_presentation" class="btn button-primary-yellow button-disabled">
-    <i class="fa fa-picture-o"></i>
-  </button>
--->
-  <!-- Edit -->
-<!--
-  <button type="button" data-toggle="tooltip" title="Edit" data-placement="top" class="btn button-primary-yellow" data-toggle="modal" data-target="#new_webinar_modal">
-    <i class="fa fa-pencil"></i>
-  </button>
--->
-  <!--Remove-->
-<!--
-  <button type="button" data-toggle="tooltip" title="Delete" data-placement="top" class="btn button-primary-yellow with_tooltip delete" data-toggle="popover" data-container="body" title="Delete Webinar" data-placement="left" aria-hidden="true">
-    <i class="fa fa-trash"></i>
-  </button>
--->
-  <!--Remove confirmation-->
-<!--
-  <div class="contentdelete" style="display: none">
-    <p class="delete_p">Are you sure?</p>
-    <div class="actions">
-      <button class="button-secondary-yellow closepopover">Cancel</button>
-      <%= link_to 'Delete', webinar_path(@webinar), :method => :delete, :class => 'button-primary-yellow' %>
+  <div class="tab-content related-tab-content">
+    <div class="tab-pane active content_presentations_list" id="related_tab0">
+        <% webinar.publication.presentations.each do |presentation| %>
+          <%isPresentationOwner = (current_user.id == presentation.author_id) %>
+          <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
+        <% end %>
     </div>
-  </div>
-  <button type="button" data-toggle="tooltip" title="Record webinar" data-placement="top" id="recording_button" class="btn button-primary-yellow">
-    <i class="fa fa-dot-circle-o"></i><span></span>
-  </button>
-</div>
--->
-<ul class="nav nav-tabs related_tooltab">
-  <li class="tab_webinar active">
-    <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Presentations</a>
-  </li>
-  <li class="tab_webinar">
-    <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Chat</a>
-  </li>
-  <li class="tab_webinar">
-    <a href="#related_tab2" tabTitle='Viewers' data-toggle="tab">Viewers</a>
-  </li>
-</ul>
-
-<div class="tab-content related-tab-content">
-  <div class="tab-pane active content_presentations_list" id="related_tab0">
-      <% webinar.publication.presentations.each do |presentation| %>
-        <%isPresentationOwner = (current_user.id == presentation.author_id) %>
-        <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
-      <% end %>
-  </div>
-  <div class="tab-pane content_chat" id="related_tab1">
-    <div class="chat_conversation"></div>
-    <div class="chat_message">
-      <input type="text" id="chat_text"></input>
-      <button class="button-primary-yellow" id="chat_send">Send</button>
+    <div class="tab-pane content_chat" id="related_tab1">
+      <div class="chat_conversation"></div>
+      <div class="chat_message">
+        <input type="text" id="chat_text"></input>
+        <button class="button-primary-yellow" id="chat_send">Send</button>
+      </div>
     </div>
+    <div class="tab-pane content_connected_users" id="related_tab2"></div>
   </div>
-  <div class="tab-pane content_connected_users" id="related_tab2">
-  </div>
-</div>
 
-<%@webinar = webinar%>
-<%= render 'webinars/webinar_modal', :action => 'Edit' %>
-
+  <% @webinar = webinar %>
+  <%= render 'webinars/webinar_modal' %>
 <%else%>
+  <ul class="nav nav-tabs related_tooltab">
+    <li class="tab_webinar active">
+      <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Chat</a>
+    </li>
+    <li class="tab_webinar">
+      <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Related webinars</a>
+    </li>
+  </ul>
 
-<ul class="nav nav-tabs related_tooltab">
-  <li class="tab_webinar active">
-    <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Chat</a>
-  </li>
-  <li class="tab_webinar">
-    <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Related webinars</a>
-  </li>
-</ul>
-
-<div class="tab-content related-tab-content">
-  <div class="tab-pane tab-pane-viewer active content_chat" id="related_tab0">
-    <div class="chat_conversation"></div>
-    <div class="chat_message">
-      <input type="text" id="chat_text"></input>
-      <button class="button-primary-yellow" id="chat_send">Send</button>
+  <div class="tab-content related-tab-content">
+    <div class="tab-pane tab-pane-viewer active content_chat" id="related_tab0">
+      <div class="chat_conversation"></div>
+      <div class="chat_message">
+        <input type="text" id="chat_text"></input>
+        <button class="button-primary-yellow" id="chat_send">Send</button>
+      </div>
+    </div>
+    <div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
+      <% webinar.author.webinars.each do |webinar| %>
+        <%= render 'webinars/webinar_mini', :webinar => webinar %>
+      <% end %>
     </div>
   </div>
-  <div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
-    <% webinar.author.webinars.each do |webinar| %>
-      <%= render 'webinars/webinar_mini', :webinar => webinar %>
-    <% end %>
-  </div>
-</div>
-
 <%end%>
 
 <script type="text/javascript">
-
-   $('.delete').popover({
-      html : true,
-      placement: "left",
-      content: function() {
-        return $('.contentdelete').html();
-      },
-      container: ".actions_layout_show"
-    });
+  $('.delete').popover({
+    html : true,
+    placement: "left",
+    content: function() {
+      return $('.contentdelete').html();
+    },
+    container: ".actions_layout_show"
+  });
 
   document.IDEM_SESSION = document.IDEM_SESSION || {};
 
-  document.IDEM_SESSION.switchPresentation = function(presentation,stream) {
+  document.IDEM_SESSION.switchPresentation = function(presentation,stream){
     if (presentation === 'none') {
       $("#webinar_presentation").attr('src', '');
       $("#webinar_presentation").parent().hide();
@@ -125,17 +85,17 @@
       $("#webinar_video").addClass('present_small');
       stream.player.resize();
     }
-  }
+  };
 
   $('#chat_send').click(document.IDEM_SESSION.send_chat_message);
 
-  $('#chat_text')[0].onkeyup = function(e) {
+  $('#chat_text')[0].onkeyup = function(e){
     e = e || event;
     if (e.keyCode === 13) {
         document.IDEM_SESSION.send_chat_message();
     }
     return true;
-  }
+  };
 
   var last_chat_sender = null;
 
