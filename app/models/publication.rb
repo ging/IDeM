@@ -1,4 +1,5 @@
 class Publication < ActiveRecord::Base
+  include Recommendable
   acts_as_taggable
 
   has_and_belongs_to_many :users

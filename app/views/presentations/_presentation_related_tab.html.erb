@@ -1,10 +1,6 @@
-
 <h4 class="actions-header-presentation">Related presentations</h4>
-
 <div class="author_presentations_list">
-  <% presentation.author.presentations.each do |pres| %>
-    <% if pres.id != presentation.id %>
-      <%= render 'presentations/presentation_mini', :presentation => pres, :isPresentationOwner => isPresentationOwner %>
-    <% end %>
+  <% @suggestions.each do |pres| %>
+    <%= render 'presentations/presentation_mini', :presentation => pres, :isPresentationOwner => isPresentationOwner %>
   <% end %>
 </div>

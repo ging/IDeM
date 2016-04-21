@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  include Recommendable
   acts_as_taggable
 
   # Include default devise modules.
@@ -58,6 +59,17 @@ class User < ActiveRecord::Base
     data
   end
 
+  def extend_profile(options={})
+    {
+      :language => self.language,
+      :los => self.pastLos(options[:n])
+    }
+  end
+
+  def pastLos(n=nil)
+    n = IDeM::Application::config.max_user_pastlos unless n.is_a? Numeric
+    []
+  end
 
   #################
   # Class methods
