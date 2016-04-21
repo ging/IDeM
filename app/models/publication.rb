@@ -29,6 +29,10 @@ class Publication < ActiveRecord::Base
     users
   end
 
+  def description
+    self.abstract
+  end
+
 
   private
 

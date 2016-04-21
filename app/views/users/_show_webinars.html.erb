@@ -1,22 +1,21 @@
 <div id="webinars" class="tab-pane in active">
   <div class="row">
-    <%if isProfileOwner && @user.publications.size>0%>
-    <%= render 'webinars/webinar_new' %>
-    <%elsif isProfileOwner%>
+    <% if isProfileOwner && @user.publications.size>0 %>
+      <%= render 'webinars/webinar_new' %>
+    <% elsif isProfileOwner %>
       <div class="no_items">
         <p>In order to create a webinar you must have at least one publication in</p>
         <% unless profileLoopData["user_data"]["profileUrl"].blank? %>
         <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Do it in Loop"); %>
         <% end %>
       </div>
-    <%end%>
+    <% end %>
     <% @user.webinars.each do |webinar| %>
       <%= render 'webinars/webinar', :webinar => webinar, :showActions => isProfileOwner  %>
     <% end %>
   </div>
 </div>
 
-<%if isProfileOwner && @user.publications.size>0%>
-	<%@webinar = Webinar.new%>
-	<%= render 'webinars/webinar_modal', :action => 'Create' %>
-<%end%>
+<% if isProfileOwner && @user.publications.size>0 %>
+  <%= render 'webinars/webinar_modal' %>
+<% end %>

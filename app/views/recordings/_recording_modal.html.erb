@@ -5,12 +5,11 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h3 class="modal-title" id="myModalLabel"><%=action%> webinar</h3>
       </div>
-      <div class="modal-body">
-        <% if action == 'Record' %>
+      <% if action == 'Record' %>
         <%=render "recordings/create_form"%>
-        <% else %>
+      <% else %>
         <%=render "recordings/edit_form"%>
-        <% end %>
+      <% end %>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
