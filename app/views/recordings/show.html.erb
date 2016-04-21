@@ -1,7 +1,7 @@
 <% shortURL = request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + recording_path(@recording) %>
 <% isRecordingOwner = (user_signed_in? and current_user.id==@recording.author_id) %>
 
-<hr>
+<!--<hr>-->
 <section id="show_items " class="layout_show">
   <div class="doc-show">
     <h3><%= @recording.title %></h3>

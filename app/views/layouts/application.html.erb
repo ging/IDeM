@@ -8,18 +8,21 @@
 </head>
 <body>
 
-<header>
-  <%= render "layouts/header" %>
-</header>
+  <header>
+    <div class="row colors-dec">
+      <div class="col-xs-3 red"></div><div class="col-xs-3 orange"></div><div class="col-xs-3 yellow"></div><div class="col-xs-3 green"></div>
+    </div>
+    <%= render "layouts/header" %>
+  </header>
 
-<div id="container">
-  <%= render '/layouts/notifications' %>
-  <%= yield %>
-</div>
+  <div id="container">
+    <%= render '/layouts/notifications' %>
+    <%= yield %>
+  </div>
 
-<footer>
-  <%= render "layouts/footer" %>
-</footer>
+  <footer>
+    <%= render "layouts/footer" %>
+  </footer>
 
 </body>
 

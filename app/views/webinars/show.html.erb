@@ -2,7 +2,7 @@
 <% isWebinarOwner = (user_signed_in? and current_user.id==@webinar.author_id) %>
 <% user = user_signed_in? ? {'name' => current_user.name, 'path' => user_path(current_user), 'avatar' => current_user.loop_avatar_url}.to_json : 'guest' %>
 
-<hr>
+<!--<hr>-->
 <section id="show_items " class="layout_show">
   <div class="doc-show">
     <h3><%= @webinar.title %></h3>
@@ -10,7 +10,7 @@
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">
         <div class="viewerElement"></div>
-      
+
         <%= render :partial => 'webinar_show', :locals  => { :webinar => @webinar, :isWebinarOwner => isWebinarOwner } %>
       </div>
       <div class="viewerContainer col-xs-12 col-sm-5 col-lg-3">
