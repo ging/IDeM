@@ -1,6 +1,22 @@
 <div id="idem-logo"><%= link_to(image_tag('idem_logo.svg', :alt => 'idem'), '/', :class => "logo"); %></div>
 <div class="button-secondary" id="login"><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></div>
-<div id="profile">
+<!--<div id="profile">
 	<%= image_tag(current_user.avatar_url, :alt => current_user.name) %>
 	<%= link_to(current_user.name, user_path(current_user)) %>
+</div>-->
+
+<div id="profile" class="dropdown">
+	<%= image_tag(current_user.avatar_url, :alt => current_user.name) %>
+ <button class="dropdown-toggle" type="button" data-toggle="dropdown">
+	 <%= current_user.name %>
+   <span class="caret"></span>
+ </button>
+ <ul class="dropdown-menu">
+	 <div class="arrow-up-orange"></div>
+	 <%#= link_to('/presentations', :class => "logo"); %>
+	 <li><%= link_to('My publications',user_path(current_user)); %></li>
+	 <li><%= link_to('My presentations',user_path(current_user)+'/presentations'); %></li>
+	 <li><%= link_to('My webinars',user_path(current_user)+'/webinars'); %></li>
+	 <li><%= link_to('Network',user_path(current_user)+'/network'); %></li>
+ </ul>
 </div>
