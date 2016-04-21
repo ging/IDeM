@@ -91,6 +91,38 @@
     background-color: $dark-yellow
     border-radius: $radius-base
 
+.button-secondary-orange
+  border: 1px solid $idem-orange
+  padding: 4px 10px
+  text-align: center
+  font-size: 0.9em
+  background-color: white
+  color: $idem-orange
+  border-radius: $radius-base
+  @include btn-transition-orange
+  a
+    color: $idem-orange
+  &:hover
+    color: white !important
+    a
+      color: white !important
+
+.button-primary-orange
+  border: none
+  padding: 4px 10px
+  text-align: center
+  font-size: 0.9em
+  border-radius: $radius-base
+  background-color: $idem-orange
+  color: white
+  a, i
+    color: white
+  &:hover
+    background-color: $dark-orange
+    border-radius: $radius-base
+
+
+
 //exceptions
 
 .special_record

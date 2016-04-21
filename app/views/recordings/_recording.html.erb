@@ -1,0 +1,31 @@
+<div class="col-md-2 col-xs-6 recording-item">
+
+  <div class="recording">
+    <% generated_id= "recording-" + recording.id.to_s %>
+    <div class="title">
+      <!--Title -->
+      <a href=<%=  recording_url(recording) %>>
+        <h5><i class="fa fa-video-camera fa-lg"></i><p><%= recording.title %></p></h5>
+      </a>
+    </div>
+    <!-- Info -->
+    <div class="caption">
+      <!--Publication -->
+      <div class="publication">
+        <%= link_to recording.publication.title, recording.publication.loop_url, :target => '_blank' %>
+      </div>
+      <!--Date -->
+      <div class="date">
+        <h4><%= recording.created_at.to_formatted_s(:short)%></h4>
+      </div>
+      <!--Author -->
+      <div class="author">
+        <%= render 'users/user', :user => recording.author%>
+      </div>
+      <!-- Link -->
+      <div class="link button-secondary-orange">
+        <%= link_to('View recording', recording_url(recording), :class => "logo");%>
+      </div>
+    </div>
+  </div>
+</div>

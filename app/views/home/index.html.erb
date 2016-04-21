@@ -7,29 +7,45 @@
 </div>
 
 <div id="contents">
-	<div id="presentations">
-		<h3 role="button" data-toggle="collapse" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-      <i class="fa fa-picture-o" aria-hidden="true"></i>Featured presentations
-    </h3>
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs nav-home" role="tablist">
+    <li id="presentations" role="presentation" class="active">
+      <a href="#presentations_tab" aria-controls="home" role="tab" data-toggle="tab">
+        <h3><i class="fa fa-picture-o" aria-hidden="true"></i>Featured presentations</h3>
+      </a>
+    </li>
+    <li id="webinars" role="presentation">
+      <a href="#webinars_tab" aria-controls="profile" role="tab" data-toggle="tab">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>Upcoming webinars
+      </a>
+    </li>
+    <li id="recordings" role="presentation">
+      <a href="#recordings_tab" aria-controls="messages" role="tab" data-toggle="tab">
+        <i class="fa fa-youtube-play" aria-hidden="true"></i>Last recordings
+      </a>
+    </li>
 
-	    <div id="collapseOne" class="panel-collapse collapse in row" role="tabpanel">
-	      	<div class="fix-collapse">
-	      	<%if user_signed_in? && current_user.publications.size>0%>
-				<%= render 'presentations/presentation_new' %>
-			<%end%>
-			<% @presentations.each do |presentation| %>
-			  	<%= render 'presentations/presentation', :presentation => presentation %>
-			<% end %>
+  </ul>
+
+
+
+
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <!-- presentations -->
+    <div role="tabpanel" class="tab-pane active" id="presentations_tab">
+      <div class="fix-collapse">
+	      <%if user_signed_in? && current_user.publications.size>0%>
+				    <%= render 'presentations/presentation_new' %>
+			  <%end%>
+  			<% @presentations.each do |presentation| %>
+  			  	<%= render 'presentations/presentation', :presentation => presentation %>
+  			<% end %>
 			</div>
-	    </div>
-	</div>
-
-	<div id="webinars">
-		<h3 role="button" data-toggle="collapse" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-      <i class="fa fa-clock-o" aria-hidden="true"></i>Upcoming webinars
-    </h3>
-		<div id="collapseTwo" class="panel-collapse collapse row" role="tabpanel">
-			<div class="fix-collapse">
+    </div>
+    <!-- webinars -->
+    <div role="tabpanel" class="tab-pane" id="webinars_tab">
+      <div class="fix-collapse">
 			<%if user_signed_in? && current_user.publications.size>0%>
 				<%= render 'webinars/webinar_new' %>
 			<%end%>
@@ -37,22 +53,24 @@
 			   	<%= render 'webinars/webinar', :webinar => webinar %>
 			<% end %>
 			</div>
-		</div>
-	</div>
-
-  <div id="recordings">
-    <h3 role="button" data-toggle="collapse" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-      <i class="fa fa-youtube-play" aria-hidden="true"></i>Last recordings
-    </h3>
-    <div id="collapseThree" class="panel-collapse collapse row" role="tabpanel">
+    </div>
+    <!--recordings -->
+    <div role="tabpanel" class="tab-pane" id="recordings_tab">
       <div class="fix-collapse">
       <% @recordings.each do |recording| %>
-          <%= render 'webinars/webinar', :webinar => recording %>
+          <%= render 'recordings/recording', :recording => recording %>
       <% end %>
       </div>
     </div>
-  </div>
+  </div> <!--end of tab-content -->
 
+</div><!--end of id=contents -->
+
+
+
+
+
+<!--recordings -->
 </div>
 
 

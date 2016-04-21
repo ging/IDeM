@@ -2,23 +2,22 @@
 
   <div class="webinar">
     <% generated_id= "webinar-" + webinar.id.to_s %>
+    <div class="title">
+      <!--Title -->
+      <a href=<%=  webinar_url(webinar) %>>
+        <h5><i class="fa fa-clock-o fa-lg"></i><p><%= webinar.title %></p></h5>
+      </a>
+    </div>
+
     <!-- Info -->
     <div class="caption">
-      <!--Title -->
-      <h5>
-        <%= link_to webinar.title, webinar %>
-      </h5>
       <!--Publication -->
       <div class="publication">
         <%= link_to webinar.publication.title, webinar.publication.loop_url, :target => '_blank' %>
       </div>
       <!--Date -->
       <div class="date">
-        <%if webinar.respond_to?('start_date') %>
         <h4><%= webinar.start_date.to_formatted_s(:short)%></h4>
-        <%else%>
-        <h4><%= webinar.created_at.to_formatted_s(:short)%></h4>
-        <%end%>
       </div>
       <!--Author -->
       <div class="author">
@@ -26,11 +25,7 @@
       </div>
       <!-- Link -->
       <div class="link button-secondary-yellow">
-        <%if webinar.respond_to?('start_date') %>
-        <%= link_to('Go to webinar (live)', webinar_url(webinar), :class => "logo");%>
-        <%else%>
         <%= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
-        <%end%>
       </div>
     </div>
   </div>
