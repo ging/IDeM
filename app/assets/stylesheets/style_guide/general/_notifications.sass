@@ -4,9 +4,65 @@
 	right: 20px
 	z-index: 9999
 	.alert
-		font-size: 0.9em
+		font-size: 0.8em
 		padding: 10px 35px 10px 15px
+		transition: 1s all
 
+	.alert-success
+		background-image: none
+		background-repeat: none
+		border-color: $alert-green
+		color: $alert-green
+		background-color: $alert-green-bg
+		border-radius: 0
+		border-top: 3px solid $alert-green
+		.close:hover
+			color: $alert-green
+		&::before
+			font-family: FontAwesome
+			content: "\f00c"
+	.alert-info
+		background-image: none
+		background-repeat: none
+		border-color: $alert-blue
+		color: $alert-blue
+		background-color: $alert-blue-bg
+		border-radius: 0
+		border-top: 3px solid $alert-blue
+		.close:hover
+			color: $alert-blue
+		&::before
+			font-family: FontAwesome
+			margin-right: 5px
+			content: "\f05a"
+	.alert-warning
+		background-image: none
+		background-repeat: none
+		border-color: $alert-yellow
+		color: $alert-yellow
+		background-color: $alert-yellow-bg
+		border-radius: 0
+		border-top: 3px solid $alert-yellow
+		.close:hover
+			color: $alert-yellow
+		&::before
+			font-family: FontAwesome
+			margin-right: 5px
+			content: "\f071"
+	.alert-danger
+		background-image: none
+		background-repeat: none
+		border-color: $alert-red
+		color: $alert-red
+		background-color: $alert-red-bg
+		border-radius: 0
+		border-top: 3px solid $alert-red
+		.close:hover
+			color: $alert-red
+		&::before
+			font-family: FontAwesome
+			margin-right: 5px
+			content: "\f05e"
 .no_items
 	padding: 20px
 	margin: 20px

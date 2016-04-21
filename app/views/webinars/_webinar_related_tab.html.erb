@@ -274,7 +274,10 @@
           'You need to start the webinar before sharing a presentation.' +
         '</div>'
       );
-      $('#idem_notifications').append(alert);
+
+      if (!$(".alert")[0]){
+          $('#idem_notifications').append(alert);
+      }
     });
 
   <%end%>
