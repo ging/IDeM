@@ -117,10 +117,24 @@ class User < ActiveRecord::Base
     info = JSON.parse(self.loop_data)
 
     unless info["publications"].blank? or info["publications"]["value"].blank?
-      info["publications"]["value"].each do |pInfo|
-        p = Publication.new
+      allLoopPublications = info["publications"]["value"].reject{|pInfo| pInfo["id"].blank?}
+      
+      #Existing publications
+      Publication.where("loop_id in (?)",allLoopPublications.map{|pInfo| pInfo["id"]}).each do |p|
+        allLoopPublications.each do |pInfo|
+          pInfo["idem_publication"] = p if pInfo["id"]==p.loop_id
+        end
+      end
+
+      allLoopPublications.each do |pInfo|
+        if pInfo["idem_publication"].blank?
+          p = Publication.new
+          p.users = [self]
+        else
+          p = pInfo["idem_publication"]
+          p.users = ((p.users + [self]).uniq)
+        end
         p.loop_data = pInfo.to_hash.to_json
-        p.users = [self]
         p.save
       end
     end

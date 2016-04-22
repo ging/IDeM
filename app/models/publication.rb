@@ -5,6 +5,7 @@ class Publication < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_many :presentations
   has_many :webinars
+  has_many :recordings
 
   before_validation :parse_for_meta
   before_destroy :destroy_resources
@@ -68,14 +69,18 @@ class Publication < ActiveRecord::Base
   end
 
   def destroy_resources
-    #Presentations
+    # Presentations
     self.presentations.each do |presentation|
       presentation.destroy
     end
-    # #Webinars
-    # self.webinars.each do |webinar|
-    #   webinar.destroy
-    # end
+    # Webinars
+    self.webinars.each do |webinar|
+      webinar.destroy
+    end
+    # Recordings
+    self.recordings.each do |recording|
+      recording.destroy
+    end
   end
 
 end
