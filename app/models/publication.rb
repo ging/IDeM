@@ -50,14 +50,15 @@ class Publication < ActiveRecord::Base
     self.loop_url = pInfo["loopUrl"]
     self.loop_id = pInfo["id"]
 
-    if !pInfo["journal"].blank?
-      self.publication_type = "journal"
-    end
+    self.publication_type = "journal" unless pInfo["journal"].blank?
     self.publication_name = pInfo["journal"]["name"] if self.publication_type=="journal"
     self.issn = pInfo["journal"]["issn"] if self.publication_type=="journal"
     self.isbn = pInfo["journal"]["isbn"] if self.publication_type=="journal"
     self.volume = pInfo["journal"]["volume"] if self.publication_type=="journal"
     self.issue = pInfo["journal"]["issue"] if self.publication_type=="journal"
+
+    #Tags
+    self.tag_list = pInfo["keywords"]
 
     #Additional authors
     if !pInfo["authors"].blank? and pInfo["authors"].length > 0

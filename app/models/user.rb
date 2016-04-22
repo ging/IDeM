@@ -16,8 +16,6 @@ class User < ActiveRecord::Base
   before_validation :fillTags
   before_validation :parse_for_meta
   after_save :save_tag_array_text
-  before_save :parse_for_publications
-  before_save :parse_for_contacts
   before_destroy :destroy_resources
 
   validates :name, :presence => true
@@ -96,20 +94,16 @@ class User < ActiveRecord::Base
 
     #Update or create LOOP data
     user.loop_data = auth.info.to_hash.to_json
+    user.before_login
     user.save!
 
     user
   end
 
-
-  private
-
-  def parse_for_meta
-    return if self.loop_data.blank?
-    info = JSON.parse(self.loop_data)
-    return if info["user_data"].blank?
-    self.loop_profile_url = info["user_data"]["profileUrl"]
-    self.loop_avatar_url = info["user_data"]["pictureUrl"]
+  def before_login
+    self.parse_for_publications
+    self.parse_for_contacts
+    self.parse_for_keywords
   end
 
   def parse_for_publications
@@ -132,6 +126,7 @@ class User < ActiveRecord::Base
           p.users = [self]
         else
           p = pInfo["idem_publication"]
+          pInfo.delete("idem_publication")
           p.users = ((p.users + [self]).uniq)
         end
         p.loop_data = pInfo.to_hash.to_json
@@ -171,6 +166,24 @@ class User < ActiveRecord::Base
         end
       end
     end
+  end
+
+  def parse_for_keywords
+    publicationKeywords = self.publications.map{|p| p.tags.map{|t| t.plain_name}}.flatten
+    publicationKeywords = publicationKeywords.sort_by{|k| -publicationKeywords.count(k)}.uniq
+    userKeywords = publicationKeywords.first(3)
+    self.tag_list = userKeywords unless self.tag_list == userKeywords
+  end
+
+
+  private
+
+  def parse_for_meta
+    return if self.loop_data.blank?
+    info = JSON.parse(self.loop_data)
+    return if info["user_data"].blank?
+    self.loop_profile_url = info["user_data"]["profileUrl"]
+    self.loop_avatar_url = info["user_data"]["pictureUrl"]
   end
 
   def destroy_resources
