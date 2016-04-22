@@ -182,6 +182,7 @@
         $("#recording_button i").removeClass('fa-stop');
         $("#recording_button").attr('data-original-title', 'Start recording');
         $("#recording_button").unbind("click");
+        requestRecordingProcessing(document.IDEM_SESSION.recording.id);
         $("#recording_button").on("click", function (){
           $('#new_recording_modal').modal();
           startRecording();
@@ -205,6 +206,20 @@
       processData: false,
       contentType: 'application/json',
       data: JSON.stringify(data),
+      statusCode: {
+        200: function (data, status, xhr) {
+          document.IDEM_SESSION.recording = JSON.parse(data).recording;
+        }
+      }
+    });
+  }
+  function requestRecordingProcessing(id) {
+    var url = '/recordings/' + id + '/process';
+
+    $.ajax({
+      url: url,
+      type: 'POST',
+      processData: false,
       statusCode: {
         200: function (data, status, xhr) {
 

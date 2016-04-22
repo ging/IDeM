@@ -30,9 +30,11 @@ class RecordingsController < ApplicationController
       @recording.publication_id = session[:current_publication_id]
     end
     @recording.author_id = current_user.id
-    @recording.save!
+    success = @recording.save!
     respond_to do |format|
-      format.all { redirect_to recording_path(@recording) }
+      format.all {
+        render :json => {:success => success, :recording => @recording}, :status => 200
+      }
     end
   end
 
@@ -42,6 +44,19 @@ class RecordingsController < ApplicationController
     @recording.update_attributes!(params[:recording])
     respond_to do |format|
       format.all { redirect_to recording_path(@recording) }
+    end
+  end
+
+  def process_video
+    @recording = Recording.find(params[:id])
+    @recording.processing = true
+    success = @recording.save
+    #Execute bash script
+    system "ffmpeg -i public/webinar_recordings/" + @recording.recording_id + ".mkv -c:v libx264 -profile:v baseline -level 3.1 -preset veryfast -r 24 -crf 21 -c:a libfaac -b:a 32K public/webinar_recordings/" + @recording.recording_id + ".mp4 -y &"
+    respond_to do |format|
+      format.all {
+        render :json => {:success => success, :recording => @recording}, :status => 200
+      }
     end
   end
 

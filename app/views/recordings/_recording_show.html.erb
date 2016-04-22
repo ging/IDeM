@@ -1,5 +1,40 @@
+<% if File.file?('public/webinar_recordings/' + @recording.recording_id + '.mp4') %> 
+<video class="recording_video" controls="" name="media">
+	<source src="/webinar_recordings/<%=@recording.recording_id%>.mp4" type="video/mp4">
+</video>
+<%else%>
+
 <div class="recording_video">
-	<video controls="" name="media">
-		<source src="/webinar_recordings/<%=@recording.recording_id%>.mkv" type="video/webm">
-	</video>
+	<div class="pre-tools">
+		<%if isRecordingOwner && !@recording.processing%>
+		<p>There was a problem processing this recording. You can try again now. If the problem persists, please, contact an administrator.</p>
+		<button id="process_recording" class="button-primary-yellow">
+			<i class="fa fa-cogs"></i>Process video
+		</button>
+		<%else%>
+		<p>This recording is being processing. It will be available in a few seconds. If the problem persists, please, contact an administrator.</p>
+		<%end%>
+	</div>
 </div>
+<%end%>
+
+<%if isRecordingOwner && !@recording.processing%>
+<script type="text/javascript">
+
+$("#process_recording").on("click", function(e){
+
+  var url = '/recordings/' + <%= @recording.id %> + '/process';
+
+  $.ajax({
+    url: url,
+    type: 'POST',
+    processData: false,
+    statusCode: {
+      200: function (data, status, xhr) {
+      	location.reload();
+      }
+    }
+  });
+});
+ </script>
+ <%end%>

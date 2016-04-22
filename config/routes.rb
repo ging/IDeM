@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   #Webinars
   resources :webinars
   #Recordings
+  match '/recordings/:id/process' => 'recordings#process_video', :via => :post
   resources :recordings
 
   #PDF to Presentation
