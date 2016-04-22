@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160421141524) do
+ActiveRecord::Schema.define(version: 20160422075419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 20160421141524) do
     t.datetime "attachment_updated_at"
     t.datetime "created_at",                              null: false
     t.datetime "updated_at",                              null: false
+    t.text     "tag_array_text",          default: ""
   end
 
   create_table "publications", force: :cascade do |t|
@@ -87,8 +88,9 @@ ActiveRecord::Schema.define(version: 20160421141524) do
     t.text     "loop_data"
     t.text     "loop_url"
     t.integer  "loop_id"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
+    t.text     "tag_array_text",   default: ""
   end
 
   create_table "publications_users", id: false, force: :cascade do |t|
@@ -105,6 +107,7 @@ ActiveRecord::Schema.define(version: 20160421141524) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
+    t.text     "tag_array_text", default: ""
   end
 
   create_table "taggings", force: :cascade do |t|
@@ -123,6 +126,7 @@ ActiveRecord::Schema.define(version: 20160421141524) do
   create_table "tags", force: :cascade do |t|
     t.string  "name"
     t.integer "taggings_count", default: 0
+    t.string  "plain_name"
   end
 
   add_index "tags", ["name"], name: "index_tags_on_name", unique: true, using: :btree
@@ -149,6 +153,7 @@ ActiveRecord::Schema.define(version: 20160421141524) do
     t.text     "loop_data"
     t.text     "loop_profile_url"
     t.text     "loop_avatar_url"
+    t.text     "tag_array_text",         default: ""
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -165,6 +170,7 @@ ActiveRecord::Schema.define(version: 20160421141524) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "description"
+    t.text     "tag_array_text", default: ""
   end
 
 end

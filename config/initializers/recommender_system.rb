@@ -58,6 +58,8 @@ Rails.application.configure do
   #Settings for speed up TF-IDF calculations
   config.max_text_length = (config.settings[:max_text_length].is_a?(Numeric) ? config.settings[:max_text_length] : 50)
   # config.repository_total_entries = [Lo.count,1].max #Not used
+
+  config.stoptags = File.read("config/stoptags.yml").split(",").map{|s| s.gsub("\n","").gsub("\"","") } rescue []
 end
 
 

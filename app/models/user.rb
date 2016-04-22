@@ -13,7 +13,9 @@ class User < ActiveRecord::Base
 
   before_validation :fillPasswordFlag
   before_validation :fillLanguages
+  before_validation :fillTags
   before_validation :parse_for_meta
+  after_save :save_tag_array_text
   before_save :parse_for_publications
   before_save :parse_for_contacts
   before_destroy :destroy_resources
@@ -23,6 +25,7 @@ class User < ActiveRecord::Base
   validates :language, :presence => true
   validates_inclusion_of :ug_password_flag, :in => [true, false]
   validate :checkLanguages
+  validate :checkTags
   validates :loop_data, :presence => true
   validates :uid, :presence => true
   validates_inclusion_of :provider, :in => ["loop"]

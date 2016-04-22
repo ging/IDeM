@@ -41,23 +41,17 @@ module IDeM
     end
 
     #Tags settings
-    if config.APP_CONFIG['tagsSettings'].blank?
-      config.tagsSettings = {}
-    else
-      config.tagsSettings = config.APP_CONFIG['tagsSettings']
-    end
 
-    if config.tagsSettings["maxLength"].blank?
-      config.tagsSettings["maxLength"] = 20
-    end
-
-    if config.tagsSettings["maxTags"].blank?
-      config.tagsSettings["maxTags"] = 8
-    end
-
-    if config.tagsSettings["triggerKeys"].blank?
-      config.tagsSettings["triggerKeys"] = ['enter', 'comma', 'tab', 'space']
-    end
+    #Tags
+    config.tagsSettings = (config.APP_CONFIG['tagsSettings'] || {})
+    default_tags = {
+        "minLength" => 2,
+        "maxLength" => 20,
+        "maxTags" => 10,
+        "tagSeparators" => [',',';'],
+        "triggerKeys" => ['enter', 'comma', 'tab', 'space']
+    }
+    config.tagsSettings = default_tags.merge(config.tagsSettings)
 
     #External services settings
     config.uservoice = (!config.APP_CONFIG['uservoice'].nil? and !config.APP_CONFIG['uservoice']["scriptURL"].nil?)
@@ -77,6 +71,8 @@ module IDeM
       end
     end
 
+    ActsAsTaggableOn.strict_case_match = true
+
     config.subtype_classes_mime_types = {
       :picture => [:jpeg, :gif, :png, :bmp, :xcf],
       :zipfile=> [:zip],
@@ -85,5 +81,6 @@ module IDeM
 
     #Require core extensions
     Dir[File.join(Rails.root, "lib", "core_ext", "*.rb")].each {|l| require l }
+    Dir[File.join(Rails.root, "lib", "acts_as_taggable_on", "*.rb")].each {|l| require l }
   end
 end
