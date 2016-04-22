@@ -31,11 +31,11 @@
 
 <div class="tab-content presentation-social">
   <div class="tab-pane active" id="tab0">
-    <%# if @webinar.description.blank? %>
+    <%if @webinar.description.blank? %>
       <div class="no_items">No description available.</div>
-    <%# else %>
-      <%#=@pwebinar.description%>
-    <%# end %>
+    <%else %>
+      <%=@webinar.description%>
+    <%end %>
   </div>
   <!--<div class="tab-pane contentembed" id="tab2">
     <div class="form-group">

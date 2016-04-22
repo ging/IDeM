@@ -12,6 +12,48 @@
 		i
 			margin-right: 10px
 
-.actions-header-webinar
-	color: $idem-yellow
+.actions-header-recording
+	color: $idem-orange
 	margin: 10px 0
+
+.recordings_list
+	margin-top: 20px
+	height: 451px
+	overflow-y: scroll
+	.recording_item
+		position: relative
+		height: 98px
+		padding: 7px
+		.caption
+			height: 60px
+			h5
+				height: 25px
+			.publication
+				font-size: 9pt
+			.date
+				color: #E3D40C
+				font-size: 10pt
+				font-weight: bold
+				p
+					margin-bottom: 0
+			.author
+				img
+					height: 23px
+				a
+					font-size: 8pt
+					font-weight: bold
+					color: black
+			.link
+				position: absolute
+				right: 12px
+				top: 7px
+				display: none
+				a
+					color: grey
+	.recording_item:hover
+		background-color: rgba(228, 213, 12, 0.42)
+		.link
+			display: block
+		.link
+			a:hover
+				color: black

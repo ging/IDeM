@@ -5,6 +5,7 @@
 		<%= f.select(:publication_id, options_for_select(pub_array), {}, {:class => 'form-control'}) %>
 		<label>Title</label>
 		<%= f.text_field :title, :class => "form-control", :placeholder => t('webinar.title_input') %>
+		<label>Description</label>
 		<%= f.text_field :description, :class => "form-control", :placeholder => t('webinar.description_input') %>
 	</div>
 	<div class="modal-footer">

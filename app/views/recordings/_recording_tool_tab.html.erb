@@ -1,19 +1,19 @@
 <ul class="nav nav-tabs tooltab">
-  <li class="tab_webinar active">
+  <li class="tab_recording active">
     <a href="#tab0" tabTitle='description' data-toggle="tab">
       <span class="  hidden-xs">
         Description
       </span>
     </a>
   </li>
-  <li class="tab_webinar">
+  <li class="tab_recording">
     <a href="#tab3" tabTitle='share' data-toggle="tab">
       <span class=" hidden-xs">
         Share
       </span>
     </a>
   </li>
-    <li class="tab_webinar">
+    <li class="tab_recording">
       <a href="#tab4" tabTitle='download' data-toggle="tab">
         <span class="hidden-xs">
           Download
@@ -24,11 +24,10 @@
 
 <div class="tab-content presentation-social">
   <div class="tab-pane active" id="tab0">
-    <%# if @recording.description.blank? %>
-      <div class="no_items">No description available.</div>
-    <%# else %>
-      <%#=@precording.description%>
-    <%# end %>
+    <% if @recording.description.blank? %>
+    <% else %>
+      <%=@recording.description%>
+    <% end %>
   </div>
   <!--<div class="tab-pane contentembed" id="tab2">
     <div class="form-group">

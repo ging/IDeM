@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   has_and_belongs_to_many :publications
   has_many :presentations, :through => :publications
   has_many :webinars, :through => :publications
+  has_many :recordings, :through => :publications
 
   before_validation :fillPasswordFlag
   before_validation :fillLanguages
