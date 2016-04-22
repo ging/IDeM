@@ -1,0 +1,32 @@
+<div class="recording_item_mini" pres-url="<%=recording_path(recording, :format => :full)%>">
+
+	<!-- Info -->
+	<div class="caption">
+
+		<!--Title -->
+		<h5>
+		<%=recording.title%>
+		</h5>
+
+		<!--Publication
+		<div class="publication">
+			<p><%= recording.publication.title%></p>
+		</div> -->
+
+		<!--Publication -->
+
+
+		<!--Author -->
+		<div class="author">
+			<%= render 'users/user', :user => recording.author%>
+		</div>
+
+		<!-- Link -->
+		<div class="link">
+			<a href="<%= recording_url(recording)%>"><i class="fa fa-eye"></i></a>
+		</div>
+	</div>
+	<div class="date">
+		<i class="fa fa-clock-o"></i><p><%= recording.created_at.to_formatted_s(:short)%></p>
+	</div>
+</div>

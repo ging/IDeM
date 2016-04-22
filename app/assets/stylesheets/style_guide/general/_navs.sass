@@ -15,6 +15,9 @@
   li.tab_webinar.active
     a
       color: $idem-yellow
+  li.tab_recording.active
+    a
+      color: $idem-orange
   li
     @include tab-transition-border
     a:hover, a:focus, a:active
@@ -38,6 +41,12 @@
       background: $idem-yellow
     a
       color: $idem-yellow
+  #recordings_tab.active, .tab_recording.active
+    &:after
+      @include tab-border
+      background: $idem-orange
+    a
+      color: $idem-orange
   #network_tab.active
     &:after
       @include tab-border
@@ -48,7 +57,7 @@
 
 //tab content
 .tab-content
-  padding-top: 10px
+  padding: 30px 15px
   font-size: 10pt
   min-height: 100px
   .tab-pane

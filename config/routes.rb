@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   match '/users/:id/publications' => 'users#show_publications', via: [:get]
   match '/users/:id/presentations' => 'users#show_presentations', via: [:get]
   match '/users/:id/webinars' => 'users#show_webinars', via: [:get]
+  match '/users/:id/recordings' => 'users#show_recordings', via: [:get]
   match '/users/:id/followings' => 'users#show_followings', via: [:get]
   match '/users/:id/followers' => 'users#show_followers', via: [:get]
   match '/users/:id/network' => 'users#show_network', via: [:get]
