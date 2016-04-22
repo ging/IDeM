@@ -187,7 +187,15 @@
           $('#new_recording_modal').modal();
           startRecording();
         });
-      }
+        var alert = jQuery(
+          '<div class="alert alert-info alert-dismissable" role="alert">' +
+            '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>' +
+            '<strong>Great!</strong> The webinar has been recorded. The recording is available  ' +
+            '<a href="/recordings/' + document.IDEM_SESSION.recording.id + '" class="alert-link">here</a>.' +
+          '</div>'
+        );
+        $('#idem_notifications').append(alert);
+        }
     });
   }
 
