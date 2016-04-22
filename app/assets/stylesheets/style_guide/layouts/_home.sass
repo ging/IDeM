@@ -1,5 +1,4 @@
 // home
-
 #idem-presentation
   position: relative
   max-height: 280px
@@ -19,25 +18,63 @@
 
 
 #contents
-  .nav-home
-    height: 38px
-  #presentations
+  .nav-tab-home
+    padding: 0
+    height: auto
+    background: none
+    li
+      @include tab-no-transition-border
+      margin-bottom: -2px
+
+    li.presentations-title
+      @include transition-dark_red
+      a
+        color: $idem-red
+    li.presentations-title.active
+      background-color: $idem-red
+      a
+        color: $white
+
+    li.webinars-title
+      @include transition-dark_yellow
+      a
+        color: $idem-yellow
+    li.webinars-title.active
+      background-color: $idem-yellow
+      a
+        color: $white
+
+    li.recordings-title
+      @include transition-dark_orange
+      a
+        color: $idem-orange
+    li.recordings-title.active
+      background-color: $idem-orange
+      a
+        color: $white
+  .tab-content-home
+    .tab-pane
+      width: 100%
+      padding: 2%
+      overflow: hidden
+    //height: 38px
+  //#presentations
     background-color: $idem-red
     @include transition-dark_red
-  #webinars
+  //#webinars
     background-color: $idem-yellow
     @include transition-dark_yellow
-  #recordings
+  //#recordings
     background-color: $idem-orange
     @include transition-dark_orange
-  h3
+  //h3
     margin: 0
     color: white
     font-size: 1.1em
     font-weight: normal
     //padding: 10px 65px
 
-    i
+    //i
       margin-right: 10px
 
 

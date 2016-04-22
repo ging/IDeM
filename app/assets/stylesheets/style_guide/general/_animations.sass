@@ -16,6 +16,11 @@
     height: 3px
     background: $gray
 
+@mixin tab-no-transition-border
+  &:hover:after
+    height: 0px
+    background: none
+
 @mixin tab-border
   content: ''
   display: block
