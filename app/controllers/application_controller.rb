@@ -9,6 +9,18 @@ class ApplicationController < ActionController::Base
     I18n.locale = extract_locale_from_params || extract_locale_from_user_profile || extract_locale_from_session || extract_locale_from_webclient || I18n.default_locale
   end
 
+  def current_user_profile
+    if user_signed_in?
+      user_profile = current_user.profile
+    else
+      user_profile = {}
+      user_profile[:language] = I18n.locale.to_s
+    end
+    
+    user_profile
+  end
+  helper_method :current_user_profile
+
   #Wildcard route rescue
   def page_not_found
     respond_to do |format|

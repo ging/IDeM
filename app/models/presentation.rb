@@ -1,7 +1,8 @@
 require 'builder'
 
 class Presentation < ActiveRecord::Base
- 
+  include Recommendable
+
   attr_accessor :attachment_url
   has_attached_file :attachment, 
                     :url => '/:class/:id/attachment_file',
@@ -28,9 +29,9 @@ class Presentation < ActiveRecord::Base
   ## Class methods
   ####################
 
-  def self.public
-    self.where(:draft => false)
-  end
+  # def self.public
+  #   self.where(:draft => false)
+  # end
 
   ####################
   ## Model methods
@@ -47,6 +48,7 @@ class Presentation < ActiveRecord::Base
   def tag_list
     []
   end
+
 
   ####################
   ## SCORM Management

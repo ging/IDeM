@@ -18,6 +18,7 @@ class PresentationsController < ApplicationController
 
   def show
     @presentation = Presentation.find(params[:id])
+    @suggestions = RecommenderSystem.suggestions({:n => 8, :user_profile => current_user_profile, :lo_profile => @presentation.profile, :settings => {:database => "IDeM", :preselection_filter_by_resource_types => ["Presentation"]}})
     respond_to do |format|
       format.html {
         @presentation.increment!(:visit_count)

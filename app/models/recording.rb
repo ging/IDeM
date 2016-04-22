@@ -1,7 +1,8 @@
 require 'builder'
 
 class Recording < ActiveRecord::Base
- 
+  include Recommendable
+  
   belongs_to :publication
   has_many :users, :through => :publication
   belongs_to :author, :class_name => 'User', :foreign_key => "author_id"

@@ -53,4 +53,8 @@ class Utils
     return url
   end
 
+  def self.getResourceTypes
+    ["Presentation","Publication","Webinar","Recording"]
+  end
+
 end
