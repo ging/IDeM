@@ -7,7 +7,7 @@
 </div>
 
 <div id="contents">
-  <!-- Nav tabs -->
+
   <ul class="nav nav-tabs nav-tab-home" role="tablist">
     <li role="presentation" class="col-xs-3 presentations-title active">
       <a href="#presentations_tab" aria-controls="home" role="tab" data-toggle="tab">
@@ -27,23 +27,22 @@
     </li>
   </ul>
 
-  <!-- Tab panes -->
   <div class="tab-content tab-content-home">
-    <!-- presentations -->
+    <!-- Presentations -->
     <div role="tabpanel" class="tab-pane active" id="presentations_tab">
       <div class="fix-collapse">
-	      <%if user_signed_in? && current_user.publications.size>0%>
+	      <% if user_signed_in? && current_user.publications.size>0 %>
 				    <%= render 'presentations/presentation_new' %>
-			  <%end%>
+			  <% end %>
   			<% @presentations.each do |presentation| %>
   			  	<%= render 'presentations/presentation', :presentation => presentation %>
   			<% end %>
 			</div>
     </div>
-    <!-- webinars -->
+    <!-- Webinars -->
     <div role="tabpanel" class="tab-pane" id="webinars_tab">
       <div class="fix-collapse">
-			<%if user_signed_in? && current_user.publications.size>0%>
+			<% if user_signed_in? && current_user.publications.size>0 %>
 				<%= render 'webinars/webinar_new' %>
 			<%end%>
 			<% @webinars.each do |webinar| %>
@@ -51,7 +50,7 @@
 			<% end %>
 			</div>
     </div>
-    <!--recordings -->
+    <!--Recordings -->
     <div role="tabpanel" class="tab-pane" id="recordings_tab">
       <div class="fix-collapse">
       <% @recordings.each do |recording| %>
@@ -59,15 +58,8 @@
       <% end %>
       </div>
     </div>
-  </div> <!--end of tab-content -->
+  </div> 
 
-</div><!--end of id=contents -->
-
-
-
-
-
-<!--recordings -->
 </div>
 
 <% if user_signed_in? && current_user.publications.size>0 %>

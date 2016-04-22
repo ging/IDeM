@@ -29,4 +29,18 @@ class Loop
     query
   end
 
+  def self.createVirtualLoProfileFromItem(loopItem,options={})
+    lo_profile = {}
+    lo_profile[:repository] = "Loop"
+    lo_profile[:id_repository] = loopItem["id"]
+    lo_profile[:resource_type] = "Publication"
+    lo_profile[:title] = loopItem["title"]
+    lo_profile[:description] = loopItem["abstract"]
+    lo_profile[:quality] = 0
+    lo_profile[:popularity] = 0
+    lo_profile[:url] = loopItem["loopUrl"]
+    lo_profile[:external] = true unless options[:external]
+    lo_profile
+  end
+
 end

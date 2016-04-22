@@ -32,7 +32,7 @@ class RecommenderSystem
 
   # Step 0: Initialize all variables
   def self.prepareOptions(options={})
-    options = {:n => 10, :user_profile => {}, :lo_profile => {}, :settings => IDeM::Application::config.default_settings.recursive_merge({})}.recursive_merge(options)
+    options = {:n => 10, :user_profile => {}, :lo_profile => {}, :settings => IDeM::Application::config.rs_settings.recursive_merge({})}.recursive_merge(options)
     options[:user_profile][:los] = options[:user_profile][:los].first(options[:max_user_pastlos] || IDeM::Application::config.max_user_pastlos).sample(options[:max_user_los] || IDeM::Application::config.max_user_los) unless options[:user_profile][:los].blank?
     options
   end
@@ -109,7 +109,7 @@ class RecommenderSystem
   def self.getPreselectionFromIDeM(options={})
     searchOptions = {}
 
-    searchOptions[:n] = [options[:settings][:idem_database][:preselection_size],IDeM::Application::config.settings[:idem_database][:max_preselection_size]].min
+    searchOptions[:n] = [options[:settings][:idem_database][:preselection_size],IDeM::Application::config.rs_settings[:idem_database][:max_preselection_size]].min
     searchOptions[:resource_types] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
     searchOptions[:resource_types] = Utils.getResourceTypes if searchOptions[:resource_types].blank?
     searchOptions[:models] = searchOptions[:resource_types].map{|className| className.constantize}
@@ -132,7 +132,34 @@ class RecommenderSystem
   end
 
   def self.getPreselectionFromLoop(options={})
-    return []
+    # Search resources in real time using the Loop Search API
+    options[:settings][:loop_database][:query] = {}
+
+    # A. Query.
+    options[:settings][:loop_database][:query][:query] = options[:preselection][:query] unless options[:preselection][:query].blank?
+    # B. Resource type.
+    options[:settings][:loop_database][:query][:type] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
+    # C. Language.
+    options[:settings][:loop_database][:query][:language] = options[:preselection][:languages] unless options[:preselection][:languages].blank?
+    # D. Repeated resources.
+    # Applied after retrieve results
+
+    n = [options[:settings][:loop_database][:preselection_size],IDeM::Application::config.rs_settings[:loop_database][:max_preselection_size]].min
+
+    require 'rest-client'
+    loopItems = []
+    response = Loop.search({:keyword => "learning"})
+    unless response.nil? or response["value"].blank?
+      loopItems += response["value"]
+    end
+
+    # Convert Loop items to LO profiles
+    loProfiles = loopItems.map{|item| Loop.createVirtualLoProfileFromItem(item,{:external => options[:external]})}
+
+    # D. Repeated resources.
+    loProfiles = loProfiles.reject{|loProfile| loProfile[:id_repository] == options[:preselection][:loop_id_to_avoid]} unless options[:preselection][:loop_id_to_avoid].blank?
+
+    return loProfiles
   end
 
   #Step 2: Scoring
