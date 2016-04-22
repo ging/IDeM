@@ -1,0 +1,7 @@
+<div id="recordings" class="tab-pane in active">
+  <div class="row">
+    <% @user.recordings.each do |recording| %>
+      <%= render 'recordings/recording', :recording => recording, :showActions => isProfileOwner  %>
+    <% end %>
+  </div>
+</div>
