@@ -71,7 +71,7 @@
     <div class="social_toolbar_presentation">
       <div class="social_toolbar_presentation">
         <div class="social">
-          <%= render :partial=>'shareon/email', :locals=>{:url=>shortURL, :title => @webinar.title, :name => (user_signed_in? ? current_user.name : '')} %>
+          <%= render :partial=>'shareon/email', :locals=>{:url=>shortURL, :title => @webinar.title, :name => (user_signed_in? ? current_user.name : ''), :type => 'webinar'} %>
         </div>
         <div class="social">
           <%= render :partial=>'shareon/twitter', :locals=>{:url=>shortURL, :counturl=>(request.protocol + request.env['HTTP_HOST'].sub(/^(m|www)\./, '') + webinar_path(@webinar) )} %>
