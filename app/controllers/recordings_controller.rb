@@ -12,6 +12,9 @@ class RecordingsController < ApplicationController
 
   def show
     @recording = Recording.find(params[:id])
+    idem_resource_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @recording.profile, :settings => {:database => "IDeM", :preselection_filter_by_resource_types => ["Presentation", "Webinar", "Recording"]}})
+    loop_publication_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @recording.publication.profile, :settings => {:database => "Loop", :preselection_filter_by_resource_types => ["Publication"]}})
+    @recommended_resources = idem_resource_suggestions.concat(loop_publication_suggestions).shuffle
   end
 
   def new

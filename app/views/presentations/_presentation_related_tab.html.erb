@@ -1,10 +1,4 @@
-<h4 class="actions-header-presentation">Related presentations</h4>
+<h4 class="actions-header-presentation">Related resources</h4>
 <div class="author_presentations_list">
-  <% @resource_suggestions.each do |res| %>
-    <%= render 'presentations/presentation_mini', :presentation => res, :isPresentationOwner => isPresentationOwner %>
-  <% end %>
-</div>
-<h4 class="actions-header-presentation">Related publications</h4>
-<div class="author_presentations_list">
-  <%= render 'rs_items/rs_items_sidebar', :items => @recommended_publications %>
+  <%= render 'rs_items/rs_items_sidebar', :resources => @recommended_resources%>
 </div>

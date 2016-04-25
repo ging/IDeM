@@ -1,7 +1,11 @@
-<div role="tabpanel" class="tab-pane" id="recordings_tab">
-  <div class="fix-collapse">
-  <% items.each do |item| %>
-      <%= render 'rs_items/rs_item_sidebar', :item => item %>
-  <% end %>
-  </div>
-</div>
+<% resources.each do |res| %>
+	<% if res.class.name == 'Presentation' %>
+		<%= render 'presentations/presentation_mini', :presentation => res %>
+	<% elsif res.class.name == 'Webinar' %>
+		<%= render 'webinars/webinar_mini', :webinar => res %>
+	<% elsif res.class.name == 'Recording' %>
+		<%= render 'recordings/recording_mini', :recording => res %>
+	<% else %>
+		<%= render 'rs_items/rs_item_sidebar', :item => res %>
+	<% end %>
+<% end %>

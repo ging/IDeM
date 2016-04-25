@@ -80,11 +80,14 @@
   </div>
 
   <div class="tab-pane contentShare" id="tab4">
-    <!-- si tienes grabaciones de este recording-->
-      <div class="no_items">No recordings available</div>
-    <%# sino %>
-      <%#=@recordings%>
-    <%# fin %>
+    <% if File.file?('public/webinar_recordings/' + @recording.recording_id + '.mp4') %>
+    <p>You can download the recording file.</p>
+    <a class="button-secondary-orange" href="/webinar_recordings/<%=@recording.recording_id%>.mp4" download>
+      <i class="fa fa-download"></i> Download recording
+    </a>
+    <%else%>
+    <div class="no_items">No download available</div>
+    <%end%>
   </div>
 </div>
 

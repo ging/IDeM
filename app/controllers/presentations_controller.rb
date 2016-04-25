@@ -18,8 +18,9 @@ class PresentationsController < ApplicationController
 
   def show
     @presentation = Presentation.find(params[:id])
-    @resource_suggestions = RecommenderSystem.suggestions({:n => 8, :lo_profile => @presentation.profile, :settings => {:database => "IDeM", :preselection_filter_by_resource_types => ["Presentation"]}})
-    @recommended_publications = RecommenderSystem.suggestions({:n => 8, :lo_profile => @presentation.publication.profile, :settings => {:database => "Loop", :preselection_filter_by_resource_types => ["Publication"]}})
+    idem_resource_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @presentation.profile, :settings => {:database => "IDeM", :preselection_filter_by_resource_types => ["Presentation", "Webinar", "Recording"]}})
+    loop_publication_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @presentation.publication.profile, :settings => {:database => "Loop", :preselection_filter_by_resource_types => ["Publication"]}})
+    @recommended_resources = idem_resource_suggestions.concat(loop_publication_suggestions).shuffle
     respond_to do |format|
       format.html {
         @presentation.increment!(:visit_count)

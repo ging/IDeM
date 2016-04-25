@@ -31,10 +31,5 @@
 <h4 class="actions-header-recording">Related resources</h4>
 
 <div class="tab-pane tab-pane-viewer recordings_list" id="related_tab1">
-  <% @recording.publication.webinars.each do |webinar| %>
-    <%= render 'webinars/webinar_mini', :webinar => webinar %>
-  <% end %>
-  <% @recording.publication.recordings.each do |recording| %>
-    <%= render 'recordings/recording_mini', :recording => recording %>
-  <% end %>
+  <%= render 'rs_items/rs_items_sidebar', :resources => @recommended_resources%>
 </div>

@@ -36,7 +36,7 @@
       <a href="#related_tab0" tabTitle='Presentations' data-toggle="tab">Chat</a>
     </li>
     <li class="tab_webinar">
-      <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Related webinars</a>
+      <a href="#related_tab1" tabTitle='Chat' data-toggle="tab">Related resources</a>
     </li>
   </ul>
 
@@ -49,9 +49,7 @@
       </div>
     </div>
     <div class="tab-pane tab-pane-viewer webinars_list" id="related_tab1">
-      <% webinar.author.webinars.each do |webinar| %>
-        <%= render 'webinars/webinar_mini', :webinar => webinar %>
-      <% end %>
+      <%= render 'rs_items/rs_items_sidebar', :resources => @recommended_resources%>
     </div>
   </div>
 <%end%>

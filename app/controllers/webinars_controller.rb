@@ -16,6 +16,9 @@ class WebinarsController < ApplicationController
     username = current_user ? current_user.id.to_s : "Guest"
     role = (current_user && @webinar.author_id==current_user.id) ? "IDEM_owner" : "IDEM_viewer"
     @token = NuveInstance.createToken(@webinar.room_id, username, role)
+    idem_resource_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @webinar.profile, :settings => {:database => "IDeM", :preselection_filter_by_resource_types => ["Presentation", "Webinar", "Recording"]}})
+    loop_publication_suggestions = RecommenderSystem.suggestions({:n => 4, :lo_profile => @webinar.publication.profile, :settings => {:database => "Loop", :preselection_filter_by_resource_types => ["Publication"]}})
+    @recommended_resources = idem_resource_suggestions.concat(loop_publication_suggestions).shuffle
   end
 
   def new
