@@ -1,5 +1,7 @@
 module Recommendable
 	extend ActiveSupport::Concern
+	include ActionDispatch::Routing::PolymorphicRoutes
+	include Rails.application.routes.url_helpers
 
 	module ClassMethods
 		def public
@@ -20,6 +22,8 @@ module Recommendable
 		profile = profile.recursive_merge(self.extend_profile) if self.respond_to?("extend_profile")
 		profile[:id_repository] = self.id
 		profile[:repository] = "IDeM"
+		profile[:url] = (self.respond_to?("loop_url") ? self.loop_url : (Rails.application.routes.url_helpers.polymorphic_path(self) rescue nil))
+		profile[:external] = self.respond_to?("loop_url")
 		profile[:object] = self
 		profile
 	end

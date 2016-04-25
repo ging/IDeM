@@ -8,7 +8,7 @@ class Loop
 
   def self.search(queryParams={})
     require 'rest-client'
-    (JSON.parse(RestClient::Request.execute(:method => :get, :url => buildQuery(queryParams), :timeout => 5, :open_timeout => 5))) rescue nil #nil => error connecting to Loop
+    (JSON.parse(RestClient::Request.execute(:method => :get, :url => buildQuery(queryParams), :timeout => 4, :open_timeout => 4))) rescue nil #nil => error connecting to Loop
   end
 
   def self.buildQuery(params={})

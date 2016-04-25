@@ -92,14 +92,19 @@ class RecommenderSystem
     if options[:lo_profile][:id_repository]
       case options[:lo_profile][:repository]
       when "Loop"
-        options[:preselection][:loop_id_to_avoid] = options[:lo_profile][:id_repository]
+        options[:preselection][:loop_ids_to_avoid] = [options[:lo_profile][:id_repository]]
       when "IDeM"
-        options[:preselection][:idem_id_to_avoid] = options[:lo_profile][:id_repository]
+        options[:preselection][:idem_ids_to_avoid] = [options[:lo_profile][:id_repository]]
       end
     end
 
-    preSelection += getPreselectionFromIDeM(options) unless options[:settings][:database] == "Loop"
     preSelection += getPreselectionFromLoop(options) unless options[:settings][:database] == "IDeM"
+    unless preSelection.blank?
+      loopIdsInPreselection = preSelection.map{|lo| lo[:id_repository]}
+      options[:preselection][:loop_ids_to_avoid] = ((options[:preselection][:loop_ids_to_avoid] || []) + loopIdsInPreselection).uniq unless loopIdsInPreselection.blank?
+    end
+    preSelection += getPreselectionFromIDeM(options) unless options[:settings][:database] == "Loop"
+    
     preSelection
   end
 
@@ -111,13 +116,15 @@ class RecommenderSystem
     searchOptions[:resource_types] = Utils.getResourceTypes if searchOptions[:resource_types].blank?
     searchOptions[:models] = searchOptions[:resource_types].map{|className| className.constantize}
     searchOptions[:order] = "random"
-    searchOptions[:idem_ids_to_avoid] = [-1]
-    searchOptions[:idem_ids_to_avoid] = [options[:preselection][:idem_id_to_avoid]] unless options[:preselection][:idem_id_to_avoid].blank?
+    searchOptions[:idem_ids_to_avoid] = options[:preselection][:idem_ids_to_avoid] || [-1]
+    searchOptions[:loop_ids_to_avoid] = options[:preselection][:loop_ids_to_avoid] || [-1]
 
     # Get preselection from database
     preSelection = []
     searchOptions[:models].each do |model|
-      preSelection += model.limit(searchOptions[:n]).public.where("id not in (?)",searchOptions[:idem_ids_to_avoid]).order(IDeM::Application::config.agnostic_random)
+      preSelectionModel = model.limit(searchOptions[:n]).public.where("id not in (?)",searchOptions[:idem_ids_to_avoid]).order(IDeM::Application::config.agnostic_random)
+      preSelectionModel = preSelectionModel.where("loop_id not in (?)",searchOptions[:loop_ids_to_avoid]) if model.column_names.include?("loop_id")
+      preSelection += preSelectionModel
     end
 
     preSelection = preSelection.sample(searchOptions[:n]) if searchOptions[:models].length > 1
@@ -128,15 +135,20 @@ class RecommenderSystem
 
   def self.getPreselectionFromLoop(options={})
     # Search resources in real time using the Loop Search API
+    options[:settings][:loop_database][:query] = {}
 
     # Resource type.
-    # options[:settings][:loop_database][:query][:type] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
-    # C. Language.
+    options[:settings][:loop_database][:query][:type] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
+    # Language (There is no language specified on loop item profiles)
     # options[:settings][:loop_database][:query][:language] = options[:preselection][:languages] unless options[:preselection][:languages].blank?
-    # D. Repeated resources.
+    # Repeated resources.
     # Applied after retrieve results
 
     # n = [options[:settings][:loop_database][:preselection_size],IDeM::Application::config.rs_settings[:loop_database][:max_preselection_size]].min
+
+
+    #Only publications are allowed through Loop API
+    return [] unless options[:settings][:loop_database][:query][:type].blank? or options[:settings][:loop_database][:query][:type].include?("Publication")
 
     require 'rest-client'
     loopItems = []
@@ -157,7 +169,7 @@ class RecommenderSystem
     # Convert Loop items to LO profiles
     loProfiles = loopItems.map{|item| Loop.createVirtualLoProfileFromItem(item,{:external => options[:external]})}
 
-    # D. Repeated resources.
+    # Repeated resources.
     loProfiles = loProfiles.reject{|loProfile| loProfile[:id_repository] == options[:preselection][:loop_id_to_avoid]} unless options[:preselection][:loop_id_to_avoid].blank?
 
     return loProfiles
@@ -242,10 +254,11 @@ class RecommenderSystem
     titleS = getSemanticDistance(loProfileA[:title],loProfileB[:title])
     descriptionS = getSemanticDistance(loProfileA[:description],loProfileB[:description])
     languageS = getSemanticDistanceForCategoricalFields(loProfileA[:language],loProfileB[:language])
+    keywordsS = getSemanticDistanceForKeywords(loProfileA[:keywords],loProfileB[:keywords])
 
-    return -1 if (!filters.blank? and (titleS < filters[:title] || descriptionS < filters[:description] || languageS < filters[:language]))
+    return -1 if (!filters.blank? and (titleS < filters[:title] || descriptionS < filters[:description] || languageS < filters[:language] || keywordsS < filters[:keywords]))
 
-    return weights[:title] * titleS + weights[:description] * descriptionS + weights[:language] * languageS
+    return weights[:title] * titleS + weights[:description] * descriptionS + weights[:language] * languageS + weights[:keywords] * keywordsS
   end
 
   #User profile Similarity Score, [0,1] scale
@@ -254,6 +267,7 @@ class RecommenderSystem
     filters = options[:filtering_us]!=false ? (options[:filters_us] || getUSFilters(options)) : nil
     
     languageS = getSemanticDistanceForCategoricalFields(userProfile[:language],loProfile[:language])
+    keywordsS = getSemanticDistanceForKeywords(userProfile[:keywords],loProfile[:keywords])
 
     losS = 0
     unless userProfile[:los].blank?
@@ -263,9 +277,9 @@ class RecommenderSystem
       losS = losS/userProfile[:los].length
     end
 
-    return -1 if (!filters.blank? and (languageS < filters[:language] || losS < filters[:los]))
-
-    return weights[:language] * languageS + weights[:los] * losS
+    return -1 if (!filters.blank? and (languageS < filters[:language] || keywordsS < filters[:keywords] || losS < filters[:los]))
+    
+    return weights[:language] * languageS + weights[:keywords] * keywordsS + weights[:los] * losS
   end
 
   #Quality Score, [0,1] scale
@@ -459,16 +473,18 @@ class RecommenderSystem
 
   def self.defaultLoSWeights
     {
-      :title => 0.6,
-      :description => 0.4,
-      :language => 0
+      :title => 0.3,
+      :description => 0.2,
+      :language => 0,
+      :keywords => 0.5
     }
   end
 
   def self.defaultUSWeights
     {
       :language => 0,
-      :los => 1
+      :keywords => 1,
+      :los => 0
     }
   end
 
@@ -494,13 +510,15 @@ class RecommenderSystem
     {
       :title => 0,
       :description => 0,
-      :language => 0
+      :language => 0,
+      :keywords => 0
     }
   end
 
   def self.defaultUSFilters
     {
       :language => 0,
+      :keywords => 0,
       :los => 0
     }
   end
