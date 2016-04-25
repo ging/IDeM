@@ -4,7 +4,7 @@
 <!--<hr>-->
 <section id="show_items " class="layout_show">
   <div class="doc-show">
-    <h3><%= @recording.title %></h3>
+    <h3><i class="fa fa-video-camera"></i> <%= @recording.title %></h3>
     <h5 class="publication-title"><%= link_to(@recording.publication.title, @recording.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">

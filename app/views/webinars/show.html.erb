@@ -5,7 +5,7 @@
 <!--<hr>-->
 <section id="show_items " class="layout_show">
   <div class="doc-show">
-    <h3><%= @webinar.title %></h3>
+    <h3><i class="fa fa-clock-o"></i> <%= @webinar.title %></h3>
     <h5 class="publication-title"><%= link_to(@webinar.publication.title, @webinar.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">
