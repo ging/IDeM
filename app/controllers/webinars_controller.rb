@@ -57,6 +57,7 @@ class WebinarsController < ApplicationController
 
   def destroy
     @webinar = Webinar.find(params[:id])
+    NuveInstance.deleteRoom(@webinar.room_id)
     @webinar.destroy
     respond_to do |format|
       format.all { redirect_to user_path(current_user) }
