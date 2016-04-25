@@ -2,12 +2,13 @@ require 'builder'
 
 class Recording < ActiveRecord::Base
   include Recommendable
-  acts_as_taggable
+  acts_as_ordered_taggable
   
   belongs_to :publication
   has_many :users, :through => :publication
   belongs_to :author, :class_name => 'User', :foreign_key => "author_id"
 
+  before_save :save_tag_array_text
   before_validation :fill_publication_id
 
   validates_presence_of :title

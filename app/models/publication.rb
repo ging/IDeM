@@ -1,6 +1,6 @@
 class Publication < ActiveRecord::Base
   include Recommendable
-  acts_as_taggable
+  acts_as_ordered_taggable
 
   has_and_belongs_to_many :users
   has_many :presentations
@@ -8,6 +8,7 @@ class Publication < ActiveRecord::Base
   has_many :recordings
 
   before_validation :parse_for_meta
+  before_save :save_tag_array_text
   before_destroy :destroy_resources
 
   validates :title, :presence => true

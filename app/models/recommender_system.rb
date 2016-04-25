@@ -44,10 +44,7 @@ class RecommenderSystem
     # Define some filters for the preselection
     options[:preselection] = {}
     
-    # A. Query.
-    options[:preselection][:query] = options[:settings][:query] unless options[:settings][:query].blank?
-
-    # B. Resource type.
+    # Resource type.
     unless options[:settings][:preselection_filter_resource_type] == false
       if Utils.getResourceTypes.include?(options[:lo_profile][:resource_type])
         options[:preselection][:resource_types] = [options[:lo_profile][:resource_type]]
@@ -62,9 +59,9 @@ class RecommenderSystem
       end
     end
 
-    # C. Language.
+    # Language.
     unless options[:settings][:preselection_filter_languages] == false
-      # C. Multilanguage approach.
+      # Multilanguage approach.
       preselectionLanguages = []
       if options[:lo_profile][:language]
         preselectionLanguages << options[:lo_profile][:language]
@@ -80,7 +77,7 @@ class RecommenderSystem
 
       options[:preselection][:languages] = preselectionLanguages unless preselectionLanguages.blank?
 
-      # C. (Alternative). Single language approach.
+      # (Alternative). Single language approach.
       # preselectionLanguage = nil
       # if options[:lo_profile][:language]
       #   preselectionLanguage = options[:lo_profile][:language]
@@ -91,7 +88,7 @@ class RecommenderSystem
       # options[:preselection][:languages] = [preselectionLanguage] unless preselectionLanguage.nil?
     end
 
-    # D. Repeated resources.
+    # Repeated resources.
     if options[:lo_profile][:id_repository]
       case options[:lo_profile][:repository]
       when "Loop"
@@ -123,9 +120,7 @@ class RecommenderSystem
       preSelection += model.limit(searchOptions[:n]).public.where("id not in (?)",searchOptions[:idem_ids_to_avoid]).order(IDeM::Application::config.agnostic_random)
     end
 
-    if searchOptions[:models].length > 1
-      preSelection = preSelection.sample(searchOptions[:n])
-    end
+    preSelection = preSelection.sample(searchOptions[:n]) if searchOptions[:models].length > 1
 
     #Convert LOs to LO profiles
     return preSelection.map{|lo| lo.profile}
@@ -133,24 +128,30 @@ class RecommenderSystem
 
   def self.getPreselectionFromLoop(options={})
     # Search resources in real time using the Loop Search API
-    options[:settings][:loop_database][:query] = {}
 
-    # A. Query.
-    options[:settings][:loop_database][:query][:query] = options[:preselection][:query] unless options[:preselection][:query].blank?
-    # B. Resource type.
-    options[:settings][:loop_database][:query][:type] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
+    # Resource type.
+    # options[:settings][:loop_database][:query][:type] = options[:preselection][:resource_types] unless options[:preselection][:resource_types].blank?
     # C. Language.
-    options[:settings][:loop_database][:query][:language] = options[:preselection][:languages] unless options[:preselection][:languages].blank?
+    # options[:settings][:loop_database][:query][:language] = options[:preselection][:languages] unless options[:preselection][:languages].blank?
     # D. Repeated resources.
     # Applied after retrieve results
 
-    n = [options[:settings][:loop_database][:preselection_size],IDeM::Application::config.rs_settings[:loop_database][:max_preselection_size]].min
+    # n = [options[:settings][:loop_database][:preselection_size],IDeM::Application::config.rs_settings[:loop_database][:max_preselection_size]].min
 
     require 'rest-client'
     loopItems = []
-    response = Loop.search({:keyword => "learning"})
-    unless response.nil? or response["value"].blank?
-      loopItems += response["value"]
+
+    unless options[:user_profile][:keywords].blank?
+      keywords = options[:user_profile][:keywords]
+    else
+      keywords = ActsAsTaggableOn::Tag.most_used(10).sample(4).map{|tag| tag.plain_name}
+    end
+    
+    unless keywords.blank?
+      keywords.first(4).sample(2).each do |keyword|
+        response = Loop.search({:keyword => keyword})
+        loopItems += response["value"] unless response.nil? or response["value"].blank? or !response["value"].is_a? Array
+      end
     end
 
     # Convert Loop items to LO profiles

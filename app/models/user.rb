@@ -1,6 +1,6 @@
 class User < ActiveRecord::Base
   include Recommendable
-  acts_as_taggable
+  acts_as_ordered_taggable
 
   # Include default devise modules.
   devise :database_authenticatable, :registerable,
@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   before_validation :fillLanguages
   before_validation :fillTags
   before_validation :parse_for_meta
-  after_save :save_tag_array_text
+  before_save :save_tag_array_text
   before_destroy :destroy_resources
 
   validates :name, :presence => true
@@ -63,7 +63,6 @@ class User < ActiveRecord::Base
 
   def extend_profile(options={})
     {
-      :language => self.language,
       :los => self.pastLos(options[:n])
     }
   end
@@ -172,7 +171,7 @@ class User < ActiveRecord::Base
   def parse_for_keywords
     publicationKeywords = self.publications.map{|p| p.tags.map{|t| t.plain_name}}.flatten
     publicationKeywords = publicationKeywords.sort_by{|k| -publicationKeywords.count(k)}.uniq
-    userKeywords = publicationKeywords.first(3)
+    userKeywords = publicationKeywords.first(10)
     self.tag_list = userKeywords unless self.tag_list == userKeywords
   end
 

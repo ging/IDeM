@@ -15,6 +15,8 @@ module Recommendable
 		profile = {}
 		profile[:title] = self.title if self.respond_to?("title")
 		profile[:description] = self.description if self.respond_to?("description")
+		profile[:keywords] = (self.tag_array_text.blank? ? [] : self.tag_array_text.split(",")) if self.respond_to?("tag_array_text")
+		profile[:language] = self.language if self.respond_to?("language")
 		profile = profile.recursive_merge(self.extend_profile) if self.respond_to?("extend_profile")
 		profile[:id_repository] = self.id
 		profile[:repository] = "IDeM"
@@ -85,6 +87,7 @@ module Recommendable
 
 	def save_tag_array_text
 		return unless self.respond_to?("tag_array_text")
-		self.tag_array_text = self.tags.map{|tag| ActsAsTaggableOn::Tag.getPlainName(tag.name)}.uniq.reject{|tag| IDeM::Application.config.stoptags.include? tag}.join(",")
+		# self.tag_array_text = self.tags.map{|tag| ActsAsTaggableOn::Tag.getPlainName(tag.name)}.uniq.reject{|tag| IDeM::Application.config.stoptags.include? tag}.join(",")
+		self.tag_array_text = self.tag_list.map{|tag| ActsAsTaggableOn::Tag.getPlainName(tag)}.uniq.reject{|tag| IDeM::Application.config.stoptags.include? tag}.join(",") unless self.tag_list.blank?
 	end
 end
