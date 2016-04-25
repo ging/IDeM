@@ -3,11 +3,13 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title" id="myModalLabel"><%=action%> webinar</h3>
-      </div>
       <% if action == 'Record' %>
+        <h3 class="modal-title" id="myModalLabel">Record webinar</h3>
+      </div>
         <%=render "recordings/create_form"%>
       <% else %>
+        <h3 class="modal-title" id="myModalLabel">Edit recording</h3>
+      </div>
         <%=render "recordings/edit_form"%>
       <% end %>
     </div><!-- /.modal-content -->
