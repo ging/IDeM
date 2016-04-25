@@ -8,6 +8,7 @@ class Webinar < ActiveRecord::Base
   has_many :users, :through => :publication
   belongs_to :author, :class_name => 'User', :foreign_key => "author_id"
 
+  before_save :fill_tags
   before_save :save_tag_array_text
   
   validates_presence_of :title
@@ -25,6 +26,13 @@ class Webinar < ActiveRecord::Base
 
   def owner
     self.author
+  end
+
+
+  private
+
+  def fill_tags
+    self.tag_list = self.publication.tag_list unless !self.tag_list.blank? or self.publication.blank?
   end
 
 end

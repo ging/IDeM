@@ -95,6 +95,7 @@ class RecommenderSystem
         options[:preselection][:loop_ids_to_avoid] = [options[:lo_profile][:id_repository]]
       when "IDeM"
         options[:preselection][:idem_ids_to_avoid] = [options[:lo_profile][:id_repository]]
+        options[:preselection][:loop_ids_to_avoid] = [options[:lo_profile][:loop_id]] unless options[:lo_profile][:loop_id].blank?
       end
     end
 
@@ -153,12 +154,12 @@ class RecommenderSystem
     require 'rest-client'
     loopItems = []
 
-    unless options[:user_profile][:keywords].blank?
-      keywords = options[:user_profile][:keywords]
-    else
-      keywords = ActsAsTaggableOn::Tag.most_used(10).sample(4).map{|tag| tag.plain_name}
-    end
-    
+    keywords = []
+    keywords += options[:lo_profile][:keywords] unless options[:lo_profile][:keywords].blank?
+    keywords += options[:user_profile][:keywords] unless options[:user_profile][:keywords].blank? or !keywords.blank?
+    keywords = keywords.uniq
+    keywords = ActsAsTaggableOn::Tag.most_used(10).sample(4).map{|tag| tag.plain_name} if keywords.blank?
+
     unless keywords.blank?
       keywords.first(4).sample(2).each do |keyword|
         response = Loop.search({:keyword => keyword})
@@ -170,7 +171,7 @@ class RecommenderSystem
     loProfiles = loopItems.map{|item| Loop.createVirtualLoProfileFromItem(item,{:external => options[:external]})}
 
     # Repeated resources.
-    loProfiles = loProfiles.reject{|loProfile| loProfile[:id_repository] == options[:preselection][:loop_id_to_avoid]} unless options[:preselection][:loop_id_to_avoid].blank?
+    loProfiles = loProfiles.reject{|loProfile| options[:preselection][:loop_ids_to_avoid].include?(loProfile[:id_repository]) } unless options[:preselection][:loop_ids_to_avoid].blank?
 
     return loProfiles
   end

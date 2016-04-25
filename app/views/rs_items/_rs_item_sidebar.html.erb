@@ -1,0 +1,14 @@
+<% generated_id = (item[:repository].to_s + item[:id_repository].to_s) %>
+<div class="col-md-2 col-xs-6 presentation-item">
+  <div class="presentation">
+    <%= link_to(item[:url], {:target => (item[:external]===true ? "_blank" : "_self")}) do %>
+      <!-- Info -->
+      <div class="caption">
+        <h5><%= item[:title]%></h5>
+        <% if item[:external] %>
+          <%= image_tag('loop_logo.svg', :alt => 'Loop') %>
+        <% end %>
+      </div>
+    <%end%>
+  </div>
+</div>

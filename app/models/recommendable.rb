@@ -22,6 +22,7 @@ module Recommendable
 		profile = profile.recursive_merge(self.extend_profile) if self.respond_to?("extend_profile")
 		profile[:id_repository] = self.id
 		profile[:repository] = "IDeM"
+		profile[:loop_id] = self.loop_id if self.respond_to?("loop_id")
 		profile[:url] = (self.respond_to?("loop_url") ? self.loop_url : (Rails.application.routes.url_helpers.polymorphic_path(self) rescue nil))
 		profile[:external] = self.respond_to?("loop_url")
 		profile[:object] = self

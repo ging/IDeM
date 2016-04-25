@@ -8,8 +8,9 @@ class Recording < ActiveRecord::Base
   has_many :users, :through => :publication
   belongs_to :author, :class_name => 'User', :foreign_key => "author_id"
 
-  before_save :save_tag_array_text
   before_validation :fill_publication_id
+  before_save :fill_tags
+  before_save :save_tag_array_text
 
   validates_presence_of :title
   validates_presence_of :publication_id
@@ -33,6 +34,10 @@ class Recording < ActiveRecord::Base
 
   def fill_publication_id
     self.publication_id = self.webinar.publication_id if self.publication_id.blank? and !self.webinar.nil?
+  end
+
+  def fill_tags
+    self.tag_list = self.publication.tag_list unless !self.tag_list.blank? or self.publication.blank?
   end
   
 end
