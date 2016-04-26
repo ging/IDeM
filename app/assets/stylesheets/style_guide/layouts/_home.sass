@@ -14,10 +14,14 @@
     color: white
     font-size: 2em
     font-weight: bold
-    text-shadow: 1px 1px 4px #000
+    text-shadow: 1px 1px 10px #000
     p
       margin-bottom: 0
-
+    @media (max-width: 662px)
+      font-size: 1.7em
+      top: 15%
+    @media (max-width: 400px)
+      display: none
 
 #contents
   .nav-tab-home
@@ -28,7 +32,14 @@
     li
       @include tab-no-transition-border
       margin-bottom: -2px
-
+      @media (max-width: 991px)
+        min-height: 65px
+      @media (max-width: 570px)
+        min-height: 35px
+        .tab_txt
+          display: none
+        i
+          font-size: 1.5em
 
     li.presentations-title
       background-color: $light-red
