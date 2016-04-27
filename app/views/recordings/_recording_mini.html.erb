@@ -5,16 +5,9 @@
 
 		<!--Title -->
 		<h5>
-		<i class="fa fa-video-camera"></i> <%=recording.title%>
+		<i class="fa fa-video-camera"></i>
+		<%= link_to recording.title, recording_url(recording) %>
 		</h5>
-
-		<!--Publication
-		<div class="publication">
-			<p><%= recording.publication.title%></p>
-		</div> -->
-
-		<!--Publication -->
-
 
 		<!--Author -->
 		<div class="author">

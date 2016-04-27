@@ -5,17 +5,11 @@
 
 		<!--Title -->
 		<h5>
-		<i class="fa fa-clock-o"></i> <%=webinar.title%>
+
+		<i class="fa fa-clock-o"></i> 
+		<%= link_to webinar.title, webinar_url(webinar) %>
 		</h5>
-
-		<!--Publication
-		<div class="publication">
-			<p><%= webinar.publication.title%></p>
-		</div> -->
-
-		<!--Publication -->
-
-
+	
 		<!--Author -->
 		<div class="author">
 			<%= render 'users/user', :user => webinar.author%>
