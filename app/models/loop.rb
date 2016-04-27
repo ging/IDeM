@@ -38,6 +38,7 @@ class Loop
     lo_profile[:popularity] = 0
     lo_profile[:url] = loopItem["loopUrl"]
     lo_profile[:external] = options[:external] || true 
+    lo_profile[:authors] = loopItem["authors"].map{|a| a["fullName"]}.flatten.uniq.join(",")
     lo_profile
   end
 

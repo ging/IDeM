@@ -7,11 +7,15 @@
 
     <!--Title -->
     <h5>
-    <i class="fa fa-newspaper-o"></i> <%= item[:title]%>
+    <i class="fa fa-graduation-cap"></i> <%= item[:title]%>
     </h5>
 
     <!--Author -->
-    <%= image_tag('loop_logo.svg', :alt => 'Loop') %>
+    <div class="author">
+      <a><%= item[:authors].split(",")[0]%> et al.</a>
+    </div>
+
+    <%= image_tag('loop_logo.svg', :alt => 'Loop', :class => 'logo_loop') %>
 
     <!-- Link -->
     <div class="link">
