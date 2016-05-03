@@ -25,6 +25,7 @@ config/*.sphinx.conf
 config/thinking_sphinx.yml
 config/application_config.yml
 dumps/*
+!/dumps/loaddump.sh
 config/deploy/*
 !config/deploy/example.yml
 
