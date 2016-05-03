@@ -2,31 +2,36 @@
 
   <div class="webinar">
     <% generated_id= "webinar-" + webinar.id.to_s %>
-    <div class="title">
+    <div class="title_icon">
       <!--Title -->
       <a href=<%=  webinar_url(webinar) %>>
-        <h5><i class="fa fa-clock-o fa-lg"></i><p><%= webinar.title %></p></h5>
+        <h5><i class="fa fa-clock-o fa-lg"></i></h5>
       </a>
     </div>
-
+    <!--Date -->
+    <div class="date">
+      <h4><%= webinar.start_date.to_formatted_s(:short)%></h4>
+    </div>
+    
     <!-- Info -->
     <div class="caption">
+      <div class="avatar_prox"></div><!-- provisional, hasta que se pueda poner avatar al resto de elementos -->
+      <%= link_to(webinar_url(webinar)) do %>
+        <p class="title"><%= webinar.title %></p>
+      <%end%>
       <!--Publication -->
       <div class="publication">
         <%= link_to webinar.publication.title, webinar.publication.loop_url, :target => '_blank' %>
       </div>
-      <!--Date -->
-      <div class="date">
-        <h4><%= webinar.start_date.to_formatted_s(:short)%></h4>
-      </div>
+
       <!--Author -->
       <div class="author">
         <%= render 'users/user', :user => webinar.author%>
       </div>
       <!-- Link -->
-      <div class="link button-secondary-yellow">
-        <%= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
-      </div>
+      <!--<div class="link button-secondary-yellow">
+        <%#= link_to('Go to webinar', webinar_url(webinar), :class => "logo");%>
+      </div>-->
     </div>
   </div>
 </div>

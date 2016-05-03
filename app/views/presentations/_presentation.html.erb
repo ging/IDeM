@@ -2,7 +2,14 @@
 
   <div class="presentation">
     <% generated_id= "presentation-" + presentation.id.to_s %>
-
+    <div class="title_icon">
+      <!--Title -->
+      <a href=<%=  presentation_url(presentation) %>>
+        <h5>
+          <i class="fa fa-picture-o fa-lg"></i>
+        </h5>
+      </a>
+    </div>
     <%= link_to(presentation_url(presentation)) do %>
       <!-- image/icon -->
       <div class="container-img">
@@ -24,18 +31,20 @@
 
     <!-- Info -->
     <div class="caption">
-      <!--Title -->
-      <h5>
-        <%= link_to presentation.title, presentation %>
-      </h5>
+      <!--presentation title -->
+      <%= link_to(presentation_url(presentation)) do %>
+      <p class="title"><%= presentation.title %></p>
+      <%end%>
+      <!-- publication linked -->
+      <p class="linked_publi"><%= link_to presentation.publication.title, presentation.publication.loop_url, :target => '_blank' %></p>
       <!--Author -->
       <div class="author">
         <%= render 'users/user', :user => presentation.author%>
       </div>
       <!-- Link -->
-      <div class="link button-secondary-red">
-         <%= link_to('Go to presentation', presentation_url(presentation), :class => "logo");%>
-      </div>
+      <!--<div class="link button-secondary-red">
+         <%#= link_to('Go to presentation', presentation_url(presentation), :class => "logo");%>
+      </div>-->
     </div>
   </div>
 </div>

@@ -2,24 +2,30 @@
 
   <div class="publication">
     <% generated_id = (item[:repository].to_s + item[:id_repository].to_s) %>
-    <div class="title">
+    <div class="title_icon">
       <!--Title -->
       <a href=<%= item[:url] %> target="_blank">
-        <h5><i class="fa fa-graduation-cap fa-lg"></i><p><%= item[:title] %></p></h5>
+        <h5><i class="fa fa-graduation-cap fa-lg"></i></h5>
       </a>
     </div>
 
     <!-- Info -->
     <div class="caption">
+      <div class="avatar_prox"></div><!-- provisional, hasta que se pueda poner avatar al resto de elementos -->
+
+      <a href=<%= item[:url] %> target="_blank">
+        <p class="title"><%= item[:title] %></p>
+      </a>
+
       <!--Author -->
       <div class="author">
         <a><%= item[:authors]%></a>
       </div>
       <%= image_tag('loop_logo.svg', :alt => 'Loop') %>
       <!-- Link -->
-      <div class="link button-secondary-yellow">
-        <%= link_to('Go to publication', item[:url], {:target => (item[:external]===true ? "_blank" : "_self")});%>
-      </div>
+      <!--<div class="link button-secondary-yellow">
+        <%#= link_to('Go to publication', item[:url], {:target => (item[:external]===true ? "_blank" : "_self")});%>
+      </div>-->
     </div>
   </div>
 </div>
