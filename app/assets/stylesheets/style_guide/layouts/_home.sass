@@ -73,10 +73,16 @@
       background-color: $idem-orange
       a
         color: $white
-    li.empty-title
+    li.publications-title
       background-color: $light-green
       border-top: 3px solid $idem-green
-      height: 46px
+      @include transition_green
+      a
+        color: $idem-green
+    li.publications-title.active
+      background-color: $idem-green
+      a
+        color: $white
   .tab-content-home
     .tab-pane
       width: 100%

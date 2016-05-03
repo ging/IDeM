@@ -15,10 +15,10 @@
 	 <div class="arrow-up-orange"></div>
 	 <%#= link_to('/presentations', :class => "logo"); %>
 	 <li><%= link_to('Profile',user_path(current_user)); %></li>
-	 <li><%= link_to('My publications',user_path(current_user)); %></li>
 	 <li><%= link_to('My presentations',user_path(current_user)+'/presentations'); %></li>
 	 <li><%= link_to('My webinars',user_path(current_user)+'/webinars'); %></li>
 	 <li><%= link_to('My recordings',user_path(current_user)+'/recordings'); %></li>
+	 <li><%= link_to('My publications',user_path(current_user)); %></li>
 	 <li><%= link_to('Network',user_path(current_user)+'/network'); %></li>
 	 <li role="separator" class="divider"></li>
 	 <li><%= link_to('Logout', destroy_user_session_path, :method => :delete) %></li>

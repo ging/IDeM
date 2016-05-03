@@ -121,6 +121,36 @@
     background-color: $dark-orange
     border-radius: $radius-base
 
+.button-secondary-green
+  border: 1px solid $idem-green
+  padding: 4px 10px
+  text-align: center
+  font-size: 0.9em
+  background-color: white
+  color: $idem-green
+  border-radius: $radius-base
+  @include btn-transition-green
+  a
+    color: $idem-green
+  &:hover
+    color: white !important
+    a
+      color: white !important
+
+.button-primary-green
+  border: none
+  padding: 4px 10px
+  text-align: center
+  font-size: 0.9em
+  border-radius: $radius-base
+  background-color: $idem-green
+  color: white
+  a, i
+    color: white
+  &:hover
+    background-color: $dark-green
+    border-radius: $radius-base
+
 
 
 //exceptions

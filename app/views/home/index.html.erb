@@ -24,7 +24,10 @@
         <i class="fa fa-clock-o" aria-hidden="true"></i> <span class="tab_txt">Upcoming webinars</span>
       </a>
     </li>
-    <li role="presentation" class="col-xs-3 empty-title">
+    <li role="presentation" class="col-xs-3 publications-title">
+      <a href="#publications_tab" aria-controls="profile" role="tab" data-toggle="tab">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i> <span class="tab_txt">Loop publications</span>
+      </a>
     </li>
   </ul>
 
@@ -56,6 +59,14 @@
       <div class="fix-collapse">
       <% @recordings.each do |recording| %>
           <%= render 'recordings/recording', :recording => recording %>
+      <% end %>
+      </div>
+    </div>
+    <!--Publications -->
+    <div role="tabpanel" class="tab-pane" id="publications_tab">
+      <div class="fix-collapse">
+      <% @publications.each do |item| %>
+          <%= render 'rs_items/rs_publication', :item => item %>
       <% end %>
       </div>
     </div>

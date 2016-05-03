@@ -6,12 +6,12 @@
 	</div>
 	<% if showActions %>
 	<div class="col-md-3 publication_actions">
-		<div class="button-secondary pull-right">
+		<div class="button-secondary-green pull-right">
 			<a href="<%= new_presentation_path({:publication => publication.id})%>">
 			<i class="fa fa-picture-o"></i>
 			Create <b>Presentation</b></a>
 		</div>
-		<button type="button" class="button-secondary pull-right btn-webinar" data-pub="<%=publication.id%>" data-toggle="modal" data-target="#new_webinar_modal">
+		<button type="button" class="button-secondary-green pull-right btn-webinar" data-pub="<%=publication.id%>" data-toggle="modal" data-target="#new_webinar_modal">
   		<i class="fa fa-calendar"></i>	Schedule <b>Webinar</b>
 		</button>
 	</div>

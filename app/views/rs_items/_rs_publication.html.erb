@@ -1,0 +1,25 @@
+<div class="col-md-2 col-xs-6 publication-item">
+
+  <div class="publication">
+    <% generated_id = (item[:repository].to_s + item[:id_repository].to_s) %>
+    <div class="title">
+      <!--Title -->
+      <a href=<%= item[:url] %> target="_blank">
+        <h5><i class="fa fa-graduation-cap fa-lg"></i><p><%= item[:title] %></p></h5>
+      </a>
+    </div>
+
+    <!-- Info -->
+    <div class="caption">
+      <!--Author -->
+      <div class="author">
+        <a><%= item[:authors]%></a>
+      </div>
+      <%= image_tag('loop_logo.svg', :alt => 'Loop') %>
+      <!-- Link -->
+      <div class="link button-secondary-yellow">
+        <%= link_to('Go to publication', item[:url], {:target => (item[:external]===true ? "_blank" : "_self")});%>
+      </div>
+    </div>
+  </div>
+</div>

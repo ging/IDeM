@@ -18,18 +18,15 @@
   li.tab_recording.active
     a
       color: $idem-orange
+  li.tab_publication.active
+    a
+      color: $idem-green
   li
     @include tab-transition-border
     a:hover, a:focus, a:active
       background-color: transparent
       border-color: transparent
 
-  #publications_tab.active
-    &:after
-      @include tab-border
-      background: $idem-orange
-    a
-      color: $idem-orange
   #presentations_tab.active, .tab_presentation.active
     &:after
       @include tab-border
@@ -47,6 +44,12 @@
       background: $idem-orange
     a
       color: $idem-orange
+  #publications_tab.active, .tab_publications.active
+    &:after
+      @include tab-border
+      background: $idem-green
+    a
+      color: $idem-green
   #network_tab.active
     &:after
       @include tab-border

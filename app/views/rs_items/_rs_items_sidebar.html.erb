@@ -6,6 +6,6 @@
 	<% elsif res.class.name == 'Recording' %>
 		<%= render 'recordings/recording_mini', :recording => res %>
 	<% else %>
-		<%= render 'rs_items/rs_item_sidebar', :item => res %>
+		<%= render 'rs_items/rs_publication_mini', :item => res %>
 	<% end %>
 <% end %>
