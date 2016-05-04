@@ -8,10 +8,9 @@
 	<div class="caption">
 
 		<!--Title -->
-		<h5>
-		<%=presentation.title%>
-		</h5>
-
+		<a href="<%= presentation_url(presentation)%>">
+			<h5><%=presentation.title%></h5>
+		</a>
 		<!--Author -->
 		<div class="author">
 			<%= render 'users/user', :user => presentation.author%>
@@ -19,8 +18,8 @@
 
 		<!-- Link -->
 		<div class="link">
-			<a href="<%= presentation_url(presentation)%>"><i class="fa fa-eye"></i></a>
-			<a href="<%= edit_presentation_path(presentation)%>"><i class="fa fa-pencil"></i></a>
+			<!--<a href="<%#= presentation_url(presentation)%>"><i class="fa fa-eye"></i></a>-->
+			<a href="<%= edit_presentation_path(presentation)%>" class="button-primary-red"><i class="fa fa-pencil"></i></a>
 		</div>
 	</div>
 </div>

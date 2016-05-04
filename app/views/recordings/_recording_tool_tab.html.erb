@@ -25,6 +25,7 @@
 <div class="tab-content presentation-social">
   <div class="tab-pane active" id="tab0">
     <% if @recording.description.blank? %>
+      <div class="no_items">No description available</div>
     <% else %>
       <%=@recording.description%>
     <% end %>
@@ -51,9 +52,9 @@
       <div class="input-group">
 
         <input class="form-control" readonly="true" id="input_with_shorturl" type="text" value="<%=shortURL%>"/>
-        <div class="input-group-addon button-primary-yellow">
+        <div class="input-group-addon button-primary-orange">
           <div data-toggle="tooltip" data-placement="right" title="Copy to clip">
-            <button class="button-primary-yellow" id="btn_copy_share" href="#" >
+            <button class="button-primary-orange" id="btn_copy_share" href="#" >
               <i class="fa fa-copy fa-lg"></i>
             </button>
           </div>

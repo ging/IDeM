@@ -23,14 +23,14 @@
 <section id="show_items " class="layout_show">
 
   <div class="doc-show">
-    <h3><i class="fa fa-image"></i> <%= @presentation.title %></h3>
+    <h3><i class="fa fa-image red_txt"></i> <%= @presentation.title %></h3>
     <h5 class="publication-title"><%= link_to(@presentation.publication.title, @presentation.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-8 col-lg-9">
         <div class="viewerElement"></div>
         <%= render :partial => 'presentation_show', :locals  => { :presentation => @presentation, :isPresentationOwner => isPresentationOwner  } %>
       </div>
-      <div class="viewerContainer col-xs-12 col-sm-4 col-lg-3">
+      <div class="viewerContainer related_resources_cont col-xs-12 col-sm-4 col-lg-3">
         <%= render :partial => 'presentation_related_tab', :locals  => { :presentation => @presentation, :isPresentationOwner => isPresentationOwner } %>
       </div>
     </div>

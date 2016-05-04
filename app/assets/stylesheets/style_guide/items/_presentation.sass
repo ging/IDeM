@@ -69,17 +69,6 @@
           &:hover
             color: $black
 
-      //.link
-        height: 30px
-        top: 25px
-        border: 1px solid $idem-red
-        padding-top: 3px
-        text-align: center
-        border-radius: 3px
-        a
-          font-size: 11pt
-          color: $idem-red
-
     .presentation-draft
       z-index: 2
       background-color: #f8f8f8
@@ -119,7 +108,7 @@
   position: relative
   height: 74px
   padding: 5px
-  margin: 10px 5px
+  margin: 10px 15px 10px 3px
   @include box-shadowed
   .presentation-image
     height: 100%
@@ -136,24 +125,27 @@
       text-overflow: ellipsis
       white-space: nowrap
       font-size: 10pt
+      color: $idem-red
       margin: 0
     .author
       img
-        height: 23px
+        width: 23px
+        border-radius: $radius-base
+        margin-right: 3px
+        vertical-align: middle
       a
-        font-size: 8pt
-        font-weight: bold
         color: black
+        font-size: 0.8em
+        color: $gray-dark
+        &:hover
+          color: $black
     .link
       position: absolute
-      right: 12px
-      top: 7px
+      right: 0px
+      top: 0px
       display: none
-      a
-        color: $gray
-        margin-left: 5px
+
   &:hover
-    background-color: $gray-lighter-extra
     .link
       display: block
     .link

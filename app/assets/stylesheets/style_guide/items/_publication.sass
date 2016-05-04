@@ -43,7 +43,7 @@
       padding: 10px 10px
       min-height: 194px
       .avatar_prox
-        height: 80px
+        height: 70px
       p
         display: -webkit-box
         -webkit-line-clamp: 2
@@ -72,11 +72,8 @@
         line-height: 1em
         min-height: 55px
         max-height: 55px
-        //display: -webkit-box
-        //-webkit-line-clamp: 4
-        //-webkit-box-orient: vertical
-        //overflow: hidden
-        //text-overflow: ellipsis
+        margin-bottom: 10px
+
         a
           font-size: 0.9em
           color: $gray-accesible
@@ -85,23 +82,12 @@
             color: $gray-dark
       img
         width: 35px
-        //margin-bottom: 10px
-      //.link
-        height: 30px
-        top: 25px
-        border: 1px solid $idem-green
-        padding-top: 3px
-        text-align: center
-        border-radius: 3px
-        a
-          font-size: 11pt
-          color: $idem-green
 
 .publication_item_mini
   position: relative
   height: 74px
   padding: 10px
-  margin: 10px 5px
+  margin: 10px 15px 10px 3px
   @include box-shadowed
   .caption
     float: left
@@ -115,15 +101,18 @@
       margin: 0
       width: calc(100% - 20px)
       a
-        color: black
+        color: $idem-green
     .author
       float: left
       img
-        height: 23px
+        width: 30px
+        vertical-align: middle
       a
-        font-size: 8pt
-        font-weight: bold
         color: black
+        font-size: 0.8em
+        color: $gray-dark
+        &:hover
+          color: $black
     .link
       position: absolute
       right: 12px
@@ -134,9 +123,9 @@
         margin-left: 5px
     .logo_loop
       float: right
-      width: 45px
+      width: 40px
   &:hover
-    background-color: $gray-lighter-extra
+    //background-color: $gray-lighter-extra
     .link
       display: block
     .link

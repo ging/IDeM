@@ -4,13 +4,13 @@
 <!--<hr>-->
 <section id="show_items " class="layout_show">
   <div class="doc-show">
-    <h3><i class="fa fa-video-camera"></i> <%= @recording.title %></h3>
+    <h3><i class="fa fa-video-camera orange_txt"></i> <%= @recording.title %></h3>
     <h5 class="publication-title"><%= link_to(@recording.publication.title, @recording.publication.loop_url, :target => '_blank')%></h5>
     <div class="box-show row">
       <div class="viewerContainer col-xs-12 col-sm-7 col-lg-9">
         <%= render :partial => 'recording_show', :locals  => { :recording => @recording, :isRecordingOwner => isRecordingOwner } %>
       </div>
-      <div class="viewerContainer col-xs-12 col-sm-5 col-lg-3">
+      <div class="viewerContainer related_resources_cont col-xs-12 col-sm-5 col-lg-3">
         <%= render :partial => 'recording_related_tab', :locals  => { :recording => @recording, :isRecordingOwner => isRecordingOwner} %>
       </div>
     </div>
