@@ -14,8 +14,7 @@
   <div class="tab-content related-tab-content">
     <div class="tab-pane active content_presentations_list" id="related_tab0">
         <% webinar.publication.presentations.each do |presentation| %>
-          <%isPresentationOwner = (current_user.id == presentation.author_id) %>
-          <%= render 'presentations/presentation_mini', :presentation => presentation, :isPresentationOwner => isPresentationOwner %>
+          <%= render 'presentations/presentation_mini', :presentation => presentation%>
         <% end %>
     </div>
     <div class="tab-pane content_chat" id="related_tab1">

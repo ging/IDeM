@@ -1,3 +1,8 @@
+<% isPresentationOwner = false
+	if !current_user.nil?
+		isPresentationOwner = (current_user.id == presentation.author_id) 
+	end
+%>
 <div class="presentation_item_mini" pres-url="<%=presentation_path(presentation, :format => :full)%>">
 	<% generated_id= "presentation-" + presentation.id.to_s %>
 
@@ -19,7 +24,9 @@
 		<!-- Link -->
 		<div class="link">
 			<!--<a href="<%#= presentation_url(presentation)%>"><i class="fa fa-eye"></i></a>-->
+			<% if isPresentationOwner %>
 			<a href="<%= edit_presentation_path(presentation)%>" class="button-primary-red"><i class="fa fa-pencil"></i></a>
+			<% end %>
 		</div>
 	</div>
 </div>
