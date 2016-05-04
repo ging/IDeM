@@ -46,7 +46,7 @@ class PresentationsController < ApplicationController
         render "show.full", :layout => 'veditor'
       }
       format.json {
-        render :json => resource 
+        render :json => @presentation.json
       }
       format.gateway {
         @gateway = params[:gateway]

@@ -2,6 +2,7 @@ require 'builder'
 
 class Presentation < ActiveRecord::Base
   include Recommendable
+  acts_as_ordered_taggable
 
   attr_accessor :attachment_url
   has_attached_file :attachment, 
@@ -22,6 +23,8 @@ class Presentation < ActiveRecord::Base
   end
 
   before_save :parse_for_metadata
+  before_save :fillTags
+  before_save :save_tag_array_text
   after_save :parse_for_metadata_id
   after_destroy :remove_scorms
 
@@ -43,10 +46,6 @@ class Presentation < ActiveRecord::Base
 
   def owner
     self.author
-  end
-
-  def tag_list
-    []
   end
 
 
@@ -872,7 +871,7 @@ class Presentation < ActiveRecord::Base
 
     self.title = parsed_json["title"] ? parsed_json["title"] : "Untitled"
     self.description = parsed_json["description"]
-    # self.tag_list = parsed_json["tags"]
+    self.tag_list = parsed_json["tags"]
     self.language = parsed_json["language"]
 
     unless parsed_json["age_range"].blank?

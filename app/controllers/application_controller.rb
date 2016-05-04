@@ -67,6 +67,11 @@ class ApplicationController < ActionController::Base
   end
 
 
+  #############
+  # Other services
+  #############
+
+
   private
 
   def extract_locale_from_params

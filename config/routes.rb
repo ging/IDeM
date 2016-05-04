@@ -43,6 +43,9 @@ Rails.application.routes.draw do
   # resources :pdfexes, :except => [:index], controller: 'pdfps'
   resources :pdfps, :except => [:index]
 
+  #Tags
+  match "/tags" => 'tags#index', :via => :get
+
   #Wildcard route (This rule should be placed the last)
   match "*not_found", :to => 'application#page_not_found', via: [:get]
 end
