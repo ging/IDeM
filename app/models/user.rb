@@ -56,8 +56,27 @@ class User < ActiveRecord::Base
     data["user_data"] ||= {}
     data["followings"] ||= {}
     data["followers"] ||= {}
-    data["followings"] = data["followings"]["value"] || {}
-    data["followers"] = data["followers"]["value"] || {}
+    data["followings"] = data["followings"]["value"] || []
+    data["followers"] = data["followers"]["value"] || []
+    data["followings"] = data["followings"].reject{|f| f["id"].blank?}
+    data["followers"] = data["followers"].reject{|f| f["id"].blank?}
+
+    allContactIds = (data["followings"] + data["followers"]).map{|f| f["id"].to_s}.uniq
+    unless allContactIds.blank?
+      idemContacts = User.where("provider='loop' and uid in (?)", allContactIds).to_a
+      unless idemContacts.blank?
+        idemContactsLoopIds = idemContacts.map{|u| u.uid.to_s}
+        data["followings"].each do |f|
+          index = idemContactsLoopIds.index(f["id"].to_s)
+          f["idem_user"] = idemContacts[index] unless index.nil?
+        end
+        data["followers"].each do |f|
+          index = idemContactsLoopIds.index(f["id"].to_s)
+          f["idem_user"] = idemContacts[index] unless index.nil?
+        end
+      end
+    end
+
     data
   end
 

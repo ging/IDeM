@@ -1,23 +1,21 @@
 <% contact ||= {} %>
 <% fullName = (contact["firstName"].blank? ? "" : contact["firstName"]) + (contact["lastName"].blank? ? "" : " " + contact["lastName"]) %>
 
-
-
 <% unless contact["pictureUrl"].blank? %>
   <img src=<%=contact["pictureUrl"]%>></img>
 <% end %>
-<!--
-<#% unless contact["profileUrl"].blank? %>
-  <img src=<%=contact["profileUrl"]%>></img>
-<#% end %>
--->
 <div class="contact_info">
   <% unless fullName.blank? %>
-    <div class="contact_name"><%=fullName%></div>
+    <% unless contact["idem_user"].blank? %>
+      <a href="<%=user_path(contact['idem_user'])%>"><div class="contact_name"><%=fullName%></div></a>
+    <% else %>
+      <div class="contact_name"><%=fullName%></div>
+    <% end %>
   <% end %>
-
   <% unless contact["jobTitle"].blank? %>
     <div class="contact_job"><%=contact["jobTitle"]%></div>
   <% end %>
-
+  <% if contact["idem_user"].blank? %>
+    <div class="user_invitation">Invite <%=fullName%> to join IDeM</div>
+  <% end %>
 </div>
