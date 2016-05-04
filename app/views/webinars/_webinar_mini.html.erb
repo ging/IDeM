@@ -17,10 +17,10 @@
 
 		<!-- Link -->
 		<div class="link">
-			<a href="<%= webinar_url(webinar)%>"><i class="fa fa-eye"></i></a>
+			<!--<a href="<%#= webinar_url(webinar)%>"><i class="fa fa-eye"></i></a>-->
 		</div>
 	</div>
 	<div class="date">
-		<i class="fa fa-clock-o"></i><p><%= webinar.start_date.to_formatted_s(:short)%></p>
+		<p><i class="fa fa-clock-o"></i> <%= webinar.start_date.to_formatted_s(:short)%></p>
 	</div>
 </div>

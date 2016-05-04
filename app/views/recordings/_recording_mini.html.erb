@@ -16,10 +16,10 @@
 
 		<!-- Link -->
 		<div class="link">
-			<a href="<%= recording_url(recording)%>"><i class="fa fa-eye"></i></a>
+			<!--<a href="<%= recording_url(recording)%>"><i class="fa fa-eye"></i></a>-->
 		</div>
 	</div>
 	<div class="date">
-		<i class="fa fa-clock-o"></i><p><%= recording.created_at.to_formatted_s(:short)%></p>
+		<p><%= recording.created_at.to_formatted_s(:short)%></p>
 	</div>
 </div>
