@@ -1,9 +1,32 @@
 <% tab ||= "publications" %>
 <% profileLoopData = @user.parsed_loop_data %>
 <% isProfileOwner = (user_signed_in? and current_user==@user) %>
+<%
+loop_contacts = Array.new
 
-<%= render "users/profile_header", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner, :active => tab %>
+profileLoopData["followings"].each do |loop_following|
+	loop_following["following"] = true
+	loop_contacts << loop_following
+end
+
+profileLoopData["followers"].each do |loop_follower|
+	added = false
+	loop_contacts.each do |contact|
+		if contact["id"] == loop_follower["id"]
+			added = true
+			contact["follower"] = true
+		end
+	end
+
+	if !added
+		loop_follower["follower"] = true
+		loop_contacts << loop_follower
+	end
+end
+%>
+
+<%= render "users/profile_header", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner, :loop_contacts => loop_contacts, :active => tab %>
 
 <div class="profile_tab_wrapper">
-    <%= render "users/show_" + tab, :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+    <%= render "users/show_" + tab, :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner, :loop_contacts => loop_contacts %>
 </div>

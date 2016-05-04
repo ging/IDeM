@@ -8,7 +8,7 @@
 		<p id="name">
 			<span><%=@user.name%></span>
 			<% unless profileLoopData["user_data"]["profileUrl"].blank? %>
-			<%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Edit at Loop"); %>
+			<%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), profileLoopData["user_data"]["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "Edit in Loop"); %>
 			<% end %>
 		</p>
 		<% unless profileLoopData["user_data"]["jobTitle"].blank? %>
@@ -26,19 +26,13 @@
 	</div>
 </div>
 
-<!-- ["publications","presentations","webinars", "followings", "followers"].each do |resource -->
 <ul class="nav nav-tabs user-nav">
 	<% ["presentations","webinars", "recordings", "publications"].each do |resource| %>
-		<li id="<%=resource%>_tab" class="<%= (active==resource ? "active" : "") %>">
-			<a href="/users/<%=@user.id.to_s + "/" + resource %>"><span class="resource_count"><%= @user.send(resource).count %></span><%= resource.capitalize %></a>
-		</li>
+	<li id="<%=resource%>_tab" class="<%= (active==resource ? "active" : "") %>">
+		<a href="/users/<%=@user.id.to_s + "/" + resource %>"><span class="resource_count"><%= @user.send(resource).count %></span><%= resource.capitalize %></a>
+	</li>
 	<% end %>
-		<li id="network_tab" class="<%= (active=="network" ? "active" : "") %>">
-			<% count = 0;%>
-			<%["followings", "followers"].each do |resource| %>
-				<% count += @user.parsed_loop_data[resource].count;%>
-			<%end%>
-		 <a href="/users/<%=@user.id.to_s + "/network" %>"><span class="resource_count"><%=count%></span>Network</a>
-
-		</li>
+	<li id="network_tab" class="<%= (active=="network" ? "active" : "") %>">
+		<a href="/users/<%=@user.id.to_s + "/network" %>"><span class="resource_count"><%=loop_contacts.count%></span>Network</a>
+	</li>
 </ul>

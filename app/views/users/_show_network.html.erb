@@ -1,6 +1,12 @@
-<%if profileLoopData["followers"].size>0 || profileLoopData["followings"].size>0 %>
-  <%= render "users/show_followers", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
-  <%= render "users/show_followings", :profileLoopData => profileLoopData, :isProfileOwner => isProfileOwner %>
+<% if loop_contacts.size > 0 %>
+<div class="network" class="tab-pane in active">
+	<div class="row">
+		<% loop_contacts.each do |loop_contact| %>
+		<div class="network_item"><%= render 'contacts/loop_contact', :contact => loop_contact%></div>
+		<% end %>
+	</div>
+</div>
+
 <% else %>
   <div class="no_items">
     <p>Meet other researchers in</p>
