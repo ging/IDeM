@@ -1,6 +1,6 @@
 <% isPresentationOwner = false
 	if !current_user.nil?
-		isPresentationOwner = (current_user.id == presentation.author_id) 
+		isPresentationOwner = (current_user.id == presentation.author_id)
 	end
 %>
 <div class="presentation_item_mini" pres-url="<%=presentation_path(presentation, :format => :full)%>">
