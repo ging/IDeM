@@ -51,9 +51,14 @@
           color: darken($idem-orange, 10)
       .publication
         line-height: 1em
-        min-height: 50px
-        max-height: 50px
-        margin-bottom: 15px
+        min-height: 56px
+        max-height: 56px
+        margin-bottom: 9px
+        display: -webkit-box
+        -webkit-line-clamp: 4
+        -webkit-box-orient: vertical
+        overflow: hidden
+        text-overflow: ellipsis
         a
           font-size: 0.9em
           color: $gray-accesible
