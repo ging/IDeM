@@ -9,14 +9,32 @@
   #publi
     position: absolute
     left: 50px
-    top: 20%
-    width: 65%
+    top: 27%
     color: white
     font-size: 2em
     font-weight: bold
     text-shadow: 1px 1px 10px #000
+    overflow: hidden
+    height: 40px
+    width: 100%
+    ul
+      margin-top: 0
+      padding-left: 291px
+      text-align: left
+      list-style: none
+      animation: 24s linear 0s normal none infinite change
+      width: calc(100% - 51px)
+      li
+        line-height: 40px
+        margin: 0
+        height: 40px
+        overflow-x: hidden
+        white-space: nowrap
+        text-overflow: ellipsis
     p
-      margin-bottom: 0
+      display: inline
+      margin-top: -2px
+      float: left
     @media (max-width: 662px)
       font-size: 1.7em
       top: 15%

@@ -15,3 +15,14 @@
 #header a {
 	text-decoration: none;
 }
+
+@keyframes change {
+	0%, 8%, 96%   {transform:translateY(0);}
+	12%,20%  {transform:translateY(-20%);}
+	24%,32%  {transform:translateY(-40%);}
+	36%,44%  {transform:translateY(-60%);}
+	48%,56%  {transform:translateY(-80%);}
+	60%,68%  {transform:translateY(-60%);}
+	72%,80%  {transform:translateY(-40%);}
+	84%,92%  {transform:translateY(-20%);}
+}
