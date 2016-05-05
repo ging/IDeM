@@ -2,10 +2,11 @@
   margin: 10px 20px
   width: 60%
   .network_item
+    position: relative
     height: 100px
     padding: 10px
     border-top: 1px solid $gray-lighter
-    img
+    .contact_avatar
       height: 100%
       margin-right: 10px
       float: left
@@ -20,9 +21,41 @@
         font-weight: bold
         font-size: 0.8em
         color: $idem-orange
-      .loop_profile
-        img
-          width: 40px
 
-  .network_item:last-child
-    border-bottom: 1px solid $gray-lighter
+    .contact_network
+      height: calc(100% - 20px)
+      position: absolute
+      right: 0
+      padding-right: 5px
+      .relation
+        position: relative
+        height: 35%
+        z-index: 1
+        .following, .follower
+          float: right
+          height: 100%
+          position: relative
+          .rel-title
+            position: absolute
+            right: 10px
+            font-weight: bold
+            color: white
+            font-size: 0.7em
+            top: 5px
+          .tag
+            height: 100%
+      .presence
+        position: relative
+        height: 40%
+        .user_invitation, .user_loop_profile
+          float: right
+          height: 100%
+          padding-left: 13px
+          margin-top: -6px
+          z-index: 0
+          button
+            margin-right: 10px
+          .loop_profile
+            img
+              height: 60%
+              margin-top: 7px

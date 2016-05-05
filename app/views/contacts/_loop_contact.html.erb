@@ -2,33 +2,52 @@
 <% fullName = (contact["firstName"].blank? ? "" : contact["firstName"]) + (contact["lastName"].blank? ? "" : " " + contact["lastName"]) %>
 
 <% unless contact["pictureUrl"].blank? %>
-  <img src=<%=contact["pictureUrl"]%>></img>
+  <img class="contact_avatar" src=<%=contact["pictureUrl"]%>></img>
 <% end %>
 <div class="contact_info">
   <% unless fullName.blank? %>
-  
     <% unless contact["idem_user"].blank? %>
     <a href="<%=user_path(contact['idem_user'])%>"><div class="contact_name"><%=fullName%></div></a>
     <% else %>
     <div class="contact_name"><%=fullName%></div>
     <% end %>
-    
-    <% unless contact["profileUrl"].blank? %>
-    <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), contact["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "View in Loop"); %>
-    <% end %>
-
   <% end %>
 
   <% unless contact["jobTitle"].blank? %>
     <div class="contact_job"><%=contact["jobTitle"]%></div>
   <% end %>
-  <% if contact["idem_user"].blank? %>
-    <div class="user_invitation">Invite <%=fullName%> to join IDeM</div>
-  <% end %>
-  <% if contact["follower"] %>
-  <span>Follower</span>
-  <% end %>
-  <% if contact["following"] %>
-  <span>Following</span>
-  <% end %>
 </div>
+
+<div class="contact_network">
+  <div class="relation">
+    <% if contact["follower"] %>
+    <div class="follower">
+      <div class="rel-title">Follower</div>
+      <%= image_tag('network_tag.svg', :alt => 'tag', :class => 'tag'); %>
+    </div>
+    <% end %>
+    <% if contact["following"] %>
+    <div class="following">
+      <div class="rel-title">Following</div>
+      <%= image_tag('network_tag.svg', :alt => 'tag', :class => 'tag'); %>
+    </div>
+    <% end %>
+  </div>
+  <div class="presence">
+    <% if contact["idem_user"].blank? %>
+    <div class="user_invitation">
+      <button type="button" class="button-secondary">
+        Invite to Idem!
+      </button>
+    </div>
+    <% end %>
+
+    <% unless contact["profileUrl"].blank? %>
+    <div class="user_loop_profile">
+      <%= link_to(image_tag('loop_logo.svg', :alt => 'Loop'), contact["profileUrl"], :class => "loop_profile", :target => '_blank', :data =>{:toggle => "tooltip"}, :title => "View in Loop"); %>
+    </div>
+    <% end %>
+  </div>
+</div>
+
+
