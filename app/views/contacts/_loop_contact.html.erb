@@ -37,7 +37,7 @@
     <% if contact["idem_user"].blank? %>
     <div class="user_invitation">
       <button type="button" class="button-secondary">
-        Invite to Idem!
+        <%= link_to("Invite to Idem!", contact["profileUrl"], :target => '_blank'); %>
       </button>
     </div>
     <% end %>
