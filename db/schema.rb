@@ -101,7 +101,7 @@ ActiveRecord::Schema.define(version: 20160422093448) do
   create_table "recordings", force: :cascade do |t|
     t.integer  "publication_id"
     t.integer  "webinar_id"
-    t.text     "recording_id"
+    t.integer  "recording_id"
     t.integer  "author_id"
     t.text     "title"
     t.datetime "created_at"

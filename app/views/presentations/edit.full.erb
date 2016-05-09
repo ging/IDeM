@@ -83,7 +83,7 @@
 
 	options["draft"] = <%= @presentation.draft.to_s %>;
 
-	options["lang"] = "<%= I18n.locale.to_s%>";
+	options["lang"] = "en";
 
 	<% if current_user %>
 		<% if @presentation.draft.to_s == "false" %>

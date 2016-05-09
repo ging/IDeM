@@ -78,7 +78,7 @@
 
 	options["draft"] = true;
 
-	options["lang"] = "<%= I18n.locale.to_s%>";
+	options["lang"] = "en";
 
 	<% if current_user %>
 		options["exitURL"]  = "<%= url_for(current_user) %>";
