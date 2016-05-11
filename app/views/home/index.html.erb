@@ -1,21 +1,8 @@
 <div id="idem-presentation" class="row">
 
     <div id="publi">
-      <div class="txt_idem">now you will be able to</div>
+      <div class="txt_idem">maximise the impact of your researches</div>
       <p class="typing_text"></p>
-      <!--<ul>
-        <li>enrich your frontiers publications</li>
-        <li>diseminate your research</li>
-        <li>attend other frontiers authors conferences</li>
-        <li>schedule webinars and recording them</li>
-        <li>explore recommended papers</li>
-      </ul>-->
-
-      <!--<li>enrich your frontiers publications with presentations</li>
-      <li>diseminate your research with webinars</li>
-      <li>attend other frontiers authors conferences</li>
-      <li>view recorded sessions and record your own ones</li>
-      <li>explore recommended papers according to your interests</li>-->
     </div>
 </div>
 
@@ -97,8 +84,10 @@
 
   $(function typing(){
       $(".typing_text").typed({
-        strings: ["enrich your frontiers publications", "diseminate your research","attend other frontiers authors conferences", "schedule webinars and recording them", "explore recommended papers"  ],
-        typeSpeed: 50
+        strings: ["create presentations explaining your work", "schedule dissemination webinars and record them", "attend other loop authors conferences", "explore recommended papers for your interests"],
+        typeSpeed: 50,
+        shuffle: true,
+        loop: true
       });
   });
 
