@@ -2,7 +2,11 @@
 	<div class="col-md-9">
 		<h4><%= link_to(publication.title, publication.loop_url, :target => '_blank')%></h4>
 		<h5><%= publication.authors_name %></h5>
-		<h6><%= publication.publication_name %>, <%= publication.publication_date.split('-')[0] %></h6>
+		<h6><%= publication.publication_name %>, 
+			<%if publication.has_attribute?('publication_date')%>
+			<%= publication.publication_date.split('-')[0] %>
+			<%end%>
+		</h6>
 	</div>
 	<% if showActions %>
 	<div class="col-md-3 publication_actions">

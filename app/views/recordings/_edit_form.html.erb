@@ -1,6 +1,6 @@
 <%= form_for @recording do |f| %>
 	<div class="modal-body">
-		<label>Publication this webinar will be about</label>
+		<label>Publication this recording will be about</label>
 		<% pub_array = current_user.publications.map { |pub| [truncate(pub.title, :length => 60), pub.id] } %>
 		<%= f.select(:publication_id, options_for_select(pub_array), {}, {:class => 'form-control'}) %>
 		<label>Title</label>
