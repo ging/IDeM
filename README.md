@@ -1,5 +1,5 @@
 # IDeM
-IDeM (Innovation, Dissemination et Multimedia)
+IDeM (Innovation, Dissemination et Multimedia) is an open source web-based platform for researchers to share research papers, create slide presentations about these works, and schedule and record webinars to disseminate research findings and activities. Users need a Loop (http://loop.frontiersin.org) account to log in to IDeM.
 
 
 # Copyright
